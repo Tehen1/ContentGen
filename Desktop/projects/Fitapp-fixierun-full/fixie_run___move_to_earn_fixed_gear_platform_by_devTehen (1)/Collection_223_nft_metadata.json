@@ -1,0 +1,19 @@
+{
+  "name": "Collection_223",
+  "description": "NFT généré à partir de Collection_223.png",
+  "image": "Collection_223_nft.png",
+  "attributes": [
+    {
+      "trait_type": "Width",
+      "value": 2048
+    },
+    {
+      "trait_type": "Height",
+      "value": 2048
+    },
+    {
+      "trait_type": "Format",
+      "value": "PNG"
+    }
+  ]
+}

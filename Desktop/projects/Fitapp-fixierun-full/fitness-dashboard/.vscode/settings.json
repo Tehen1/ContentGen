@@ -1,0 +1,5 @@
+{
+    "editor.defaultFormatter": "edwinhuish.better-comments-next",
+    "gitweblinks.useGitHubDev": true,
+    "github-actions.workflows.pinned.refresh.enabled": true
+}

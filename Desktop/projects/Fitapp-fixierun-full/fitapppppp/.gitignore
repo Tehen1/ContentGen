@@ -1,0 +1,60 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+.pnpm-debug.log
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# NextJS
+frontend/.next/
+frontend/out/
+
+# Flutter/Dart
+mobile/.dart_tool/
+mobile/build/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/*.iml
+mobile/.idea/
+mobile/.vscode/
+mobile/.metadata
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+vendor/
+
+# IDE and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Blockchain
+blockchain/node_modules/
+blockchain/artifacts/
+blockchain/cache/
+blockchain/.openzeppelin/
+blockchain/typechain/
+
+# Logs
+logs
+*.log
+
+# Build output
+dist/
+build/
+out/
+.next/

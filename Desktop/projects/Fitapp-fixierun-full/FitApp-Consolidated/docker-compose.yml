@@ -1,0 +1,52 @@
+version: "3.9"
+
+services:
+  backend-activity-tracking:
+    build: ./backend/activity-tracking
+    container_name: backend-activity-tracking
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - mongodb
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend-activity-tracking
+
+  blockchain:
+    build:
+      context: ./blockchain
+      dockerfile: Dockerfile # (si présent, sinon utilise image node:20)
+    container_name: blockchain-hardhat
+    working_dir: /app
+    command: ["npx", "hardhat", "node"]
+    ports:
+      - "8545:8545"
+    volumes:
+      - ./blockchain:/app
+
+  postgres:
+    image: postgres:16
+    container_name: fitapp-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: fitapp
+      POSTGRES_PASSWORD: fitapp
+      POSTGRES_DB: fitappdb
+
+  mongodb:
+    image: mongo:7
+    container_name: fitapp-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+
+# Note : Le service mobile/Flutter n'est pas intégré car il se lance en dehors de docker (SDK local et hot reload).
+

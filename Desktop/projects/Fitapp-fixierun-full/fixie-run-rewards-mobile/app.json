@@ -1,0 +1,58 @@
+{
+  "expo": {
+    "name": "FixieRun Rewards",
+    "slug": "fixie-run-rewards-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.fixierun.rewards",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "FixieRun tracks your location to measure distance, speed, and calculate rewards during your runs and bike rides.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "FixieRun needs to access your location in the background to keep tracking your outdoor activities even when the app is not on screen.",
+        "UIBackgroundModes": ["location", "fetch"]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.fixierun.rewards",
+      "versionCode": 1,
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "FOREGROUND_SERVICE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "FixieRun needs access to your location to track your runs and bike rides, calculate distance traveled, and award you tokens accordingly.",
+          "locationAlwaysPermission": "Background location is used to continue tracking your activity even when the app is not visible.",
+          "locationWhenInUsePermission": "Your location is used to track your runs and bike rides."
+        }
+      ],
+      "expo-secure-store"
+    ],
+    "description": "Track your runs and bike rides, earn FIXIE tokens as rewards, and complete achievements to level up!",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}

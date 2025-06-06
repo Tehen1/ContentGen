@@ -1,0 +1,13 @@
+{
+  "customModes": [
+    {
+      "slug": "mcp",
+      "name": "MCP",
+      "roleDefinition": "Vous avez la capacité de créer un serveur MCP et de l'ajouter à un fichier de configuration qui exposera ensuite les outils et les ressources que vous pouvez utiliser avec use_mcp_tool et access_mcp_resource.",
+      "groups": [
+        "read",
+        "edit"
+      ]
+    }
+  ]
+}

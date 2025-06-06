@@ -1,0 +1,48 @@
+{
+  "name": "@fixie-run/contracts",
+  "version": "0.1.0",
+  "description": "Smart contracts for Fixie.Run cycling NFT platform",
+  "main": "index.js",
+  "types": "typechain-types/index.d.ts",
+  "files": [
+    "artifacts",
+    "contracts",
+    "typechain-types"
+  ],
+  "scripts": {
+    "compile": "hardhat compile",
+    "clean": "hardhat clean",
+    "test": "hardhat test",
+    "test:coverage": "hardhat coverage",
+    "deploy": "hardhat run scripts/deploy.ts",
+    "deploy:testnet": "hardhat run scripts/deploy.ts --network polygon_zkevm_testnet",
+    "deploy:mainnet": "hardhat run scripts/deploy.ts --network polygon_zkevm",
+    "verify": "hardhat verify",
+    "lint": "solhint 'contracts/**/*.sol'",
+    "lint:fix": "solhint 'contracts/**/*.sol' --fix",
+    "format": "prettier --write 'contracts/**/*.sol' 'test/**/*.ts' 'scripts/**/*.ts'",
+    "typechain": "hardhat typechain"
+  },
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "smart-contracts",
+    "nft",
+    "polygon",
+    "zkevm"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "^5.0.1",
+    "@openzeppelin/contracts-upgradeable": "^5.0.1",
+    "dotenv": "^16.3.1",
+    "hardhat": "^2.23.0",
+    "hardhat-gas-reporter": "^1.0.9",
+    "prettier": "^3.1.1",
+    "prettier-plugin-solidity": "^1.2.0",
+    "solhint": "^4.0.0",
+    "typescript": "^5.3.3"
+  }
+}

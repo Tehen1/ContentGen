@@ -1,0 +1,229 @@
+<html><head><base href="https://fixie.run/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fixie Fitness App</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f0f0;
+  }
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  h1 {
+    color: #4a4a4a;
+    text-align: center;
+  }
+  .stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .stat-box {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    width: 30%;
+    text-align: center;
+  }
+  .stat-label {
+    font-size: 14px;
+    color: #666;
+  }
+  .stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4a4a4a;
+  }
+  #map {
+    width: 100%;
+    height: 300px;
+    background-color: #e0e0e0;
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+  button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Fixie Fitness</h1>
+  <div class="stats">
+    <div class="stat-box">
+      <div class="stat-label">Distance</div>
+      <div class="stat-value" id="distance">0.00 km</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Speed</div>
+      <div class="stat-value" id="speed">0.0 km/h</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Calories</div>
+      <div class="stat-value" id="calories">0 kcal</div>
+    </div>
+  </div>
+  <div id="map"></div>
+  <div>
+    <button id="startBtn">Start</button>
+    <button id="stopBtn" disabled>Stop</button>
+    <button id="resetBtn" disabled>Reset</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+
+<script>
+let map, marker;
+let isTracking = false;
+let startTime, distance = 0, speed = 0, calories = 0;
+let lastPosition = null;
+
+const distanceElement = document.getElementById('distance');
+const speedElement = document.getElementById('speed');
+const caloriesElement = document.getElementById('calories');
+const startBtn = document.getElementById('startBtn');
+const stopBtn = document.getElementById('stopBtn');
+const resetBtn = document.getElementById('resetBtn');
+
+function initMap() {
+  map = L.map('map').setView([0, 0], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+  marker = L.marker([0, 0]).addTo(map);
+}
+
+function updateStats() {
+  distanceElement.textContent = distance.toFixed(2) + ' km';
+  speedElement.textContent = speed.toFixed(1) + ' km/h';
+  caloriesElement.textContent = Math.round(calories) + ' kcal';
+}
+
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Earth's radius in km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+}
+
+function updatePosition(position) {
+  const { latitude, longitude } = position.coords;
+  
+  if (lastPosition) {
+    const newDistance = calculateDistance(lastPosition.latitude, lastPosition.longitude, latitude, longitude);
+    distance += newDistance;
+    
+    const timeDiff = (new Date() - startTime) / 3600000; // hours
+    speed = distance / timeDiff;
+    
+    // Placeholder for calorie calculation (replace with actual data from HealthKit/Google Fit)
+    calories = distance * 65; // Simplified calculation
+  }
+  
+  lastPosition = { latitude, longitude };
+  marker.setLatLng([latitude, longitude]);
+  map.setView([latitude, longitude]);
+  updateStats();
+}
+
+function handleError(error) {
+  console.error('Error getting location:', error.message);
+  alert('Unable to retrieve your location. Please check your GPS settings and try again.');
+  stopTracking();
+}
+
+function startTracking() {
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      isTracking = true;
+      startTime = new Date();
+      lastPosition = null;
+      
+      startBtn.disabled = true;
+      stopBtn.disabled = false;
+      resetBtn.disabled = true;
+      
+      navigator.geolocation.watchPosition(updatePosition, handleError, {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+      });
+    }, handleError);
+  } else {
+    alert("Geolocation is not supported by your browser");
+  }
+}
+
+function stopTracking() {
+  isTracking = false;
+  navigator.geolocation.clearWatch();
+  startBtn.disabled = false;
+  stopBtn.disabled = true;
+  resetBtn.disabled = false;
+}
+
+function resetStats() {
+  distance = 0;
+  speed = 0;
+  calories = 0;
+  updateStats();
+  resetBtn.disabled = true;
+}
+
+// Placeholder for HealthKit integration
+function requestHealthKitPermission() {
+  // Implement HealthKit permission request
+  console.log('Requesting HealthKit permission');
+}
+
+// Placeholder for Google Fit integration
+function requestGoogleFitPermission() {
+  // Implement Google Fit permission request
+  console.log('Requesting Google Fit permission');
+}
+
+startBtn.addEventListener('click', startTracking);
+stopBtn.addEventListener('click', stopTracking);
+resetBtn.addEventListener('click', resetStats);
+
+// Initialize map when the page loads
+window.onload = initMap;
+
+// Request necessary permissions
+if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+  requestHealthKitPermission();
+} else if (/Android/i.test(navigator.userAgent)) {
+  requestGoogleFitPermission();
+}
+</script>
+</body>
+</html>

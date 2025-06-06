@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixie.Run - Déploiement & Build</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-color-scheme="dark">
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <h1 class="project-title">Fixie.Run</h1>
+                    <p class="project-subtitle">Application Web3 Move-to-Earn pour cyclistes</p>
+                    <nav class="nav-tabs">
+                        <button class="nav-tab active" data-tab="overview">Aperçu</button>
+                        <button class="nav-tab" data-tab="installation">Installation</button>
+                        <button class="nav-tab" data-tab="architecture">Architecture</button>
+                        <button class="nav-tab" data-tab="build">Build</button>
+                        <button class="nav-tab" data-tab="deployment">Déploiement</button>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <!-- Overview Section -->
+                <section id="overview" class="tab-content active">
+                    <div class="overview-grid">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Technologies Utilisées</h3>
+                                <div class="tech-list">
+                                    <span class="tech-tag">Next.js 15</span>
+                                    <span class="tech-tag">React 18</span>
+                                    <span class="tech-tag">TypeScript</span>
+                                    <span class="tech-tag">Tailwind CSS</span>
+                                    <span class="tech-tag">Web3.js</span>
+                                    <span class="tech-tag">Neon PostgreSQL</span>
+                                    <span class="tech-tag">zkEVM</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>État du Projet</h3>
+                                <div class="status-grid">
+                                    <div class="status-item">
+                                        <span class="status status--success">Installation</span>
+                                        <span>Prêt</span>
+                                    </div>
+                                    <div class="status-item">
+                                        <span class="status status--info">Build</span>
+                                        <span>En attente</span>
+                                    </div>
+                                    <div class="status-item">
+                                        <span class="status status--warning">Déploiement</span>
+                                        <span>Non configuré</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card architecture-preview">
+                            <div class="card__body">
+                                <h3>Architecture du Projet</h3>
+                                <img src="https://pplx-res.cloudinary.com/image/upload/v1748657167/pplx_code_interpreter/509cb608_nfvr9o.jpg" alt="Architecture Fixie.Run" class="architecture-image">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Installation Section -->
+                <section id="installation" class="tab-content">
+                    <div class="section-header">
+                        <h2>Installation & Configuration</h2>
+                        <p>Prérequis et commandes d'installation pour Fixie.Run</p>
+                    </div>
+                    
+                    <div class="installation-grid">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Prérequis</h3>
+                                <ul class="requirements-list">
+                                    <li>Node.js 18+</li>
+                                    <li>npm 9+</li>
+                                    <li>Git</li>
+                                    <li>Wallet MetaMask</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card terminal-card">
+                            <div class="card__body">
+                                <h3>Terminal d'Installation</h3>
+                                <div class="terminal">
+                                    <div class="terminal-header">
+                                        <div class="terminal-controls">
+                                            <span class="control control-close"></span>
+                                            <span class="control control-minimize"></span>
+                                            <span class="control control-maximize"></span>
+                                        </div>
+                                        <span class="terminal-title">fixie.run-install</span>
+                                    </div>
+                                    <div class="terminal-content" id="terminal-content">
+                                        <div class="terminal-line">
+                                            <span class="prompt">$</span>
+                                            <span class="cursor">|</span>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn--primary" onclick="startInstallation()">Démarrer l'installation</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Architecture Section -->
+                <section id="architecture" class="tab-content">
+                    <div class="section-header">
+                        <h2>Architecture du Projet</h2>
+                        <p>Exploration des différentes couches et composants</p>
+                    </div>
+                    
+                    <div class="architecture-container">
+                        <div class="architecture-layers">
+                            <div class="layer frontend-layer" data-layer="frontend">
+                                <h3>Frontend</h3>
+                                <div class="layer-components">
+                                    <span>Next.js 15</span>
+                                    <span>React 18</span>
+                                    <span>TypeScript</span>
+                                </div>
+                            </div>
+                            
+                            <div class="layer ui-layer" data-layer="ui">
+                                <h3>UI Framework</h3>
+                                <div class="layer-components">
+                                    <span>Tailwind CSS</span>
+                                    <span>Radix UI</span>
+                                    <span>shadcn/ui</span>
+                                </div>
+                            </div>
+                            
+                            <div class="layer blockchain-layer" data-layer="blockchain">
+                                <h3>Blockchain</h3>
+                                <div class="layer-components">
+                                    <span>Web3.js</span>
+                                    <span>Ethereum</span>
+                                    <span>zkEVM</span>
+                                </div>
+                            </div>
+                            
+                            <div class="layer database-layer" data-layer="database">
+                                <h3>Database</h3>
+                                <div class="layer-components">
+                                    <span>Neon PostgreSQL</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="layer-details" id="layer-details">
+                            <h4>Sélectionnez une couche pour voir les détails</h4>
+                            <p>Cliquez sur une des couches à gauche pour explorer ses composants.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Build Section -->
+                <section id="build" class="tab-content">
+                    <div class="section-header">
+                        <h2>Processus de Build</h2>
+                        <p>Simulation du processus de build et optimisations</p>
+                    </div>
+                    
+                    <div class="build-container">
+                        <div class="build-modes">
+                            <div class="card">
+                                <div class="card__body">
+                                    <h3>Mode Développement</h3>
+                                    <div class="build-commands">
+                                        <code>npm run dev</code>
+                                        <code>npm run lint</code>
+                                        <code>npm run type-check</code>
+                                    </div>
+                                    <button class="btn btn--secondary" onclick="startBuild('dev')">Démarrer Dev Build</button>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card__body">
+                                    <h3>Mode Production</h3>
+                                    <div class="build-commands">
+                                        <code>rm -rf .next</code>
+                                        <code>npm cache clean --force</code>
+                                        <code>npm run build</code>
+                                        <code>npm run start</code>
+                                    </div>
+                                    <button class="btn btn--primary" onclick="startBuild('prod')">Démarrer Prod Build</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="build-progress" id="build-progress">
+                            <h3>Progression du Build</h3>
+                            <div class="progress-steps">
+                                <div class="step" data-step="1">
+                                    <div class="step-indicator"></div>
+                                    <span>Nettoyage</span>
+                                </div>
+                                <div class="step" data-step="2">
+                                    <div class="step-indicator"></div>
+                                    <span>Installation</span>
+                                </div>
+                                <div class="step" data-step="3">
+                                    <div class="step-indicator"></div>
+                                    <span>Compilation</span>
+                                </div>
+                                <div class="step" data-step="4">
+                                    <div class="step-indicator"></div>
+                                    <span>Optimisation</span>
+                                </div>
+                                <div class="step" data-step="5">
+                                    <div class="step-indicator"></div>
+                                    <span>Démarrage</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="optimizations-card card">
+                            <div class="card__body">
+                                <h3>Optimisations Appliquées</h3>
+                                <div class="optimizations-list">
+                                    <div class="optimization-item">
+                                        <span class="status status--success">Tree Shaking</span>
+                                        <span>Suppression du code inutilisé</span>
+                                    </div>
+                                    <div class="optimization-item">
+                                        <span class="status status--success">Code Splitting</span>
+                                        <span>Division du code en chunks</span>
+                                    </div>
+                                    <div class="optimization-item">
+                                        <span class="status status--success">CSS Purging</span>
+                                        <span>Optimisation des styles CSS</span>
+                                    </div>
+                                    <div class="optimization-item">
+                                        <span class="status status--success">Bundle Analysis</span>
+                                        <span>Analyse de la taille des bundles</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Deployment Section -->
+                <section id="deployment" class="tab-content">
+                    <div class="section-header">
+                        <h2>Options de Déploiement</h2>
+                        <p>Choisissez votre méthode de déploiement préférée</p>
+                    </div>
+                    
+                    <div class="deployment-container">
+                        <div class="deployment-options">
+                            <div class="card deployment-option" data-option="vercel">
+                                <div class="card__body">
+                                    <h3>Vercel</h3>
+                                    <div class="deployment-info">
+                                        <h4>Avantages</h4>
+                                        <ul>
+                                            <li>Simple</li>
+                                            <li>Automatisé</li>
+                                            <li>CI/CD intégré</li>
+                                        </ul>
+                                        <h4>Inconvénients</h4>
+                                        <ul>
+                                            <li>Propriétaire</li>
+                                        </ul>
+                                    </div>
+                                    <button class="btn btn--primary" onclick="selectDeployment('vercel')">Sélectionner</button>
+                                </div>
+                            </div>
+                            
+                            <div class="card deployment-option" data-option="docker">
+                                <div class="card__body">
+                                    <h3>Docker</h3>
+                                    <div class="deployment-info">
+                                        <h4>Avantages</h4>
+                                        <ul>
+                                            <li>Portable</li>
+                                            <li>Isolé</li>
+                                            <li>Scalable</li>
+                                        </ul>
+                                        <h4>Inconvénients</h4>
+                                        <ul>
+                                            <li>Configuration complexe</li>
+                                        </ul>
+                                    </div>
+                                    <button class="btn btn--primary" onclick="selectDeployment('docker')">Sélectionner</button>
+                                </div>
+                            </div>
+                            
+                            <div class="card deployment-option" data-option="nodejs">
+                                <div class="card__body">
+                                    <h3>Serveur Node.js</h3>
+                                    <div class="deployment-info">
+                                        <h4>Avantages</h4>
+                                        <ul>
+                                            <li>Simple</li>
+                                            <li>Contrôle total</li>
+                                        </ul>
+                                        <h4>Inconvénients</h4>
+                                        <ul>
+                                            <li>Configuration manuelle</li>
+                                        </ul>
+                                    </div>
+                                    <button class="btn btn--primary" onclick="selectDeployment('nodejs')">Sélectionner</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="deployment-details" id="deployment-details">
+                            <div class="card">
+                                <div class="card__body">
+                                    <h3>Commandes de Déploiement</h3>
+                                    <div class="deployment-commands" id="deployment-commands">
+                                        <p>Sélectionnez une option de déploiement ci-dessus</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="deployment-checklist">
+                            <div class="card">
+                                <div class="card__body">
+                                    <h3>Checklist de Déploiement</h3>
+                                    <div class="checklist" id="deployment-checklist">
+                                        <label class="checklist-item">
+                                            <input type="checkbox" />
+                                            <span class="checkmark"></span>
+                                            <span>Vérifier les variables d'environnement</span>
+                                        </label>
+                                        <label class="checklist-item">
+                                            <input type="checkbox" />
+                                            <span class="checkmark"></span>
+                                            <span>Tester en local avant déploiement</span>
+                                        </label>
+                                        <label class="checklist-item">
+                                            <input type="checkbox" />
+                                            <span class="checkmark"></span>
+                                            <span>Vérifier la connexion à la base de données</span>
+                                        </label>
+                                        <label class="checklist-item">
+                                            <input type="checkbox" />
+                                            <span class="checkmark"></span>
+                                            <span>Tester l'intégration Web3</span>
+                                        </label>
+                                        <label class="checklist-item">
+                                            <input type="checkbox" />
+                                            <span class="checkmark"></span>
+                                            <span>Vérifier les performances sur mobile</span>
+                                        </label>
+                                        <label class="checklist-item">
+                                            <input type="checkbox" />
+                                            <span class="checkmark"></span>
+                                            <span>Configurer le monitoring</span>
+                                        </label>
+                                        <label class="checklist-item">
+                                            <input type="checkbox" />
+                                            <span class="checkmark"></span>
+                                            <span>Documenter la version déployée</span>
+                                        </label>
+                                    </div>
+                                    <div class="checklist-progress">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" id="checklist-progress"></div>
+                                        </div>
+                                        <span id="checklist-percentage">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

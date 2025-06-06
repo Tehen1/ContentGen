@@ -1,0 +1,32 @@
+apiVersion: "kubeflow.org/v1"
+kind: TFJob
+metadata:
+  name: fixierun-inference
+  namespace: kubeflow
+spec:
+  tfReplicaSpecs:
+    Worker:
+      replicas: 2
+      restartPolicy: OnFailure
+      template:
+        spec:
+          containers:
+          - name: tensorflow
+            image: fixierun/inference:latest
+            resources:
+              limits:
+                nvidia.com/gpu: 1
+            env:
+            - name: MODEL_PATH
+              value: "/models/activity-prediction"
+            - name: TF_FORCE_GPU_ALLOW_GROWTH
+              value: "true"
+            ports:
+            - containerPort: 8501
+            volumeMounts:
+            - name: model-storage
+              mountPath: /models
+          volumes:
+          - name: model-storage
+            persistentVolumeClaim:
+              claimName: fixierun-models-pvc

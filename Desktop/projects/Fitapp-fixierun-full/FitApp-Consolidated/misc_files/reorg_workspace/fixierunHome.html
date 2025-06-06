@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FixieRun: Revolutionizing Fitness Through Interactive Technology and Web3 Integration</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="An interactive platform combining ride tracking, gaming elements, and NFT integration.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Include CSS stylesheets and any external libraries -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+        }
+        nav {
+            background-color: #111;
+            padding: 10px;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+        nav ul li {
+            margin: 0;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 15px;
+        }
+        nav ul li a:hover {
+            background-color: #333;
+            border-radius: 4px;
+        }
+        header {
+            background-image: url('fixie-dark-city-underground.jpg');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            padding: 150px 20px;
+            position: relative;
+        }
+        header::after {
+            content: "";
+            background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        header h1 {
+            font-size: 4em;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        header p {
+            font-size: 1.5em;
+            position: relative;
+            z-index: 1;
+        }
+        .button {
+            background-color: #e60000;
+            color: #fff;
+            padding: 15px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+        }
+        .button:hover {
+            background-color: #b30000;
+        }
+        main {
+            padding: 50px 20px;
+        }
+        section {
+            margin-bottom: 50px;
+        }
+        section h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+        section p {
+            font-size: 1.2em;
+            line-height: 1.6em;
+        }
+        footer {
+            background-color: #111;
+            color: #bbb;
+            text-align: center;
+            padding: 20px;
+        }
+        footer ul {
+            list-style-type: none;
+            margin: 15px 0 0 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        footer ul li {
+            margin: 0 10px;
+        }
+        footer ul li a {
+            color: #bbb;
+            text-decoration: none;
+        }
+        footer ul li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <!-- For Web3 integration -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="https://example.com/fixierun/home">Home</a></li>
+            <li><a href="https://example.com/fixierun/signup">Sign Up / Login</a></li>
+            <li><a href="https://example.com/fixierun/dashboard">Dashboard</a></li>
+            <li><a href="https://example.com/fixierun/ride-tracking">Ride Tracking</a></li>
+            <li><a href="https://example.com/fixierun/community">Community</a></li>
+            <li><a href="https://example.com/fixierun/nft-marketplace">NFT Marketplace</a></li>
+            <li><a href="https://example.com/fixierun/profile">Profile</a></li>
+            <li><a href="https://example.com/fixierun/support">Support</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header Section -->
+    <header>
+        <h1>Welcome to FixieRun</h1>
+        <p>Revolutionizing Fitness Through Interactive Technology and Web3 Integration</p>
+        <a href="https://example.com/fixierun/signup" class="button">Get Started</a>
+    </header>
+
+    <!-- Main Content Section -->
+    <main>
+        <!-- Overview Section -->
+        <section id="overview">
+            <h2>Your Fitness Journey, Gamified</h2>
+            <p>FixieRun transforms your ride tracking experience by integrating gaming elements and NFTs to keep you motivated and engaged.</p>
+        </section>
+
+        <!-- Ride Tracking Section -->
+        <section id="ride-tracking">
+            <h2>Advanced Ride Tracking</h2>
+            <p>Track your rides with precision, upload your ride data, and receive detailed summaries.</p>
+            <a href="https://example.com/fixierun/ride-tracking" class="button">Track a Ride</a>
+        </section>
+
+        <!-- Community Section -->
+        <section id="community">
+            <h2>Join the Community</h2>
+            <p>Participate in community challenges, submit your results, and climb the leaderboard.</p>
+            <a href="https://example.com/fixierun/community" class="button">Explore Community</a>
+        </section>
+
+        <!-- NFT Marketplace Section -->
+        <section id="nft-marketplace">
+            <h2>NFT Marketplace</h2>
+            <p>Buy, sell, and showcase unique biking-related NFTs. Create NFTs to commemorate your achievements.</p>
+            <a href="https://example.com/fixierun/nft-marketplace" class="button">Visit Marketplace</a>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile">
+            <h2>Your Profile</h2>
+            <p>View and edit your profile, set performance goals, and track your progress over time.</p>
+            <a href="https://example.com/fixierun/profile" class="button">Go to Profile</a>
+        </section>
+
+        <!-- Support Section -->
+        <section id="support">
+            <h2>Need Help?</h2>
+            <p>Contact us, browse our FAQ, or start a live chat for assistance with any issues or questions.</p>
+            <a href="https://example.com/fixierun/support" class="button">Get Support</a>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>© 2023 FixieRun. All rights reserved.</p>
+        <ul>
+            <li><a href="https://example.com/fixierun/terms">Terms of Service</a></li>
+            <li><a href="https://example.com/fixierun/privacy">Privacy Policy</a></li>
+            <li><a href="https://example.com/fixierun/contact">Contact Us</a></li>
+        </ul>
+    </footer>
+
+    <!-- Include JavaScript files -->
+    <script>
+        // JavaScript functionality can be added here
+        // For example, code to handle user interactions or Web3 integration
+
+        // Web3 integration for NFT Marketplace
+        if (typeof window.ethereum !== 'undefined') {
+            // Use the browser's Ethereum provider
+            var web3 = new Web3(window.ethereum);
+            console.log('Web3 detected');
+        } else {
+            // Tell the user to install MetaMask
+            alert('Please install MetaMask to use the NFT Marketplace features.');
+        }
+
+        // Function to connect to the user's wallet
+        async function connectWallet() {
+            try {
+                // Request account access if needed
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                // Accounts now exposed
+                console.log('Wallet connected');
+            } catch (error) {
+                console.error('User denied wallet connection');
+            }
+        }
+
+        // Function to load NFTs in the marketplace
+        function loadNFTs() {
+            // Placeholder for loading NFTs
+            console.log('Loading NFTs...');
+            // Fetch NFT data from a smart contract or API
+        }
+
+        // Call loadNFTs when the page loads
+        window.addEventListener('load', function() {
+            loadNFTs();
+        });
+    </script>
+
+</body>
+</html>

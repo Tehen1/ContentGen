@@ -1,0 +1,43 @@
+{
+  "name": "@fixie-run/api",
+  "version": "0.1.0",
+  "description": "Express.js API for Fixie.Run - blockchain-powered cycling application",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only --exit-child src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "eslint src --ext .ts",
+    "test": "jest",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "api",
+    "express",
+    "blockchain",
+    "web3",
+    "move-to-earn"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.18",
+    "@types/express": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^20.17.50",
+    "eslint": "^8.55.0",
+    "jest": "^29.7.0",
+    "rimraf": "^5.0.5",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
+  }
+}

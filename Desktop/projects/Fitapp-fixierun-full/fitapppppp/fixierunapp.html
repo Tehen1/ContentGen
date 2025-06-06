@@ -1,0 +1,2969 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixieRun - Fixed Gear NFT Web3 FitApp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Ensure Leaflet is properly loaded from an allowed CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        neon: {
+                            cyan: '#00ffff',
+                            pink: '#ff00ff',
+                            purple: '#9d00ff',
+                            green: '#00ff9d'
+                        },
+                        dark: {
+                            bg: '#181818',
+                            card: '#232323',
+                            surface: '#2a2a2a'
+                        }
+                    },
+                    animation: {
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        glow: {
+                            '0%': { 'box-shadow': '0 0 5px rgba(93, 92, 222, 0.7)' },
+                            '100%': { 'box-shadow': '0 0 20px rgba(93, 92, 222, 1), 0 0 30px rgba(0, 255, 255, 0.6)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(93, 92, 222, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 255, 255, 0.05) 0%, transparent 20%);
+            background-attachment: fixed;
+        }
+        
+        .heading-font {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .holographic-bg {
+            background: linear-gradient(135deg, rgba(93, 92, 222, 0.2), rgba(0, 255, 255, 0.1));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-card {
+            background: rgba(35, 35, 35, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(93, 92, 222, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            border-color: rgba(0, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .glow-border {
+            position: relative;
+        }
+        
+        .glow-border::after {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(90deg, #5D5CDE, #00ffff, #5D5CDE);
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .glow-border:hover::after {
+            opacity: 1;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        @media (min-width: 640px) {
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.35s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(93, 92, 222, 0.5);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 255, 255, 0.5);
+        }
+        
+        /* Page transitions */
+        .screen {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        
+        .screen.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* NFT card effect */
+        .nft-card {
+            perspective: 1000px;
+            transition: transform 0.5s;
+        }
+        
+        .nft-card:hover .nft-card-inner {
+            transform: rotateY(10deg);
+        }
+        
+        .nft-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .nft-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(93, 92, 222, 0.5), rgba(0, 255, 255, 0.3));
+            z-index: -1;
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .nft-card:hover::before {
+            opacity: 1;
+        }
+        
+        /* Calendar styling */
+        .calendar-day {
+            width: 100%;
+            aspect-ratio: 1/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .calendar-day.active {
+            background: rgba(93, 92, 222, 0.2);
+        }
+        
+        .calendar-day.has-workout::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #00ffff;
+        }
+        
+        /* Workout card */
+        .workout-card {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(93, 92, 222, 0.3);
+        }
+        
+        .workout-card:hover {
+            border-color: rgba(0, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        /* Map-related styles */
+        .map-placeholder {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .dark .map-placeholder {
+            background-color: #333;
+            color: #ccc;
+        }
+        
+        .player-marker {
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 8px rgba(0,0,0,0.5);
+        }
+        
+        /* Toast notification */
+        .toast-notification {
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        /* Dark mode detection */
+        @media (prefers-color-scheme: dark) {
+            .dark\:bg-dark-bg {
+                background-color: #181818;
+            }
+            
+            .dark\:text-white {
+                color: #ffffff;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-dark-bg text-gray-900 dark:text-white">
+    <script>
+        // Dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+        
+        // App State
+        const app = {
+            currentScreen: 'home',
+            currentActivity: null,
+            startTime: null,
+            distance: 0,
+            calories: 0,
+            googleFit: {
+                isConnected: false,
+                lastSync: null,
+                syncInProgress: false,
+                syncSettings: {
+                    steps: true,
+                    distance: true,
+                    calories: true,
+                    heartRate: false,
+                    activities: true,
+                    autoSync: true,
+                    syncFrequency: 'daily' // daily, hourly, realtime
+                }
+            },
+            tracking: {
+                isTracking: false,
+                mode: 'Run', // Run or Bike
+                routePoints: [],
+                distance: 0,
+                duration: 0,
+                speed: 0,
+                calories: 0,
+                tokens: 0
+            },
+            user: {
+                name: "Alex",
+                level: 12,
+                experience: 2450,
+                experienceToNextLevel: 3000,
+                profileImage: null, // Will generate programmatically
+                streakDays: 7,
+                weeklyDistance: 32.5,
+                weeklyCalories: 1250,
+                tokenBalance: 125.75,
+                nfts: [
+                    { id: 1, name: "Neon Racer", rarity: "Rare", level: 3, image: null, boost: "+5% XP" },
+                    { id: 2, name: "Urban Phantom", rarity: "Uncommon", level: 2, image: null, boost: "+2% Tokens" },
+                    { id: 3, name: "Street King", rarity: "Common", level: 1, image: null, boost: "+1% Speed" }
+                ],
+                friends: [
+                    { name: "Taylor", level: 15, weeklyDistance: 40.2 },
+                    { name: "Jordan", level: 10, weeklyDistance: 25.8 },
+                    { name: "Morgan", level: 14, weeklyDistance: 35.6 }
+                ],
+                tokenHistory: [
+                    { date: "May 21", amount: 4.05, description: "Workout Reward" },
+                    { date: "May 20", amount: 1.85, description: "Workout Reward" },
+                    { date: "May 19", amount: 2.60, description: "Workout Reward" },
+                    { date: "May 18", amount: 10.00, description: "Challenge Completed" },
+                    { date: "May 16", amount: 3.75, description: "Workout Reward" }
+                ],
+                activities: [
+                    { date: "Today, 9:30 AM", type: "Morning Ride", distance: 5.2, duration: "25 min", calories: 210, tokens: 2.6 },
+                    { date: "Yesterday, 6:15 PM", type: "Evening Run", distance: 3.7, duration: "30 min", calories: 320, tokens: 1.85 },
+                    { date: "May 21, 7:45 AM", type: "Speed Training", distance: 8.1, duration: "45 min", calories: 450, tokens: 4.05 }
+                ],
+                challenges: [
+                    { name: "Weekly Distance", target: 50, current: 32.5, unit: "km" },
+                    { name: "Streak Master", target: 30, current: 7, unit: "days" },
+                    { name: "Calorie Burner", target: 2000, current: 1250, unit: "cal" }
+                ],
+                settings: {
+                    notifications: true,
+                    darkMode: false,
+                    units: "km",
+                    language: "English",
+                    connectedApps: ["Apple Health"]
+                }
+            },
+            workouts: [
+                { id: 1, name: "Urban Sprint", type: "Fixie", intensity: "High", duration: "25 min", calories: 350, description: "High-intensity sprint training through urban areas" },
+                { id: 2, name: "Endurance Ride", type: "Fixie", intensity: "Medium", duration: "45 min", calories: 420, description: "Long-distance endurance training to build stamina" },
+                { id: 3, name: "City Explorer", type: "Fixie", intensity: "Low", duration: "60 min", calories: 380, description: "Exploration ride through city landmarks" },
+                { id: 4, name: "Interval Run", type: "Running", intensity: "High", duration: "30 min", calories: 400, description: "Alternating between sprinting and jogging" },
+                { id: 5, name: "Steady Jog", type: "Running", intensity: "Medium", duration: "40 min", calories: 350, description: "Consistent pace running to build endurance" }
+            ],
+            calendar: {
+                currentMonth: new Date().getMonth(),
+                currentYear: new Date().getFullYear(),
+                workoutDays: [new Date().getDate() - 1, new Date().getDate() - 3, new Date().getDate() - 5, new Date().getDate() - 7]
+            }
+        };
+        
+        // UI Functions
+        function switchScreen(screenId) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Show selected screen
+            document.getElementById(screenId).classList.add('active');
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('text-primary');
+                item.classList.add('text-gray-500', 'dark:text-gray-400');
+            });
+            
+            document.getElementById(`nav-${screenId}`).classList.remove('text-gray-500', 'dark:text-gray-400');
+            document.getElementById(`nav-${screenId}`).classList.add('text-primary');
+            
+            app.currentScreen = screenId;
+            
+            // Initialize map if switching to tracking screen and map library is available
+            if (screenId === 'tracking' && typeof L !== 'undefined') {
+                const mapContainer = document.getElementById('tracking-map');
+                // Only initialize if not already initialized
+                if (mapContainer && !trackingMap) {
+                    // Use default coordinates if geolocation is not available
+                    const defaultCoords = { latitude: 40.7128, longitude: -74.0060 }; // NYC
+                    
+                    initTrackingMapWithFallback(defaultCoords.latitude, defaultCoords.longitude);
+                    
+                    // Try to get user's actual location
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            (position) => {
+                                // Update map with actual location if available
+                                if (trackingMap) {
+                                    trackingMap.setView([position.coords.latitude, position.coords.longitude], 16);
+                                    if (trackingMarker) {
+                                        trackingMarker.setLatLng([position.coords.latitude, position.coords.longitude]);
+                                    }
+                                }
+                            },
+                            (error) => {
+                                console.log("Geolocation error:", error.message);
+                                showToast("Using default location. Enable location services for accurate tracking.", "info");
+                            },
+                            { timeout: 5000, enableHighAccuracy: true }
+                        );
+                    }
+                }
+            }
+        }
+        
+        function startActivity() {
+            if (app.currentActivity) return;
+            
+            const activityBtn = document.getElementById('start-activity');
+            activityBtn.textContent = 'TRACKING...';
+            activityBtn.classList.remove('from-primary', 'to-neon-cyan');
+            activityBtn.classList.add('from-red-500', 'to-red-700');
+            
+            app.currentActivity = setInterval(() => {
+                if (!app.startTime) app.startTime = new Date();
+                
+                // Simulate distance increase (0.1 to 0.3 km per interval)
+                const distanceIncrement = (Math.random() * 0.2 + 0.1) / 10;
+                app.distance += distanceIncrement;
+                
+                // Simulate calories burned (4-8 calories per interval)
+                const caloriesIncrement = Math.round(Math.random() * 4 + 4) / 10;
+                app.calories += caloriesIncrement;
+                
+                // Update live stats
+                document.getElementById('live-distance').textContent = app.distance.toFixed(2);
+                document.getElementById('live-calories').textContent = Math.round(app.calories);
+                
+                // Calculate elapsed time
+                const elapsed = Math.floor((new Date() - app.startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                document.getElementById('live-time').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Show the live tracking panel
+                document.getElementById('live-tracking').classList.remove('hidden');
+            }, 1000);
+        }
+        
+        function stopActivity() {
+            if (!app.currentActivity) return;
+            
+            clearInterval(app.currentActivity);
+            app.currentActivity = null;
+            
+            const activityBtn = document.getElementById('start-activity');
+            activityBtn.textContent = 'START WORKOUT';
+            activityBtn.classList.remove('from-red-500', 'to-red-700');
+            activityBtn.classList.add('from-primary', 'to-neon-cyan');
+            
+            // Calculate tokens earned (roughly 0.5 token per km)
+            const tokensEarned = app.distance * 0.5;
+            app.user.tokenBalance += tokensEarned;
+            
+            // Update user data
+            app.user.weeklyDistance += app.distance;
+            app.user.weeklyCalories += Math.round(app.calories);
+            
+            // Add to activity history
+            const now = new Date();
+            const formattedDate = `Today, ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')} ${now.getHours() >= 12 ? 'PM' : 'AM'}`;
+            
+            const timeElapsed = Math.floor((now - app.startTime) / 1000);
+            const minutes = Math.floor(timeElapsed / 60);
+            
+            app.user.activities.unshift({
+                date: formattedDate,
+                type: app.distance > 5 ? "Long Ride" : "Quick Ride",
+                distance: parseFloat(app.distance.toFixed(2)),
+                duration: `${minutes} min`,
+                calories: Math.round(app.calories),
+                tokens: parseFloat(tokensEarned.toFixed(2))
+            });
+            
+            // Add to token history
+            app.user.tokenHistory.unshift({
+                date: `${now.toLocaleString('default', { month: 'short' })} ${now.getDate()}`,
+                amount: parseFloat(tokensEarned.toFixed(2)),
+                description: "Workout Reward"
+            });
+            
+            // Update UI
+            updateHomeStats();
+            updateActivityHistory();
+            updateTokenHistory();
+            
+            // Add XP
+            const xpEarned = Math.round(app.distance * 10);
+            app.user.experience += xpEarned;
+            if (app.user.experience >= app.user.experienceToNextLevel) {
+                app.user.level++;
+                app.user.experience -= app.user.experienceToNextLevel;
+                app.user.experienceToNextLevel = Math.round(app.user.experienceToNextLevel * 1.2);
+                
+                // Show level up toast
+                const levelUpToast = document.getElementById('level-up-toast');
+                document.getElementById('new-level').textContent = app.user.level;
+                levelUpToast.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    levelUpToast.classList.add('hidden');
+                }, 5000);
+            }
+            
+            // Show completion toast
+            const toast = document.getElementById('completion-toast');
+            document.getElementById('earned-tokens').textContent = tokensEarned.toFixed(2);
+            toast.classList.remove('hidden');
+            
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 5000);
+            
+            // Reset tracking variables
+            app.startTime = null;
+            app.distance = 0;
+            app.calories = 0;
+            
+            // Hide the live tracking panel
+            document.getElementById('live-tracking').classList.add('hidden');
+            
+            // Update calendar
+            app.calendar.workoutDays.push(new Date().getDate());
+            renderCalendar();
+            
+            // Update profile stats
+            updateProfileStats();
+        }
+        
+        // UI Update Functions
+        function updateHomeStats() {
+            document.getElementById('weekly-distance').textContent = app.user.weeklyDistance.toFixed(1);
+            document.getElementById('calories-burned').textContent = app.user.weeklyCalories;
+            document.getElementById('token-balance').textContent = app.user.tokenBalance.toFixed(2);
+            document.getElementById('mobile-token-balance').textContent = app.user.tokenBalance.toFixed(2);
+            document.getElementById('streak-days').textContent = app.user.streakDays;
+            document.getElementById('token-display').textContent = app.user.tokenBalance.toFixed(2);
+            
+            // Update challenges
+            updateChallenges();
+        }
+        
+        function updateChallenges() {
+            const challengesContainer = document.getElementById('challenges-container');
+            challengesContainer.innerHTML = '';
+            
+            app.user.challenges.forEach(challenge => {
+                const percent = Math.min(100, Math.round((challenge.current / challenge.target) * 100));
+                
+                const challengeEl = document.createElement('div');
+                challengeEl.className = 'mb-4';
+                challengeEl.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-sm font-medium">${challenge.name}</span>
+                        <span class="text-xs font-medium">${challenge.current}/${challenge.target} ${challenge.unit}</span>
+                    </div>
+                    <div class="w-full bg-gray-200 dark:bg-dark-surface rounded-full h-2.5">
+                        <div class="h-2.5 rounded-full bg-gradient-to-r from-primary to-neon-cyan" style="width: ${percent}%"></div>
+                    </div>
+                `;
+                
+                challengesContainer.appendChild(challengeEl);
+            });
+        }
+        
+        function updateActivityHistory() {
+            const historyContainer = document.getElementById('activity-history');
+            historyContainer.innerHTML = '';
+            
+            app.user.activities.slice(0, 3).forEach(activity => {
+                const activityEl = document.createElement('div');
+                activityEl.className = 'flex items-center p-3 rounded-lg mb-2 stat-card';
+                activityEl.innerHTML = `
+                    <div class="flex-shrink-0 h-12 w-12 rounded-full bg-primary bg-opacity-20 flex items-center justify-center mr-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-neon-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between">
+                            <h4 class="text-sm font-semibold">${activity.type}</h4>
+                            <span class="text-xs opacity-70">${activity.date}</span>
+                        </div>
+                        <div class="flex text-xs mt-1 space-x-3">
+                            <span>${activity.distance} km</span>
+                            <span>${activity.duration}</span>
+                            <span>${activity.calories} cal</span>
+                        </div>
+                    </div>
+                    <div class="flex-shrink-0 ml-2 flex items-center">
+                        <span class="text-neon-cyan font-semibold">+${activity.tokens}</span>
+                        <svg class="h-4 w-4 text-neon-cyan ml-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                `;
+                historyContainer.appendChild(activityEl);
+            });
+        }
+        
+        function updateTokenHistory() {
+            const historyContainer = document.getElementById('token-history');
+            if (!historyContainer) return;
+            
+            historyContainer.innerHTML = '';
+            
+            app.user.tokenHistory.forEach(transaction => {
+                const transactionEl = document.createElement('div');
+                transactionEl.className = 'flex items-center justify-between p-3 border-b border-gray-200 dark:border-dark-surface';
+                transactionEl.innerHTML = `
+                    <div>
+                        <h4 class="text-sm font-medium">${transaction.description}</h4>
+                        <p class="text-xs opacity-70">${transaction.date}</p>
+                    </div>
+                    <div class="text-neon-cyan font-medium">+${transaction.amount}</div>
+                `;
+                historyContainer.appendChild(transactionEl);
+            });
+        }
+        
+        function renderWorkouts() {
+            const workoutsContainer = document.getElementById('workouts-container');
+            if (!workoutsContainer) return;
+            
+            workoutsContainer.innerHTML = '';
+            
+            // Filter tabs
+            const activeFilter = document.querySelector('.workout-filter.active').dataset.type || 'all';
+            
+            const filteredWorkouts = activeFilter === 'all' 
+                ? app.workouts 
+                : app.workouts.filter(workout => workout.type.toLowerCase() === activeFilter.toLowerCase());
+            
+            filteredWorkouts.forEach(workout => {
+                const workoutEl = document.createElement('div');
+                workoutEl.className = 'workout-card rounded-lg p-4 mb-4 bg-white dark:bg-dark-card';
+                
+                // Generate intensity dots
+                let intensityDots = '';
+                const intensityLevel = workout.intensity === 'High' ? 3 : workout.intensity === 'Medium' ? 2 : 1;
+                
+                for (let i = 0; i < 3; i++) {
+                    const dotClass = i < intensityLevel ? 'bg-neon-pink' : 'bg-gray-300 dark:bg-dark-surface';
+                    intensityDots += `<div class="h-2 w-2 rounded-full ${dotClass} mr-1"></div>`;
+                }
+                
+                workoutEl.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-lg">${workout.name}</h3>
+                            <div class="flex items-center mt-1">
+                                <span class="text-xs mr-2">${workout.type}</span>
+                                <div class="flex">
+                                    ${intensityDots}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-primary bg-opacity-20 rounded-full p-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-neon-cyan" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                ${workout.type === 'Fixie' 
+                                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />'
+                                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />'}
+                            </svg>
+                        </div>
+                    </div>
+                    <p class="text-sm opacity-80 mt-2">${workout.description}</p>
+                    <div class="flex justify-between mt-3 text-sm">
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>${workout.duration}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
+                            </svg>
+                            <span>${workout.calories} cal</span>
+                        </div>
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-neon-cyan mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span>+${Math.round(workout.calories / 100)} est.</span>
+                        </div>
+                    </div>
+                    <button class="mt-3 w-full py-2 rounded bg-primary text-white text-sm font-medium">Start Workout</button>
+                `;
+                
+                workoutsContainer.appendChild(workoutEl);
+                
+                // Add event listener to start button
+                const startButton = workoutEl.querySelector('button');
+                startButton.addEventListener('click', () => {
+                    switchScreen('tracking');  // Go to tracking screen instead of home
+                    setTimeout(() => {
+                        // Set the appropriate mode based on the workout type
+                        if (workout.type === "Fixie") {
+                            setTrackingMode('Bike');
+                        } else {
+                            setTrackingMode('Run');
+                        }
+                    }, 300);
+                });
+            });
+        }
+        
+        function renderCalendar() {
+            const calendarContainer = document.getElementById('calendar-grid');
+            if (!calendarContainer) return;
+            
+            calendarContainer.innerHTML = '';
+            
+            const year = app.calendar.currentYear;
+            const month = app.calendar.currentMonth;
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            // Month name
+            document.getElementById('calendar-month').textContent = 
+                new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' });
+            
+            // Days of week header
+            const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+            daysOfWeek.forEach(day => {
+                const dayEl = document.createElement('div');
+                dayEl.className = 'text-center text-xs font-medium opacity-70';
+                dayEl.textContent = day;
+                calendarContainer.appendChild(dayEl);
+            });
+            
+            // Empty cells before first day of month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyCell = document.createElement('div');
+                calendarContainer.appendChild(emptyCell);
+            }
+            
+            // Days of month
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayEl = document.createElement('div');
+                dayEl.className = 'calendar-day text-sm';
+                
+                if (i === new Date().getDate() && 
+                    month === new Date().getMonth() && 
+                    year === new Date().getFullYear()) {
+                    dayEl.classList.add('active');
+                }
+                
+                if (app.calendar.workoutDays.includes(i)) {
+                    dayEl.classList.add('has-workout');
+                }
+                
+                dayEl.textContent = i;
+                calendarContainer.appendChild(dayEl);
+            }
+        }
+        
+        function updateProfileStats() {
+            if (!document.getElementById('profile-level')) return;
+            
+            document.getElementById('profile-level').textContent = app.user.level;
+            document.getElementById('profile-name').textContent = app.user.name;
+            
+            // Update XP bar
+            const xpPercent = Math.round((app.user.experience / app.user.experienceToNextLevel) * 100);
+            document.getElementById('profile-xp-bar').style.width = `${xpPercent}%`;
+            document.getElementById('profile-xp-text').textContent = `${app.user.experience}/${app.user.experienceToNextLevel} XP`;
+            
+            // Update activity stats
+            document.getElementById('profile-weekly-distance').textContent = app.user.weeklyDistance.toFixed(1);
+            document.getElementById('profile-total-activities').textContent = app.user.activities.length;
+            document.getElementById('profile-streak').textContent = app.user.streakDays;
+        }
+        
+        function renderNFTs() {
+            const nftsContainer = document.getElementById('nfts-container');
+            if (!nftsContainer) return;
+            
+            nftsContainer.innerHTML = '';
+            
+            app.user.nfts.forEach(nft => {
+                // Generate NFT image if not already generated
+                if (!nft.image) {
+                    // Create a canvas to generate NFT image
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 200;
+                    canvas.height = 200;
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Background gradient
+                    const gradient = ctx.createLinearGradient(0, 0, 200, 200);
+                    gradient.addColorStop(0, '#5D5CDE');
+                    gradient.addColorStop(1, '#00ffff');
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, 200, 200);
+                    
+                    // Bike design (simple abstract representation)
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+                    ctx.lineWidth = 3;
+                    
+                    // Wheels
+                    ctx.beginPath();
+                    ctx.arc(50, 130, 30, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.arc(150, 130, 30, 0, Math.PI * 2);
+                    ctx.stroke();
+                    
+                    // Frame
+                    ctx.beginPath();
+                    ctx.moveTo(50, 130);
+                    ctx.lineTo(100, 80);
+                    ctx.lineTo(150, 130);
+                    ctx.lineTo(100, 130);
+                    ctx.lineTo(50, 130);
+                    ctx.stroke();
+                    
+                    // Handlebar
+                    ctx.beginPath();
+                    ctx.moveTo(100, 80);
+                    ctx.lineTo(80, 60);
+                    ctx.stroke();
+                    
+                    // Add some random unique elements based on NFT ID
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                    for (let i = 0; i < nft.id * 3; i++) {
+                        const x = Math.random() * 200;
+                        const y = Math.random() * 200;
+                        const size = Math.random() * 5 + 2;
+                        ctx.beginPath();
+                        ctx.arc(x, y, size, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    
+                    // Add rarity indicator
+                    let rarityColor;
+                    switch(nft.rarity) {
+                        case 'Rare': rarityColor = '#9d00ff'; break;
+                        case 'Uncommon': rarityColor = '#00ff9d'; break;
+                        default: rarityColor = '#ffffff';
+                    }
+                    
+                    ctx.fillStyle = rarityColor;
+                    ctx.beginPath();
+                    ctx.arc(170, 30, 15, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Convert to image data
+                    nft.image = canvas.toDataURL();
+                }
+                
+                const nftEl = document.createElement('div');
+                nftEl.className = 'nft-card p-3 rounded-lg bg-white dark:bg-dark-card mb-4';
+                nftEl.innerHTML = `
+                    <div class="nft-card-inner">
+                        <img src="${nft.image}" alt="${nft.name}" class="w-full h-auto rounded-md">
+                        <div class="mt-2">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-bold text-base">${nft.name}</h3>
+                                    <div class="flex items-center mt-1">
+                                        <span class="text-xs px-2 py-0.5 rounded-full" style="background-color: ${
+                                            nft.rarity === 'Rare' ? 'rgba(157, 0, 255, 0.2)' : 
+                                            nft.rarity === 'Uncommon' ? 'rgba(0, 255, 157, 0.2)' : 'rgba(255, 255, 255, 0.1)'
+                                        }; color: ${
+                                            nft.rarity === 'Rare' ? '#9d00ff' : 
+                                            nft.rarity === 'Uncommon' ? '#00ff9d' : '#ffffff'
+                                        };">${nft.rarity}</span>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    ${Array(nft.level).fill().map(() => 
+                                        `<svg class="h-4 w-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>`
+                                    ).join('')}
+                                </div>
+                            </div>
+                            <div class="mt-3 p-2 bg-gray-100 dark:bg-dark-surface rounded-md">
+                                <p class="text-xs text-center font-medium">Boost: ${nft.boost}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                nftsContainer.appendChild(nftEl);
+            });
+        }
+        
+        function generateProfileImage() {
+            // Create a canvas to generate profile image
+            const canvas = document.createElement('canvas');
+            canvas.width = 100;
+            canvas.height = 100;
+            const ctx = canvas.getContext('2d');
+            
+            // Background
+            ctx.fillStyle = '#5D5CDE';
+            ctx.fillRect(0, 0, 100, 100);
+            
+            // Random pattern
+            ctx.fillStyle = 'rgba(0, 255, 255, 0.2)';
+            for (let i = 0; i < 20; i++) {
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const size = Math.random() * 10 + 5;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // Add user initial
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 50px Rajdhani';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(app.user.name.charAt(0), 50, 50);
+            
+            return canvas.toDataURL();
+        }
+        
+        // Google Fit Integration
+        // Initialize Google Fit API
+        function initGoogleFitAPI() {
+            // Google's OAuth 2.0 client ID would typically go here
+            // For example: const CLIENT_ID = 'YOUR_CLIENT_ID.apps.googleusercontent.com';
+            
+            // In a real implementation, you would include the Google API client library
+            // and initialize it with your credentials
+            console.log('Initializing Google Fit API...');
+            
+            // For demo purposes, we're simulating the API
+            return {
+                auth: {
+                    authorize: simulateGoogleAuthFlow
+                },
+                data: {
+                    fetchActivity: simulateFetchActivity,
+                    fetchSteps: simulateFetchSteps,
+                    fetchCalories: simulateFetchCalories,
+                    fetchHeartRate: simulateFetchHeartRate,
+                    fetchDistance: simulateFetchDistance
+                }
+            };
+        }
+        
+        // Simulate Google OAuth flow
+        function simulateGoogleAuthFlow() {
+            return new Promise((resolve, reject) => {
+                // Show a modal to simulate Google's OAuth consent screen
+                const authModal = document.createElement('div');
+                authModal.className = 'fixed inset-0 flex items-center justify-center z-50';
+                authModal.innerHTML = `
+                    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+                    <div class="bg-white dark:bg-dark-card rounded-lg shadow-xl p-5 z-10 max-w-md w-full">
+                        <div class="text-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-2" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 7.77L5.61 18h12.78L12 7.77M12 4L22 20H2L12 4z"/>
+                            </svg>
+                            <h3 class="text-xl font-bold">Google Fit</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">FixieRun wants to access your Google Fit data</p>
+                        </div>
+                        
+                        <div class="border-t border-b py-3 my-3 border-gray-200 dark:border-dark-surface">
+                            <p class="text-sm mb-2">This app will be able to:</p>
+                            <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+                                <li class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    Read your activity data (steps, distance)
+                                </li>
+                                <li class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    Read your body measurements (heart rate)
+                                </li>
+                                <li class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    Write your activity data to Google Fit
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="flex gap-3 mt-4">
+                            <button id="auth-cancel-btn" class="flex-1 py-2 px-4 bg-gray-300 dark:bg-gray-700 hover:bg-opacity-90 text-gray-800 dark:text-white font-medium rounded-md">
+                                Cancel
+                            </button>
+                            <button id="auth-allow-btn" class="flex-1 py-2 px-4 bg-primary hover:bg-opacity-90 text-white font-semibold rounded-md shadow-sm">
+                                Allow
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(authModal);
+                
+                // Add event listeners to buttons
+                document.getElementById('auth-allow-btn').addEventListener('click', () => {
+                    document.body.removeChild(authModal);
+                    resolve({
+                        success: true,
+                        token: 'simulated_access_token'
+                    });
+                });
+                
+                document.getElementById('auth-cancel-btn').addEventListener('click', () => {
+                    document.body.removeChild(authModal);
+                    reject({
+                        error: 'auth_canceled',
+                        message: 'User canceled the authorization'
+                    });
+                });
+            });
+        }
+        
+        // Simulate fetching activity data
+        function simulateFetchActivity() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        activities: [
+                            { type: 'Running', date: new Date(Date.now() - 86400000), duration: 1800, distance: 5.2, calories: 450 },
+                            { type: 'Cycling', date: new Date(Date.now() - 172800000), duration: 3600, distance: 15.7, calories: 620 },
+                            { type: 'Walking', date: new Date(Date.now() - 259200000), duration: 2700, distance: 3.5, calories: 280 }
+                        ]
+                    });
+                }, 1000);
+            });
+        }
+        
+        // Simulate fetching steps data
+        function simulateFetchSteps() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        steps: [
+                            { date: new Date(Date.now() - 86400000), count: 8734 },
+                            { date: new Date(Date.now() - 172800000), count: 10253 },
+                            { date: new Date(Date.now() - 259200000), count: 7621 },
+                            { date: new Date(Date.now() - 345600000), count: 9145 },
+                            { date: new Date(Date.now() - 432000000), count: 8374 }
+                        ]
+                    });
+                }, 800);
+            });
+        }
+        
+        // Simulate fetching calories data
+        function simulateFetchCalories() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        calories: [
+                            { date: new Date(Date.now() - 86400000), amount: 450 },
+                            { date: new Date(Date.now() - 172800000), amount: 620 },
+                            { date: new Date(Date.now() - 259200000), amount: 280 },
+                            { date: new Date(Date.now() - 345600000), amount: 540 },
+                            { date: new Date(Date.now() - 432000000), amount: 390 }
+                        ]
+                    });
+                }, 700);
+            });
+        }
+        
+        // Simulate fetching heart rate data
+        function simulateFetchHeartRate() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        heartRates: [
+                            { date: new Date(Date.now() - 86400000), rate: 72 },
+                            { date: new Date(Date.now() - 172800000), rate: 68 },
+                            { date: new Date(Date.now() - 259200000), rate: 75 },
+                            { date: new Date(Date.now() - 345600000), rate: 70 },
+                            { date: new Date(Date.now() - 432000000), rate: 69 }
+                        ]
+                    });
+                }, 900);
+            });
+        }
+        
+        // Simulate fetching distance data
+        function simulateFetchDistance() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        distances: [
+                            { date: new Date(Date.now() - 86400000), distance: 5.2 },
+                            { date: new Date(Date.now() - 172800000), distance: 15.7 },
+                            { date: new Date(Date.now() - 259200000), distance: 3.5 },
+                            { date: new Date(Date.now() - 345600000), distance: 6.8 },
+                            { date: new Date(Date.now() - 432000000), distance: 4.2 }
+                        ]
+                    });
+                }, 850);
+            });
+        }
+        
+        // Connect to Google Fit
+        async function toggleGoogleFitConnection() {
+            if (app.googleFit.isConnected) {
+                // Show settings if already connected
+                const settings = document.getElementById('google-fit-settings');
+                settings.classList.toggle('hidden');
+                return;
+            }
+            
+            try {
+                // Initialize Google Fit API (our simulation)
+                const googleFit = initGoogleFitAPI();
+                
+                // Request authorization
+                const authResult = await googleFit.auth.authorize();
+                
+                if (authResult.success) {
+                    // Update app state
+                    app.googleFit.isConnected = true;
+                    app.googleFit.lastSync = new Date();
+                    
+                    // Update UI
+                    document.getElementById('google-fit-status').textContent = 
+                        `Connected · Last sync: ${app.googleFit.lastSync.toLocaleString()}`;
+                    
+                    document.getElementById('google-fit-btn').textContent = 'Manage';
+                    document.getElementById('google-fit-settings').classList.remove('hidden');
+                    
+                    // Add Google Fit to connected apps
+                    if (!app.user.settings.connectedApps.includes('Google Fit')) {
+                        app.user.settings.connectedApps.push('Google Fit');
+                    }
+                    
+                    // Perform initial sync
+                    await syncWithGoogleFit();
+                    
+                    // Show success toast
+                    showToast('Google Fit connected successfully!', 'success');
+                }
+            } catch (error) {
+                console.error('Google Fit connection error:', error);
+                showToast('Failed to connect to Google Fit.', 'error');
+            }
+        }
+        
+        // Disconnect from Google Fit
+        function disconnectGoogleFit() {
+            // Show confirmation dialog
+            const confirmModal = document.createElement('div');
+            confirmModal.className = 'fixed inset-0 flex items-center justify-center z-50';
+            confirmModal.innerHTML = `
+                <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+                <div class="bg-white dark:bg-dark-card rounded-lg shadow-xl p-5 z-10 max-w-md w-full">
+                    <div class="text-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto mb-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <h3 class="text-xl font-bold">Disconnect Google Fit?</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">This will stop syncing data between FixieRun and Google Fit.</p>
+                    </div>
+                    
+                    <div class="flex gap-3 mt-4">
+                        <button id="disconnect-cancel-btn" class="flex-1 py-2 px-4 bg-gray-300 dark:bg-gray-700 hover:bg-opacity-90 text-gray-800 dark:text-white font-medium rounded-md">
+                            Cancel
+                        </button>
+                        <button id="disconnect-confirm-btn" class="flex-1 py-2 px-4 bg-red-500 hover:bg-opacity-90 text-white font-semibold rounded-md shadow-sm">
+                            Disconnect
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(confirmModal);
+            
+            // Add event listeners to buttons
+            document.getElementById('disconnect-confirm-btn').addEventListener('click', () => {
+                document.body.removeChild(confirmModal);
+                
+                // Update app state
+                app.googleFit.isConnected = false;
+                app.googleFit.lastSync = null;
+                
+                // Update UI
+                document.getElementById('google-fit-status').textContent = 'Not connected';
+                document.getElementById('google-fit-btn').textContent = 'Connect';
+                document.getElementById('google-fit-settings').classList.add('hidden');
+                
+                // Remove Google Fit from connected apps
+                app.user.settings.connectedApps = app.user.settings.connectedApps.filter(app => app !== 'Google Fit');
+                
+                // Show success toast
+                showToast('Google Fit disconnected.', 'info');
+            });
+            
+            document.getElementById('disconnect-cancel-btn').addEventListener('click', () => {
+                document.body.removeChild(confirmModal);
+            });
+        }
+        
+        // Update Google Fit settings
+        function updateGoogleFitSettings(setting, value) {
+            app.googleFit.syncSettings[setting] = value;
+            
+            // If autoSync is toggled off, hide frequency options
+            if (setting === 'autoSync') {
+                const syncFrequencyOptions = document.getElementById('sync-frequency-options');
+                if (value) {
+                    syncFrequencyOptions.classList.remove('hidden');
+                } else {
+                    syncFrequencyOptions.classList.add('hidden');
+                }
+            }
+            
+            // Show toast to confirm settings change
+            showToast('Settings updated.', 'info');
+        }
+        
+        // Sync with Google Fit
+        async function syncWithGoogleFit() {
+            if (!app.googleFit.isConnected || app.googleFit.syncInProgress) {
+                return;
+            }
+            
+            // Update UI to show sync in progress
+            app.googleFit.syncInProgress = true;
+            const syncButton = document.getElementById('sync-now-btn');
+            syncButton.classList.add('opacity-50');
+            syncButton.innerHTML = `
+                <svg class="animate-spin h-3.5 w-3.5 mr-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Syncing...
+            `;
+            
+            try {
+                // Initialize Google Fit API (our simulation)
+                const googleFit = initGoogleFitAPI();
+                const fetchPromises = [];
+                
+                // Only fetch selected data types
+                if (app.googleFit.syncSettings.steps) {
+                    fetchPromises.push(googleFit.data.fetchSteps());
+                }
+                if (app.googleFit.syncSettings.distance) {
+                    fetchPromises.push(googleFit.data.fetchDistance());
+                }
+                if (app.googleFit.syncSettings.calories) {
+                    fetchPromises.push(googleFit.data.fetchCalories());
+                }
+                if (app.googleFit.syncSettings.heartRate) {
+                    fetchPromises.push(googleFit.data.fetchHeartRate());
+                }
+                if (app.googleFit.syncSettings.activities) {
+                    fetchPromises.push(googleFit.data.fetchActivity());
+                }
+                
+                // Wait for all data to be fetched
+                const results = await Promise.all(fetchPromises);
+                
+                // Process results (in a real app, you would handle each data type appropriately)
+                console.log('Google Fit data synced:', results);
+                
+                // Update app state
+                app.googleFit.lastSync = new Date();
+                
+                // Update UI
+                document.getElementById('google-fit-status').textContent = 
+                    `Connected · Last sync: ${app.googleFit.lastSync.toLocaleString()}`;
+                
+                // Show success toast
+                showToast('Synced with Google Fit.', 'success');
+            } catch (error) {
+                console.error('Google Fit sync error:', error);
+                showToast('Failed to sync with Google Fit.', 'error');
+            } finally {
+                // Reset UI
+                app.googleFit.syncInProgress = false;
+                syncButton.classList.remove('opacity-50');
+                syncButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                    </svg>
+                    Sync Now
+                `;
+            }
+        }
+        
+        // Tracking Screen Functions
+        let trackingMap = null;
+        let trackingPolyline = null;
+        let trackingMarker = null;
+        let trackingTimer = null;
+        let trackingStartTime = null;
+        let trackingPausedTime = 0;
+        let trackingWatchId = null;
+        let trackingRoutePoints = [];
+        let trackingLastPosition = null;
+        let trackingMultiplayer = false;
+        let trackingPlayerMarkers = {};
+        let trackingTokenMilestones = [1, 3, 5, 10, 15, 20, 25, 30, 42.2]; // in km
+        let trackingTokensEarned = 0;
+        
+        // Initialize tracking map with fallback for when geolocation fails
+        function initTrackingMapWithFallback(lat, lng) {
+            // Check if Leaflet library is available
+            if (typeof L === 'undefined') {
+                showMapPlaceholder('Map library not loaded. Please refresh the page.');
+                return;
+            }
+            
+            try {
+                // Create map container if it doesn't exist yet
+                const mapContainer = document.getElementById('tracking-map');
+                if (!mapContainer) return;
+                
+                // Clear map container
+                mapContainer.innerHTML = '';
+                
+                // Create new map
+                trackingMap = L.map('tracking-map').setView([lat, lng], 15);
+                
+                // Add OpenStreetMap tiles
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; OpenStreetMap contributors'
+                }).addTo(trackingMap);
+                
+                // Create initial route polyline
+                trackingPolyline = L.polyline([], {
+                    color: app.tracking.mode === 'Run' ? '#5D5CDE' : '#FF6B6B',
+                    weight: 5,
+                    opacity: 0.8
+                }).addTo(trackingMap);
+                
+                // Create user marker
+                const iconHtml = `<div class="w-6 h-6 rounded-full bg-${app.tracking.mode === 'Run' ? 'primary' : 'red-500'} flex items-center justify-center text-white font-bold text-xs">${app.user.name.charAt(0)}</div>`;
+                const customIcon = L.divIcon({
+                    html: iconHtml,
+                    className: '',
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 12]
+                });
+                
+                trackingMarker = L.marker([lat, lng], {
+                    icon: customIcon
+                }).addTo(trackingMap);
+                
+                // Store initial route point
+                trackingRoutePoints = [[lat, lng]];
+                trackingLastPosition = { latitude: lat, longitude: lng, timestamp: Date.now() };
+                
+                // Add simulated nearby players if in multiplayer mode
+                if (trackingMultiplayer) {
+                    simulateNearbyPlayers();
+                }
+                
+                // Initialize token progress
+                updateTokenProgress(0);
+                
+                // Ensure map is properly sized
+                setTimeout(() => {
+                    trackingMap.invalidateSize();
+                }, 100);
+            } catch (error) {
+                console.error("Error initializing map:", error);
+                showMapPlaceholder('Unable to initialize map. Please try again.');
+            }
+        }
+        
+        // Show placeholder when map can't be loaded
+        function showMapPlaceholder(message) {
+            const mapContainer = document.getElementById('tracking-map');
+            if (mapContainer) {
+                mapContainer.innerHTML = `<div class="map-placeholder">${message}</div>`;
+            }
+        }
+        
+        // Update tracking map with new position
+        function updateTrackingMap(lat, lng, timestamp) {
+            if (!trackingMap) return;
+            
+            try {
+                // Update marker position
+                trackingMarker.setLatLng([lat, lng]);
+                
+                // Add point to route
+                trackingRoutePoints.push([lat, lng]);
+                trackingPolyline.setLatLngs(trackingRoutePoints);
+                
+                // Recenter map if user moves near edge
+                const bounds = trackingMap.getBounds();
+                const latLngPoint = L.latLng(lat, lng);
+                
+                if (!bounds.contains(latLngPoint)) {
+                    trackingMap.panTo([lat, lng]);
+                }
+                
+                // Calculate distance and speed
+                if (trackingLastPosition) {
+                    const newDistance = calculateHaversineDistance(
+                        trackingLastPosition.latitude,
+                        trackingLastPosition.longitude,
+                        lat,
+                        lng
+                    );
+                    
+                    // Apply a simple validity check (remove extreme outliers)
+                    if (newDistance < 0.1) { // Less than 100 meters
+                        app.tracking.distance += newDistance;
+                        
+                        // Calculate calories (roughly estimated)
+                        // Running: ~100 calories per mile (62 cal per km)
+                        // Biking: ~40 calories per mile (25 cal per km)
+                        const caloriesFactor = app.tracking.mode === 'Run' ? 62 : 25;
+                        app.tracking.calories += Math.round(newDistance * caloriesFactor);
+                        
+                        // Calculate speed
+                        const timeDiff = (timestamp - trackingLastPosition.timestamp) / 1000; // in seconds
+                        if (timeDiff > 0) {
+                            app.tracking.speed = (newDistance / timeDiff) * 3600; // Convert to km/h
+                        }
+                        
+                        // Update UI
+                        document.getElementById('track-distance').textContent = `${app.tracking.distance.toFixed(2)} km`;
+                        document.getElementById('track-speed').textContent = `${app.tracking.speed.toFixed(1)} km/h`;
+                        document.getElementById('track-calories').textContent = Math.round(app.tracking.calories);
+                        
+                        // Update token progress
+                        updateTokenProgress(app.tracking.distance);
+                    }
+                }
+                
+                // Update last position
+                trackingLastPosition = {
+                    latitude: lat,
+                    longitude: lng,
+                    timestamp: timestamp
+                };
+                
+                // Update player position in multiplayer mode
+                if (trackingMultiplayer) {
+                    updatePlayerPosition(lat, lng);
+                }
+            } catch (error) {
+                console.error("Error updating map:", error);
+            }
+        }
+        
+        // Calculate Haversine distance between two points
+        function calculateHaversineDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Radius of the earth in km
+            const dLat = deg2rad(lat2 - lat1);
+            const dLon = deg2rad(lon2 - lon1);
+            const a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2); 
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            const distance = R * c; // Distance in km
+            return distance;
+        }
+        
+        function deg2rad(deg) {
+            return deg * (Math.PI/180);
+        }
+        
+        // Update token progress and check milestones
+        function updateTokenProgress(currentDistance) {
+            // Find the next milestone
+            let nextMilestone = null;
+            let progress = 0;
+            
+            for (const milestone of trackingTokenMilestones) {
+                if (currentDistance < milestone) {
+                    nextMilestone = milestone;
+                    progress = (currentDistance / milestone) * 100;
+                    
+                    // Update UI
+                    try {
+                        document.getElementById('track-next-milestone').textContent = milestone.toFixed(1);
+                        document.getElementById('track-token-progress').style.width = `${progress}%`;
+                    } catch (error) {
+                        console.error("Error updating token progress UI:", error);
+                    }
+                    break;
+                }
+            }
+            
+            // Calculate tokens earned (1 token per km, with bonuses at milestones)
+            const newTokens = Math.floor(currentDistance);
+            const tokensToAdd = newTokens - trackingTokensEarned;
+            
+            if (tokensToAdd > 0) {
+                trackingTokensEarned += tokensToAdd;
+                try {
+                    document.getElementById('track-tokens').textContent = trackingTokensEarned;
+                } catch (error) {
+                    console.error("Error updating token count UI:", error);
+                }
+                
+                // Show token earned toast for milestone distances
+                if (trackingTokenMilestones.includes(parseFloat(currentDistance.toFixed(1)))) {
+                    showToast(`Milestone reached! +${tokensToAdd} $FIXIE tokens`, "success");
+                }
+            }
+            
+            // If all milestones completed
+            if (!nextMilestone) {
+                try {
+                    document.getElementById('track-token-progress').style.width = "100%";
+                    document.getElementById('track-next-milestone').textContent = "All milestones completed";
+                } catch (error) {
+                    console.error("Error updating milestone completion UI:", error);
+                }
+            }
+        }
+        
+        // Start tracking workout
+        function startTracking() {
+            // Show loading indicator while getting location
+            const startBtn = document.getElementById('tracking-start-btn');
+            startBtn.innerHTML = `
+                <svg class="animate-spin h-5 w-5 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            `;
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        // Initialize map with current position
+                        initTrackingMapWithFallback(position.coords.latitude, position.coords.longitude);
+                        
+                        // Start tracking
+                        app.tracking.isTracking = true;
+                        trackingStartTime = new Date();
+                        
+                        // Start the timer
+                        startTrackingTimer();
+                        
+                        // Start watching position
+                        startWatchingPosition();
+                        
+                        // Update UI
+                        startBtn.classList.add('hidden');
+                        document.getElementById('tracking-stop-btn').classList.remove('hidden');
+                        document.getElementById('tracking-pause-btn').classList.remove('hidden');
+                        
+                        // Show toast notification
+                        showToast(`${app.tracking.mode} tracking started!`, 'success');
+                    },
+                    (error) => {
+                        let errorMessage = "Unable to access your location. ";
+                        
+                        // Provide specific error messages based on error code
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                errorMessage += "Please enable location permissions for this site.";
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                errorMessage += "Location information is unavailable. Try again later.";
+                                break;
+                            case error.TIMEOUT:
+                                errorMessage += "The request to get your location timed out.";
+                                break;
+                            case error.UNKNOWN_ERROR:
+                                errorMessage += "An unknown error occurred.";
+                                break;
+                        }
+                        
+                        console.error("Geolocation error:", error);
+                        startBtn.textContent = "START";
+                        showToast(errorMessage, "error");
+                        
+                        // Use fallback location
+                        const defaultCoords = { latitude: 40.7128, longitude: -74.0060 }; // NYC
+                        initTrackingMapWithFallback(defaultCoords.latitude, defaultCoords.longitude);
+                    },
+                    { 
+                        enableHighAccuracy: true, 
+                        maximumAge: 0,
+                        timeout: 5000
+                    }
+                );
+            } else {
+                startBtn.textContent = "START";
+                showToast("Geolocation is not supported by this browser.", "error");
+                
+                // Use fallback location
+                const defaultCoords = { latitude: 40.7128, longitude: -74.0060 }; // NYC
+                initTrackingMapWithFallback(defaultCoords.latitude, defaultCoords.longitude);
+            }
+        }
+        
+        // Start the tracking timer
+        function startTrackingTimer() {
+            trackingTimer = setInterval(() => {
+                if (!trackingStartTime) return;
+                
+                const now = new Date();
+                const elapsed = Math.floor((now - trackingStartTime) / 1000) - trackingPausedTime;
+                app.tracking.duration = elapsed;
+                
+                const hours = Math.floor(elapsed / 3600).toString().padStart(2, '0');
+                const minutes = Math.floor((elapsed % 3600) / 60).toString().padStart(2, '0');
+                const seconds = Math.floor(elapsed % 60).toString().padStart(2, '0');
+                
+                try {
+                    document.getElementById('track-timer').textContent = `${hours}:${minutes}:${seconds}`;
+                } catch (error) {
+                    console.error("Error updating timer:", error);
+                }
+            }, 1000);
+        }
+        
+        // Start watching position
+        function startWatchingPosition() {
+            if (!navigator.geolocation) {
+                showToast("Geolocation is not supported by this browser.", "error");
+                return;
+            }
+            
+            trackingWatchId = navigator.geolocation.watchPosition(
+                (position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    const timestamp = position.timestamp;
+                    
+                    // Update map
+                    updateTrackingMap(lat, lng, timestamp);
+                },
+                (error) => {
+                    console.error("Error watching position:", error);
+                    showToast("Error tracking location. Please check your GPS signal.", "error");
+                    
+                    // Simulate movement for demo purposes when GPS fails
+                    simulateMovement();
+                },
+                { 
+                    enableHighAccuracy: true, 
+                    maximumAge: 0,
+                    timeout: 5000
+                }
+            );
+        }
+        
+        // Simulate movement for demo purposes when GPS fails
+        function simulateMovement() {
+            if (!trackingMap || !trackingLastPosition) return;
+            
+            const simulationInterval = setInterval(() => {
+                if (!app.tracking.isTracking) {
+                    clearInterval(simulationInterval);
+                    return;
+                }
+                
+                // Generate a small random movement
+                const latOffset = (Math.random() - 0.5) * 0.0005;
+                const lngOffset = (Math.random() - 0.5) * 0.0005;
+                
+                const newLat = trackingLastPosition.latitude + latOffset;
+                const newLng = trackingLastPosition.longitude + lngOffset;
+                
+                // Update map with simulated position
+                updateTrackingMap(newLat, newLng, Date.now());
+            }, 1000);
+        }
+        
+        // Pause tracking
+        function pauseTracking() {
+            if (!app.tracking.isTracking) return;
+            
+            const pauseBtn = document.getElementById('tracking-pause-btn');
+            
+            if (trackingTimer) {
+                // If currently running
+                clearInterval(trackingTimer);
+                trackingTimer = null;
+                
+                // Store current elapsed time
+                const pauseTime = new Date();
+                const currentElapsed = Math.floor((pauseTime - trackingStartTime) / 1000) - trackingPausedTime;
+                trackingPausedTime = currentElapsed;
+                
+                // Stop watching position
+                if (trackingWatchId) {
+                    navigator.geolocation.clearWatch(trackingWatchId);
+                    trackingWatchId = null;
+                }
+                
+                // Update UI
+                pauseBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                    </svg>
+                `;
+                
+                showToast("Tracking paused", "info");
+            } else {
+                // If currently paused
+                startTrackingTimer();
+                startWatchingPosition();
+                
+                // Update UI
+                pauseBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                `;
+                
+                showToast("Tracking resumed", "info");
+            }
+        }
+        
+        // Stop tracking
+        function stopTracking() {
+            if (!app.tracking.isTracking) return;
+            
+            // Stop all intervals
+            if (trackingTimer) {
+                clearInterval(trackingTimer);
+                trackingTimer = null;
+            }
+            
+            // Stop watching position
+            if (trackingWatchId) {
+                navigator.geolocation.clearWatch(trackingWatchId);
+                trackingWatchId = null;
+            }
+            
+            // Update UI
+            document.getElementById('tracking-start-btn').classList.remove('hidden');
+            document.getElementById('tracking-start-btn').textContent = "START";
+            document.getElementById('tracking-stop-btn').classList.add('hidden');
+            document.getElementById('tracking-pause-btn').classList.add('hidden');
+            
+            // Update state
+            app.tracking.isTracking = false;
+            
+            // Show workout complete modal
+            showWorkoutComplete();
+            
+            // Reset multiplayer data
+            if (trackingMultiplayer) {
+                cleanupMultiplayerData();
+            }
+        }
+        
+        // Show workout complete modal
+        function showWorkoutComplete() {
+            // Fill in the summary data
+            try {
+                document.getElementById('summary-distance').textContent = `${app.tracking.distance.toFixed(2)} km`;
+                
+                const hours = Math.floor(app.tracking.duration / 3600).toString().padStart(2, '0');
+                const minutes = Math.floor((app.tracking.duration % 3600) / 60).toString().padStart(2, '0');
+                const seconds = Math.floor(app.tracking.duration % 60).toString().padStart(2, '0');
+                document.getElementById('summary-duration').textContent = `${hours}:${minutes}:${seconds}`;
+                
+                document.getElementById('summary-calories').textContent = Math.round(app.tracking.calories);
+                document.getElementById('summary-speed').textContent = `${app.tracking.speed.toFixed(1)} km/h`;
+                document.getElementById('summary-tokens').textContent = `${trackingTokensEarned} $FIXIE`;
+                
+                // Generate a default workout name
+                const now = new Date();
+                const formattedTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+                document.getElementById('workout-name').value = `${app.tracking.mode} · ${formattedTime} · ${app.tracking.distance.toFixed(1)} km`;
+                
+                // Enable/disable Google Fit sync button
+                const syncBtn = document.getElementById('sync-with-googlefit-btn');
+                if (syncBtn) {
+                    syncBtn.disabled = !app.googleFit.isConnected;
+                }
+                
+                // Show the modal
+                document.getElementById('tracking-complete-modal').classList.remove('hidden');
+            } catch (error) {
+                console.error("Error showing workout complete modal:", error);
+                showToast("Error displaying workout summary. Your workout has been recorded.", "error");
+            }
+        }
+        
+        // Save workout
+        function saveWorkout() {
+            try {
+                const workoutName = document.getElementById('workout-name').value || `${app.tracking.mode} Workout`;
+                
+                // Format the duration
+                const hours = Math.floor(app.tracking.duration / 3600);
+                const minutes = Math.floor((app.tracking.duration % 3600) / 60);
+                const formattedDuration = hours > 0 ? `${hours} hr ${minutes} min` : `${minutes} min`;
+                
+                // Add to user activities
+                const now = new Date();
+                const formattedDate = `Today, ${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')} ${now.getHours() >= 12 ? 'PM' : 'AM'}`;
+                
+                app.user.activities.unshift({
+                    date: formattedDate,
+                    type: workoutName,
+                    distance: parseFloat(app.tracking.distance.toFixed(2)),
+                    duration: formattedDuration,
+                    calories: Math.round(app.tracking.calories),
+                    tokens: trackingTokensEarned
+                });
+                
+                // Add to token history
+                app.user.tokenHistory.unshift({
+                    date: `${now.toLocaleString('default', { month: 'short' })} ${now.getDate()}`,
+                    amount: trackingTokensEarned,
+                    description: `${app.tracking.mode} Workout`
+                });
+                
+                // Update user stats
+                app.user.tokenBalance += trackingTokensEarned;
+                app.user.weeklyDistance += app.tracking.distance;
+                app.user.weeklyCalories += Math.round(app.tracking.calories);
+                
+                // Add to calendar
+                app.calendar.workoutDays.push(new Date().getDate());
+                
+                // Add XP
+                const xpEarned = Math.round(app.tracking.distance * 10);
+                app.user.experience += xpEarned;
+                
+                // Check for level up
+                if (app.user.experience >= app.user.experienceToNextLevel) {
+                    app.user.level++;
+                    app.user.experience -= app.user.experienceToNextLevel;
+                    app.user.experienceToNextLevel = Math.round(app.user.experienceToNextLevel * 1.2);
+                    
+                    // Show level up toast
+                    const levelUpToast = document.getElementById('level-up-toast');
+                    document.getElementById('new-level').textContent = app.user.level;
+                    levelUpToast.classList.remove('hidden');
+                    
+                    setTimeout(() => {
+                        levelUpToast.classList.add('hidden');
+                    }, 5000);
+                }
+                
+                // Update UI
+                updateHomeStats();
+                updateActivityHistory();
+                updateTokenHistory();
+                renderCalendar();
+                updateProfileStats();
+                
+                // Hide the modal
+                document.getElementById('tracking-complete-modal').classList.add('hidden');
+                
+                // Show success toast
+                showToast("Workout saved successfully!", "success");
+                
+                // Reset tracking data
+                resetTrackingData();
+            } catch (error) {
+                console.error("Error saving workout:", error);
+                showToast("Error saving workout. Please try again.", "error");
+            }
+        }
+        
+        // Sync workout with Google Fit
+        function syncWorkoutWithGoogleFit() {
+            if (!app.googleFit.isConnected) {
+                showToast("Please connect to Google Fit first", "error");
+                return;
+            }
+            
+            try {
+                const syncBtn = document.getElementById('sync-with-googlefit-btn');
+                syncBtn.disabled = true;
+                syncBtn.innerHTML = `
+                    <svg class="animate-spin h-4 w-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Syncing...
+                `;
+                
+                // Simulate API call with timeout
+                setTimeout(() => {
+                    syncBtn.disabled = false;
+                    syncBtn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 7.77L5.61 18h12.78L12 7.77M12 4L22 20H2L12 4z"/>
+                        </svg>
+                        Sync with Google Fit
+                    `;
+                    
+                    app.googleFit.lastSync = new Date();
+                    
+                    showToast("Workout synced with Google Fit!", "success");
+                }, 2000);
+            } catch (error) {
+                console.error("Error syncing with Google Fit:", error);
+                showToast("Failed to sync workout with Google Fit", "error");
+            }
+        }
+        
+        // Reset tracking data
+        function resetTrackingData() {
+            // Reset map
+            if (trackingMap) {
+                trackingMap.remove();
+                trackingMap = null;
+                trackingPolyline = null;
+                trackingMarker = null;
+            }
+            
+            // Reset state
+            trackingRoutePoints = [];
+            trackingLastPosition = null;
+            trackingStartTime = null;
+            trackingPausedTime = 0;
+            trackingTokensEarned = 0;
+            
+            // Reset app state
+            app.tracking.distance = 0;
+            app.tracking.duration = 0;
+            app.tracking.speed = 0;
+            app.tracking.calories = 0;
+            app.tracking.tokens = 0;
+            
+            // Reset UI
+            try {
+                document.getElementById('track-distance').textContent = "0.00 km";
+                document.getElementById('track-speed').textContent = "0.0 km/h";
+                document.getElementById('track-calories').textContent = "0";
+                document.getElementById('track-timer').textContent = "00:00:00";
+                document.getElementById('track-tokens').textContent = "0";
+                document.getElementById('track-token-progress').style.width = "0%";
+                document.getElementById('track-next-milestone').textContent = "1.0";
+            } catch (error) {
+                console.error("Error resetting tracking UI:", error);
+            }
+        }
+        
+        // Set tracking mode (Run or Bike)
+        function setTrackingMode(mode) {
+            if (app.tracking.isTracking) {
+                showToast("Cannot change mode while tracking", "error");
+                return;
+            }
+            
+            app.tracking.mode = mode;
+            
+            // Update UI
+            try {
+                const runBtn = document.getElementById('track-run-mode');
+                const bikeBtn = document.getElementById('track-bike-mode');
+                
+                if (mode === 'Run') {
+                    runBtn.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+                    runBtn.classList.add('bg-primary', 'text-white');
+                    
+                    bikeBtn.classList.remove('bg-primary', 'text-white');
+                    bikeBtn.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+                } else {
+                    bikeBtn.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+                    bikeBtn.classList.add('bg-primary', 'text-white');
+                    
+                    runBtn.classList.remove('bg-primary', 'text-white');
+                    runBtn.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+                }
+                
+                // Update polyline color if map exists
+                if (trackingMap && trackingPolyline) {
+                    trackingPolyline.setStyle({
+                        color: mode === 'Run' ? '#5D5CDE' : '#FF6B6B'
+                    });
+                }
+                
+                // Update user marker if it exists
+                if (trackingMap && trackingMarker && trackingLastPosition) {
+                    const iconHtml = `<div class="w-6 h-6 rounded-full bg-${mode === 'Run' ? 'primary' : 'red-500'} flex items-center justify-center text-white font-bold text-xs">${app.user.name.charAt(0)}</div>`;
+                    const customIcon = L.divIcon({
+                        html: iconHtml,
+                        className: '',
+                        iconSize: [24, 24],
+                        iconAnchor: [12, 12]
+                    });
+                    
+                    trackingMarker.setIcon(customIcon);
+                }
+            } catch (error) {
+                console.error("Error setting tracking mode:", error);
+            }
+        }
+        
+        // Toggle multiplayer mode
+        function toggleTrackingMultiplayer() {
+            try {
+                const toggle = document.getElementById('tracking-multiplayer-toggle');
+                const playerCounter = document.getElementById('tracking-active-players');
+                
+                trackingMultiplayer = toggle.checked;
+                
+                if (trackingMultiplayer) {
+                    playerCounter.classList.remove('hidden');
+                    simulateNearbyPlayers();
+                } else {
+                    playerCounter.classList.add('hidden');
+                    cleanupMultiplayerData();
+                }
+            } catch (error) {
+                console.error("Error toggling multiplayer mode:", error);
+            }
+        }
+        
+        // Simulate nearby players (for demo)
+        function simulateNearbyPlayers() {
+            if (!trackingMap || !trackingLastPosition) return;
+            
+            try {
+                // Clear existing markers
+                Object.values(trackingPlayerMarkers).forEach(marker => {
+                    trackingMap.removeLayer(marker);
+                });
+                trackingPlayerMarkers = {};
+                
+                // Create 1-3 fake players
+                const playerCount = Math.floor(Math.random() * 3) + 1;
+                const activePlayers = document.querySelector('#tracking-active-players span');
+                if (activePlayers) {
+                    activePlayers.textContent = playerCount;
+                }
+                
+                for (let i = 0; i < playerCount; i++) {
+                    // Random position near user
+                    const latOffset = (Math.random() - 0.5) * 0.01; // Roughly 500m radius
+                    const lngOffset = (Math.random() - 0.5) * 0.01;
+                    
+                    const lat = trackingLastPosition.latitude + latOffset;
+                    const lng = trackingLastPosition.longitude + lngOffset;
+                    
+                    // Random username
+                    const names = ['Taylor', 'Jordan', 'Morgan', 'Casey', 'Riley', 'Jamie'];
+                    const name = names[Math.floor(Math.random() * names.length)];
+                    
+                    // Random mode
+                    const mode = Math.random() > 0.5 ? 'Run' : 'Bike';
+                    
+                    // Create marker
+                    const iconHtml = `<div class="w-6 h-6 rounded-full bg-${mode === 'Run' ? 'primary' : 'red-500'} flex items-center justify-center text-white font-bold text-xs">${name.charAt(0)}</div>`;
+                    const customIcon = L.divIcon({
+                        html: iconHtml,
+                        className: '',
+                        iconSize: [24, 24],
+                        iconAnchor: [12, 12]
+                    });
+                    
+                    const marker = L.marker([lat, lng], {
+                        icon: customIcon
+                    }).addTo(trackingMap);
+                    
+                    marker.bindTooltip(`${name} (${mode})`);
+                    
+                    trackingPlayerMarkers[name] = marker;
+                }
+            } catch (error) {
+                console.error("Error simulating nearby players:", error);
+            }
+        }
+        
+        // Update player position (for multiplayer)
+        function updatePlayerPosition(lat, lng) {
+            // In a real implementation, this would send data to a server
+            // For demo purposes, we'll just simulate movement of other players
+            
+            if (!trackingMultiplayer || !trackingMap) return;
+            
+            try {
+                Object.entries(trackingPlayerMarkers).forEach(([name, marker]) => {
+                    // Randomly move slightly
+                    const currentPos = marker.getLatLng();
+                    const latOffset = (Math.random() - 0.5) * 0.0005; // Small movement
+                    const lngOffset = (Math.random() - 0.5) * 0.0005;
+                    
+                    marker.setLatLng([currentPos.lat + latOffset, currentPos.lng + lngOffset]);
+                });
+            } catch (error) {
+                console.error("Error updating player positions:", error);
+            }
+        }
+        
+        // Cleanup multiplayer data
+        function cleanupMultiplayerData() {
+            if (!trackingMap) return;
+            
+            try {
+                // Remove all player markers
+                Object.values(trackingPlayerMarkers).forEach(marker => {
+                    trackingMap.removeLayer(marker);
+                });
+                trackingPlayerMarkers = {};
+            } catch (error) {
+                console.error("Error cleaning up multiplayer data:", error);
+            }
+        }
+        
+        // Toast notification function
+        function showToast(message, type = 'info') {
+            try {
+                // Remove any existing toasts
+                const existingToasts = document.querySelectorAll('.toast-notification');
+                existingToasts.forEach(toast => {
+                    if (document.body.contains(toast)) {
+                        document.body.removeChild(toast);
+                    }
+                });
+                
+                // Create toast element
+                const toast = document.createElement('div');
+                toast.className = 'toast-notification fixed bottom-32 left-1/2 transform -translate-x-1/2 w-5/6 max-w-sm p-4 rounded-lg shadow-lg z-50 flex items-center';
+                
+                // Set background and icon based on type
+                let bgColor, icon;
+                switch(type) {
+                    case 'success':
+                        bgColor = 'bg-green-500 bg-opacity-90';
+                        icon = `<svg class="h-6 w-6 text-white mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>`;
+                        break;
+                    case 'error':
+                        bgColor = 'bg-red-500 bg-opacity-90';
+                        icon = `<svg class="h-6 w-6 text-white mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>`;
+                        break;
+                    default: // info
+                        bgColor = 'bg-primary bg-opacity-90';
+                        icon = `<svg class="h-6 w-6 text-white mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>`;
+                        break;
+                }
+                
+                toast.className += ` ${bgColor}`;
+                toast.innerHTML = `
+                    ${icon}
+                    <span class="text-white">${message}</span>
+                `;
+                
+                // Add to DOM
+                document.body.appendChild(toast);
+                
+                // Animate in
+                setTimeout(() => {
+                    toast.style.opacity = '1';
+                }, 10);
+                
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => {
+                        if (document.body.contains(toast)) {
+                            document.body.removeChild(toast);
+                        }
+                    }, 300);
+                }, 3000);
+            } catch (error) {
+                console.error("Error showing toast:", error);
+            }
+        }
+
+        // Event listeners
+        function setupEventListeners() {
+            // Workout filter tabs
+            document.querySelectorAll('.workout-filter').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.workout-filter').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    renderWorkouts();
+                });
+            });
+            
+            // Calendar navigation
+            document.getElementById('prev-month').addEventListener('click', () => {
+                app.calendar.currentMonth--;
+                if (app.calendar.currentMonth < 0) {
+                    app.calendar.currentMonth = 11;
+                    app.calendar.currentYear--;
+                }
+                renderCalendar();
+            });
+            
+            document.getElementById('next-month').addEventListener('click', () => {
+                app.calendar.currentMonth++;
+                if (app.calendar.currentMonth > 11) {
+                    app.calendar.currentMonth = 0;
+                    app.calendar.currentYear++;
+                }
+                renderCalendar();
+            });
+            
+            // Settings toggles
+            document.querySelectorAll('.settings-toggle').forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const setting = toggle.dataset.setting;
+                    app.user.settings[setting] = !app.user.settings[setting];
+                    toggle.classList.toggle('bg-gray-300');
+                    toggle.classList.toggle('bg-primary');
+                    const dot = toggle.querySelector('span');
+                    dot.classList.toggle('translate-x-5');
+                });
+            });
+            
+            // Add event listeners for modals
+            const trackingCompleteModal = document.getElementById('tracking-complete-modal');
+            if (trackingCompleteModal) {
+                trackingCompleteModal.addEventListener('click', (e) => {
+                    if (e.target === trackingCompleteModal) {
+                        trackingCompleteModal.classList.add('hidden');
+                    }
+                });
+            }
+            
+            // Check if map container is resized
+            window.addEventListener('resize', () => {
+                if (trackingMap) {
+                    setTimeout(() => {
+                        trackingMap.invalidateSize();
+                    }, 100);
+                }
+            });
+        }
+    </script>
+
+    <!-- App Header -->
+    <header class="fixed w-full top-0 z-10 holographic-bg">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold heading-font bg-clip-text text-transparent bg-gradient-to-r from-primary to-neon-cyan">
+                        FixieRun
+                    </h1>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <div class="hidden sm:flex items-center p-1.5 px-2.5 rounded-full bg-dark-card bg-opacity-70">
+                        <span class="text-neon-cyan mr-1.5 text-sm font-medium" id="token-balance">125.75</span>
+                        <svg class="h-4 w-4 text-neon-cyan" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div class="h-8 w-8 bg-gray-200 dark:bg-dark-card rounded-full flex items-center justify-center">
+                        <span class="text-sm font-medium">A</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home Screen -->
+    <main id="home" class="screen active container mx-auto px-4 pt-16 pb-24">
+        <!-- Welcome Banner -->
+        <section class="mt-4 mb-6">
+            <div class="p-4 rounded-xl holographic-bg">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h2 class="text-lg font-semibold">Hey, Alex! 👋</h2>
+                        <p class="text-sm opacity-80">Level 12 · 7 Day Streak</p>
+                    </div>
+                    <div class="flex items-center p-1.5 px-2.5 rounded-full bg-dark-card bg-opacity-70 sm:hidden">
+                        <span class="text-neon-cyan mr-1.5 text-sm font-medium" id="mobile-token-balance">125.75</span>
+                        <svg class="h-4 w-4 text-neon-cyan" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weekly Stats -->
+        <section class="mb-6">
+            <h3 class="text-sm font-medium uppercase opacity-70 mb-3 heading-font">Weekly Stats</h3>
+            <div class="stats-grid">
+                <!-- Distance Card -->
+                <div class="stat-card rounded-lg p-3 flex flex-col items-center animate-float">
+                    <span class="text-xs opacity-70 mb-1">Distance</span>
+                    <div class="flex items-baseline">
+                        <span class="text-2xl font-bold text-neon-cyan" id="weekly-distance">32.5</span>
+                        <span class="text-xs ml-1">km</span>
+                    </div>
+                </div>
+                
+                <!-- Calories Card -->
+                <div class="stat-card rounded-lg p-3 flex flex-col items-center" style="animation-delay: 0.2s">
+                    <span class="text-xs opacity-70 mb-1">Calories</span>
+                    <div class="flex items-baseline">
+                        <span class="text-2xl font-bold text-neon-pink" id="calories-burned">1250</span>
+                        <span class="text-xs ml-1">cal</span>
+                    </div>
+                </div>
+                
+                <!-- Streak Card -->
+                <div class="stat-card rounded-lg p-3 flex flex-col items-center" style="animation-delay: 0.4s">
+                    <span class="text-xs opacity-70 mb-1">Streak</span>
+                    <div class="flex items-baseline">
+                        <span class="text-2xl font-bold text-neon-purple" id="streak-days">7</span>
+                        <span class="text-xs ml-1">days</span>
+                    </div>
+                </div>
+                
+                <!-- Tokens Card -->
+                <div class="stat-card rounded-lg p-3 flex flex-col items-center" style="animation-delay: 0.6s">
+                    <span class="text-xs opacity-70 mb-1">$FIXIE</span>
+                    <div class="flex items-baseline">
+                        <span class="text-2xl font-bold text-neon-green" id="token-display">125.75</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Start Workout Button -->
+        <section class="my-6">
+            <button id="start-activity" onclick="app.currentActivity ? stopActivity() : startActivity()" class="w-full py-4 rounded-lg font-bold text-white heading-font tracking-wider bg-gradient-to-r from-primary to-neon-cyan hover:shadow-lg transform transition hover:-translate-y-0.5 animate-pulse-slow">
+                START WORKOUT
+            </button>
+            
+            <!-- Live tracking stats (hidden initially) -->
+            <div id="live-tracking" class="mt-4 p-3 rounded-lg holographic-bg hidden">
+                <h4 class="text-center text-sm font-medium heading-font mb-2">LIVE TRACKING</h4>
+                <div class="grid grid-cols-3 gap-2 text-center">
+                    <div class="bg-dark-card bg-opacity-50 rounded p-2">
+                        <p class="text-xs opacity-70">Distance</p>
+                        <p class="text-xl font-bold text-neon-cyan"><span id="live-distance">0.00</span> km</p>
+                    </div>
+                    <div class="bg-dark-card bg-opacity-50 rounded p-2">
+                        <p class="text-xs opacity-70">Time</p>
+                        <p class="text-xl font-bold text-white"><span id="live-time">00:00</span></p>
+                    </div>
+                    <div class="bg-dark-card bg-opacity-50 rounded p-2">
+                        <p class="text-xs opacity-70">Calories</p>
+                        <p class="text-xl font-bold text-neon-pink"><span id="live-calories">0</span></p>
+                    </div>
+                </div>
+                <div class="mt-3 text-center">
+                    <button onclick="stopActivity()" class="px-4 py-1.5 rounded-lg text-sm font-medium bg-red-600 text-white">
+                        END WORKOUT
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Activity History -->
+        <section class="mb-6">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-sm font-medium uppercase opacity-70 heading-font">Recent Activities</h3>
+                <a href="#" class="text-xs text-primary">View All</a>
+            </div>
+            <div id="activity-history">
+                <!-- Activity cards will be inserted here dynamically -->
+            </div>
+        </section>
+        
+        <!-- Challenges -->
+        <section class="mb-6">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-sm font-medium uppercase opacity-70 heading-font">Current Challenges</h3>
+                <a href="#" class="text-xs text-primary">View All</a>
+            </div>
+            <div class="p-4 rounded-lg bg-white dark:bg-dark-card">
+                <div id="challenges-container">
+                    <!-- Challenges will be inserted here dynamically -->
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Workouts Screen -->
+    <main id="workouts" class="screen container mx-auto px-4 pt-16 pb-24">
+        <section class="my-4">
+            <h2 class="text-xl font-bold heading-font">Workouts</h2>
+            <p class="text-sm opacity-70">Choose a workout to earn $FIXIE</p>
+        </section>
+        
+        <!-- Calendar -->
+        <section class="mb-6">
+            <div class="p-4 rounded-xl bg-white dark:bg-dark-card">
+                <div class="flex justify-between items-center mb-3">
+                    <button id="prev-month" class="p-1 rounded-full bg-gray-100 dark:bg-dark-surface">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                    </button>
+                    <h3 class="text-base font-medium" id="calendar-month">May 2023</h3>
+                    <button id="next-month" class="p-1 rounded-full bg-gray-100 dark:bg-dark-surface">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div id="calendar-grid" class="grid grid-cols-7 gap-1 text-center">
+                    <!-- Calendar days will be inserted here dynamically -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- Workout Filters -->
+        <section class="mb-4">
+            <div class="flex space-x-2 overflow-x-auto pb-2 no-scrollbar">
+                <button class="workout-filter active px-4 py-1.5 rounded-full bg-primary text-white text-sm whitespace-nowrap" data-type="all">All Workouts</button>
+                <button class="workout-filter px-4 py-1.5 rounded-full bg-gray-200 dark:bg-dark-surface text-sm whitespace-nowrap" data-type="fixie">Fixie Rides</button>
+                <button class="workout-filter px-4 py-1.5 rounded-full bg-gray-200 dark:bg-dark-surface text-sm whitespace-nowrap" data-type="running">Running</button>
+            </div>
+        </section>
+        
+        <!-- Workouts List -->
+        <section>
+            <div id="workouts-container">
+                <!-- Workout cards will be inserted here dynamically -->
+            </div>
+        </section>
+    </main>
+    
+    <!-- Rewards Screen -->
+    <main id="rewards" class="screen container mx-auto px-4 pt-16 pb-24">
+        <section class="my-4">
+            <h2 class="text-xl font-bold heading-font">Rewards</h2>
+            <p class="text-sm opacity-70">Earn &amp; manage your $FIXIE tokens</p>
+        </section>
+        
+        <!-- Token Balance -->
+        <section class="mb-6">
+            <div class="p-5 rounded-xl holographic-bg">
+                <h3 class="text-base opacity-70 mb-1">$FIXIE Balance</h3>
+                <div class="flex items-baseline">
+                    <span class="text-3xl font-bold text-neon-cyan">125.75</span>
+                    <span class="text-sm ml-2 opacity-70">≈ $25.15 USD</span>
+                </div>
+                <div class="mt-4 flex space-x-2">
+                    <button class="flex-1 py-2 rounded-lg text-sm font-medium bg-primary text-white">Deposit</button>
+                    <button class="flex-1 py-2 rounded-lg text-sm font-medium bg-white text-primary dark:bg-dark-card">Withdraw</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- NFT Collection -->
+        <section class="mb-6">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-sm font-medium uppercase opacity-70 heading-font">NFT Collection</h3>
+                <a href="#" class="text-xs text-primary">View All</a>
+            </div>
+            <div id="nfts-container" class="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                <!-- NFT cards will be inserted here dynamically -->
+            </div>
+        </section>
+        
+        <!-- Token History -->
+        <section class="mb-6">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-sm font-medium uppercase opacity-70 heading-font">Transaction History</h3>
+                <a href="#" class="text-xs text-primary">View All</a>
+            </div>
+            <div class="rounded-lg bg-white dark:bg-dark-card overflow-hidden">
+                <div id="token-history">
+                    <!-- Token transactions will be inserted here dynamically -->
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Profile Screen -->
+    <main id="profile" class="screen container mx-auto px-4 pt-16 pb-24">
+        <section class="my-4 text-center">
+            <div class="w-24 h-24 mx-auto rounded-full bg-gray-200 dark:bg-dark-card overflow-hidden mb-3">
+                <img id="profile-image" alt="Profile" class="w-full h-full object-cover">
+            </div>
+            <h2 class="text-xl font-bold" id="profile-name">Alex</h2>
+            <div class="inline-flex items-center bg-primary bg-opacity-20 rounded-full px-3 py-1">
+                <span class="text-primary font-medium mr-1">Lvl</span>
+                <span class="text-primary font-medium" id="profile-level">12</span>
+            </div>
+            
+            <!-- XP Progress -->
+            <div class="mx-auto max-w-xs mt-3">
+                <div class="w-full bg-gray-200 dark:bg-dark-surface rounded-full h-2.5 mb-1">
+                    <div id="profile-xp-bar" class="h-2.5 rounded-full bg-gradient-to-r from-primary to-neon-cyan" style="width: 45%"></div>
+                </div>
+                <p class="text-xs opacity-70" id="profile-xp-text">2450/3000 XP</p>
+            </div>
+        </section>
+        
+        <!-- Stats -->
+        <section class="mb-6">
+            <h3 class="text-sm font-medium uppercase opacity-70 mb-3 heading-font">Statistics</h3>
+            <div class="grid grid-cols-3 gap-3">
+                <div class="stat-card rounded-lg p-3 flex flex-col items-center">
+                    <span class="text-xs opacity-70 mb-1">Weekly</span>
+                    <div class="flex items-baseline">
+                        <span class="text-xl font-bold text-neon-cyan" id="profile-weekly-distance">32.5</span>
+                        <span class="text-xs ml-1">km</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card rounded-lg p-3 flex flex-col items-center">
+                    <span class="text-xs opacity-70 mb-1">Activities</span>
+                    <div class="flex items-baseline">
+                        <span class="text-xl font-bold text-neon-pink" id="profile-total-activities">3</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card rounded-lg p-3 flex flex-col items-center">
+                    <span class="text-xs opacity-70 mb-1">Streak</span>
+                    <div class="flex items-baseline">
+                        <span class="text-xl font-bold text-neon-purple" id="profile-streak">7</span>
+                        <span class="text-xs ml-1">days</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Connected Apps -->
+        <section class="mb-6">
+            <h3 class="text-sm font-medium uppercase opacity-70 mb-3 heading-font">Connected Apps</h3>
+            <div class="rounded-lg bg-white dark:bg-dark-card p-4">
+                <div class="flex items-center justify-between py-3 border-b border-gray-100 dark:border-dark-surface">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 7.77L5.61 18h12.78L12 7.77M12 4L22 20H2L12 4z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-medium">Google Fit</h4>
+                            <p class="text-xs opacity-70" id="google-fit-status">
+                                ${app.googleFit.isConnected ? 
+                                    `Connected · Last sync: ${app.googleFit.lastSync ? new Date(app.googleFit.lastSync).toLocaleString() : 'Never'}` : 
+                                    'Not connected'}
+                            </p>
+                        </div>
+                    </div>
+                    <button id="google-fit-btn" class="text-sm text-white bg-primary px-3 py-1.5 rounded-md" onclick="toggleGoogleFitConnection()">
+                        ${app.googleFit.isConnected ? 'Manage' : 'Connect'}
+                    </button>
+                </div>
+                
+                <!-- Google Fit Settings (only visible when connected) -->
+                <div id="google-fit-settings" class="${app.googleFit.isConnected ? '' : 'hidden'} mt-3 pt-3">
+                    <div class="flex justify-between items-center mb-4">
+                        <h5 class="text-sm font-semibold">Sync Settings</h5>
+                        <button id="sync-now-btn" onclick="syncWithGoogleFit()" class="text-xs bg-primary text-white px-2.5 py-1 rounded-md flex items-center ${app.googleFit.syncInProgress ? 'opacity-50' : ''}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"></path>
+                            </svg>
+                            Sync Now
+                        </button>
+                    </div>
+                    
+                    <!-- Sync Data Types -->
+                    <div class="mb-4">
+                        <h6 class="text-xs opacity-80 mb-2">Sync Data Types</h6>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="sync-steps" class="mr-2 h-4 w-4 text-primary rounded" ${app.googlefit.syncsettings.steps="" ?="" 'checked'="" :="" ''}="" onchange="updateGoogleFitSettings('steps', this.checked)">
+                                <label for="sync-steps" class="text-sm">Steps</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="sync-distance" class="mr-2 h-4 w-4 text-primary rounded" ${app.googlefit.syncsettings.distance="" ?="" 'checked'="" :="" ''}="" onchange="updateGoogleFitSettings('distance', this.checked)">
+                                <label for="sync-distance" class="text-sm">Distance</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="sync-calories" class="mr-2 h-4 w-4 text-primary rounded" ${app.googlefit.syncsettings.calories="" ?="" 'checked'="" :="" ''}="" onchange="updateGoogleFitSettings('calories', this.checked)">
+                                <label for="sync-calories" class="text-sm">Calories</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="sync-heart-rate" class="mr-2 h-4 w-4 text-primary rounded" ${app.googlefit.syncsettings.heartrate="" ?="" 'checked'="" :="" ''}="" onchange="updateGoogleFitSettings('heartRate', this.checked)">
+                                <label for="sync-heart-rate" class="text-sm">Heart Rate</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="sync-activities" class="mr-2 h-4 w-4 text-primary rounded" ${app.googlefit.syncsettings.activities="" ?="" 'checked'="" :="" ''}="" onchange="updateGoogleFitSettings('activities', this.checked)">
+                                <label for="sync-activities" class="text-sm">Activities</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Auto Sync Settings -->
+                    <div class="mb-3">
+                        <div class="flex items-center justify-between mb-2">
+                            <h6 class="text-xs opacity-80">Auto Sync</h6>
+                            <label class="inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="auto-sync" class="sr-only peer" ${app.googlefit.syncsettings.autosync="" ?="" 'checked'="" :="" ''}="" onchange="updateGoogleFitSettings('autoSync', this.checked)">
+                                <div class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                            </label>
+                        </div>
+                        
+                        <div class="${app.googleFit.syncSettings.autoSync ? '' : 'hidden'}" id="sync-frequency-options">
+                            <select id="sync-frequency" onchange="updateGoogleFitSettings('syncFrequency', this.value)" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md dark:bg-dark-surface dark:border-dark-surface">
+                                <option value="realtime" ${app.googlefit.syncsettings.syncfrequency="==" 'realtime'="" ?="" 'selected'="" :="" ''}="">Real-time</option>
+                                <option value="hourly" ${app.googlefit.syncsettings.syncfrequency="==" 'hourly'="" ?="" 'selected'="" :="" ''}="">Hourly</option>
+                                <option value="daily" ${app.googlefit.syncsettings.syncfrequency="==" 'daily'="" ?="" 'selected'="" :="" ''}="">Daily</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-100 dark:border-dark-surface pt-3 mt-3">
+                        <button onclick="disconnectGoogleFit()" class="text-sm text-red-500">Disconnect Google Fit</button>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between py-3 border-b border-gray-100 dark:border-dark-surface">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-medium">Apple Health</h4>
+                            <p class="text-xs opacity-70">Connected · Syncs automatically</p>
+                        </div>
+                    </div>
+                    <button class="text-sm text-primary">Manage</button>
+                </div>
+                
+                <div class="flex items-center justify-between py-3">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-medium">Google Maps</h4>
+                            <p class="text-xs opacity-70">Not connected</p>
+                        </div>
+                    </div>
+                    <button class="text-sm text-primary">Connect</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Settings -->
+        <section class="mb-6">
+            <h3 class="text-sm font-medium uppercase opacity-70 mb-3 heading-font">App Settings</h3>
+            <div class="rounded-lg bg-white dark:bg-dark-card overflow-hidden">
+                <div class="flex items-center justify-between p-4 border-b border-gray-100 dark:border-dark-surface">
+                    <div>
+                        <h4 class="font-medium">Push Notifications</h4>
+                        <p class="text-xs opacity-70">Get alerts for new challenges and rewards</p>
+                    </div>
+                    <button class="settings-toggle bg-primary relative inline-flex items-center h-6 rounded-full w-11" data-setting="notifications">
+                        <span class="translate-x-5 inline-block w-4 h-4 transform bg-white rounded-full transition"></span>
+                    </button>
+                </div>
+                
+                <div class="flex items-center justify-between p-4 border-b border-gray-100 dark:border-dark-surface">
+                    <div>
+                        <h4 class="font-medium">Dark Mode</h4>
+                        <p class="text-xs opacity-70">Turn on dark theme</p>
+                    </div>
+                    <button class="settings-toggle bg-gray-300 relative inline-flex items-center h-6 rounded-full w-11" data-setting="darkMode">
+                        <span class="translate-x-0 inline-block w-4 h-4 transform bg-white rounded-full transition"></span>
+                    </button>
+                </div>
+                
+                <div class="flex items-center justify-between p-4">
+                    <div>
+                        <h4 class="font-medium">Measurement Units</h4>
+                        <p class="text-xs opacity-70">Choose between km or miles</p>
+                    </div>
+                    <select class="bg-gray-100 dark:bg-dark-surface rounded p-1 text-sm">
+                        <option selected="">Kilometers</option>
+                        <option>Miles</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+        
+        <div class="mb-6 text-center">
+            <button class="text-red-500 font-medium">Log Out</button>
+        </div>
+    </main>
+    
+    <!-- Tracking Screen -->
+    <main id="tracking" class="screen container mx-auto px-4 pt-16 pb-24">
+        <section class="my-4">
+            <h2 class="text-xl font-bold heading-font">Track Workout</h2>
+            <p class="text-sm opacity-70">Record your run or bike ride with GPS tracking</p>
+        </section>
+        
+        <!-- Workout Timer -->
+        <section class="mb-4">
+            <div class="bg-white dark:bg-dark-card rounded-lg p-4 text-center">
+                <div class="text-4xl font-mono font-bold mb-1" id="track-timer">00:00:00</div>
+                <p class="text-xs opacity-70">Workout Duration</p>
+            </div>
+        </section>
+        
+        <!-- Workout Mode Selection -->
+        <section class="mb-4">
+            <div class="flex rounded-md overflow-hidden border border-gray-300 dark:border-gray-600">
+                <button id="track-run-mode" class="flex-1 py-2 px-4 bg-primary text-white font-medium text-center" onclick="setTrackingMode('Run')">Run</button>
+                <button id="track-bike-mode" class="flex-1 py-2 px-4 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium text-center" onclick="setTrackingMode('Bike')">Bike</button>
+            </div>
+        </section>
+        
+        <!-- Workout Stats -->
+        <section class="mb-4">
+            <div class="grid grid-cols-3 gap-3">
+                <div class="bg-white dark:bg-dark-card p-3 rounded-lg text-center">
+                    <p class="text-sm opacity-70">Distance</p>
+                    <p id="track-distance" class="text-xl font-bold">0.00 km</p>
+                </div>
+                <div class="bg-white dark:bg-dark-card p-3 rounded-lg text-center">
+                    <p class="text-sm opacity-70">Speed</p>
+                    <p id="track-speed" class="text-xl font-bold">0.0 km/h</p>
+                </div>
+                <div class="bg-white dark:bg-dark-card p-3 rounded-lg text-center">
+                    <p class="text-sm opacity-70">Calories</p>
+                    <p id="track-calories" class="text-xl font-bold">0</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Map Container -->
+        <section class="mb-4">
+            <div class="bg-white dark:bg-dark-card rounded-lg overflow-hidden shadow-md">
+                <div id="tracking-map" class="h-60 w-full">
+                    <!-- Map will be initialized here -->
+                    <div class="map-placeholder">Loading map... Please enable location services for accurate tracking</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Token Reward Progress -->
+        <section class="mb-4">
+            <div class="bg-white dark:bg-dark-card rounded-lg p-3">
+                <div class="flex justify-between items-center mb-1">
+                    <p class="text-sm">$FIXIE Token Progress</p>
+                    <p class="text-sm"><span id="track-tokens">0</span> tokens earned</p>
+                </div>
+                <div class="w-full bg-gray-200 dark:bg-dark-surface rounded-full h-2.5">
+                    <div id="track-token-progress" class="h-2.5 rounded-full bg-gradient-to-r from-primary to-neon-cyan" style="width: 0%"></div>
+                </div>
+                <p class="text-xs opacity-70 mt-1">Next token at <span id="track-next-milestone">1.0</span> km</p>
+            </div>
+        </section>
+        
+        <!-- Multiplayer Toggle -->
+        <section class="mb-4">
+            <div class="bg-white dark:bg-dark-card rounded-lg p-3">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium">Multiplayer Mode</p>
+                        <p class="text-xs opacity-70">See other runners in your area</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="tracking-multiplayer-toggle" class="sr-only peer" onchange="toggleTrackingMultiplayer()">
+                        <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-500 peer-checked:bg-primary"></div>
+                    </label>
+                </div>
+                <p id="tracking-active-players" class="text-xs text-center mt-2 hidden">Active players nearby: <span>0</span></p>
+            </div>
+        </section>
+        
+        <!-- Control Buttons -->
+        <section>
+            <div class="flex space-x-3">
+                <button id="tracking-start-btn" onclick="startTracking()" class="flex-1 py-3 bg-primary text-white font-bold rounded-lg">
+                    START
+                </button>
+                <button id="tracking-stop-btn" onclick="stopTracking()" class="flex-1 py-3 bg-red-500 text-white font-bold rounded-lg hidden">
+                    STOP
+                </button>
+                <button id="tracking-pause-btn" onclick="pauseTracking()" class="flex-none w-14 py-3 bg-yellow-500 text-white font-bold rounded-lg hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Workout Complete Modal -->
+    <div id="tracking-complete-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
+        <div class="bg-white dark:bg-dark-card rounded-lg shadow-xl p-5 z-10 max-w-md w-full mx-4">
+            <div class="text-center mb-4">
+                <div class="rounded-full bg-green-100 dark:bg-green-900 p-3 inline-flex mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold">Workout Complete!</h3>
+                <p class="text-sm opacity-70 mt-1">Great job on finishing your workout</p>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="bg-gray-100 dark:bg-dark-surface p-3 rounded-lg text-center">
+                    <p class="text-xs opacity-70">Distance</p>
+                    <p id="summary-distance" class="text-lg font-bold">0.00 km</p>
+                </div>
+                <div class="bg-gray-100 dark:bg-dark-surface p-3 rounded-lg text-center">
+                    <p class="text-xs opacity-70">Duration</p>
+                    <p id="summary-duration" class="text-lg font-bold">00:00:00</p>
+                </div>
+                <div class="bg-gray-100 dark:bg-dark-surface p-3 rounded-lg text-center">
+                    <p class="text-xs opacity-70">Calories</p>
+                    <p id="summary-calories" class="text-lg font-bold">0</p>
+                </div>
+                <div class="bg-gray-100 dark:bg-dark-surface p-3 rounded-lg text-center">
+                    <p class="text-xs opacity-70">Avg. Speed</p>
+                    <p id="summary-speed" class="text-lg font-bold">0.0 km/h</p>
+                </div>
+            </div>
+            
+            <div class="bg-primary bg-opacity-10 dark:bg-opacity-20 p-3 rounded-lg text-center mb-4">
+                <p class="text-sm opacity-80">Tokens Earned</p>
+                <p id="summary-tokens" class="text-3xl font-bold text-primary">0 $FIXIE</p>
+            </div>
+            
+            <div class="flex mb-4">
+                <label for="workout-name" class="sr-only">Workout Name</label>
+                <input type="text" id="workout-name" placeholder="Enter workout name" class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-md dark:bg-dark-surface text-base">
+            </div>
+            
+            <div class="flex space-x-3">
+                <button id="sync-with-googlefit-btn" onclick="syncWorkoutWithGoogleFit()" class="flex items-center justify-center bg-blue-500 text-white py-2 px-4 rounded-md text-sm font-medium flex-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 7.77L5.61 18h12.78L12 7.77M12 4L22 20H2L12 4z"></path>
+                    </svg>
+                    Sync with Google Fit
+                </button>
+                <button id="save-workout-btn" onclick="saveWorkout()" class="bg-primary text-white py-2 px-4 rounded-md text-sm font-medium flex-1">
+                    Save Workout
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast for activity completion -->
+    <div id="completion-toast" class="fixed bottom-24 left-1/2 transform -translate-x-1/2 w-5/6 max-w-sm bg-dark-surface p-4 rounded-lg shadow-lg border border-neon-cyan hidden z-30">
+        <div class="flex items-center">
+            <div class="bg-green-500 bg-opacity-20 rounded-full p-2 mr-3">
+                <svg class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <div>
+                <h4 class="font-medium">Workout Completed!</h4>
+                <p class="text-sm opacity-80">You earned <span id="earned-tokens" class="text-neon-cyan font-medium">0</span> $FIXIE tokens</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast for level up -->
+    <div id="level-up-toast" class="fixed bottom-24 left-1/2 transform -translate-x-1/2 w-5/6 max-w-sm bg-dark-surface p-4 rounded-lg shadow-lg border border-neon-purple hidden z-30">
+        <div class="flex items-center">
+            <div class="bg-purple-500 bg-opacity-20 rounded-full p-2 mr-3">
+                <svg class="h-6 w-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+            </div>
+            <div>
+                <h4 class="font-medium">Level Up!</h4>
+                <p class="text-sm opacity-80">You've reached level <span id="new-level" class="text-neon-purple font-medium">0</span></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 w-full bg-white dark:bg-dark-bg border-t border-gray-200 dark:border-dark-surface z-20">
+        <div class="grid grid-cols-5 h-16">
+            <a href="#" id="nav-home" class="nav-item flex flex-col items-center justify-center text-primary" onclick="switchScreen('home'); return false;">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                <span class="text-xs mt-1">Home</span>
+            </a>
+            <a href="#" id="nav-workouts" class="nav-item flex flex-col items-center justify-center text-gray-500 dark:text-gray-400" onclick="switchScreen('workouts'); return false;">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+                <span class="text-xs mt-1">Workouts</span>
+            </a>
+            <a href="#" id="nav-tracking" class="nav-item flex flex-col items-center justify-center text-gray-500 dark:text-gray-400" onclick="switchScreen('tracking'); return false;">
+                <div class="rounded-full bg-primary p-2 -mt-5 shadow-lg">
+                    <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                </div>
+                <span class="text-xs mt-1">Track</span>
+            </a>
+            <a href="#" id="nav-rewards" class="nav-item flex flex-col items-center justify-center text-gray-500 dark:text-gray-400" onclick="switchScreen('rewards'); return false;">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="text-xs mt-1">Rewards</span>
+            </a>
+            <a href="#" id="nav-profile" class="nav-item flex flex-col items-center justify-center text-gray-500 dark:text-gray-400" onclick="switchScreen('profile'); return false;">
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                <span class="text-xs mt-1">Profile</span>
+            </a>
+        </div>
+    </nav>
+    
+    <script>
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate profile image
+            const profileImage = generateProfileImage();
+            app.user.profileImage = profileImage;
+            
+            if (document.getElementById('profile-image')) {
+                document.getElementById('profile-image').src = profileImage;
+            }
+            
+            // Initialize UI components
+            updateHomeStats();
+            updateActivityHistory();
+            updateTokenHistory();
+            renderWorkouts();
+            renderCalendar();
+            renderNFTs();
+            updateProfileStats();
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Check if Leaflet is loaded
+            if (typeof L !== 'undefined') {
+                console.log('Leaflet map library loaded successfully');
+            } else {
+                console.error('Leaflet map library not loaded');
+                showToast('Map library could not be loaded. Some features may be limited.', 'error');
+            }
+        });
+    </script>
+
+
+</body></html>

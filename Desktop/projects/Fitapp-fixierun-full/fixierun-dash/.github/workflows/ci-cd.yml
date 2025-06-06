@@ -1,0 +1,140 @@
+name: Fixie.Run CI/CD
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run linter
+        run: npm run lint
+        
+      - name: Run tests
+        run: npm test
+        
+  build:
+    name: Build
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build application
+        run: npm run build
+        
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-output
+          path: .next
+          
+  deploy-staging:
+    name: Deploy to Staging
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/dev'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-output
+          path: .next
+          
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+        
+      - name: Deploy to Vercel (Staging)
+        run: vercel deploy --token ${{ secrets.VERCEL_TOKEN }} --env NODE_ENV=staging
+        
+      - name: Run database migrations
+        run: |
+          npm install @neondatabase/serverless
+          node -e "
+            const { neon } = require('@neondatabase/serverless');
+            const sql = neon('${{ secrets.DATABASE_URL_STAGING }}');
+            sql\`SELECT 1\`.then(() => console.log('Database connected'));
+          "
+          bash scripts/deploy-database.sh staging
+          
+  deploy-production:
+    name: Deploy to Production
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-output
+          path: .next
+          
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+        
+      - name: Deploy to Vercel (Production)
+        run: vercel deploy --token ${{ secrets.VERCEL_TOKEN }} --prod --env NODE_ENV=production
+        
+      - name: Run database migrations
+        run: |
+          npm install @neondatabase/serverless
+          node -e "
+            const { neon } = require('@neondatabase/serverless');
+            const sql = neon('${{ secrets.DATABASE_URL_PRODUCTION }}');
+            sql\`SELECT 1\`.then(() => console.log('Database connected'));
+          "
+          bash scripts/deploy-database.sh production
+          
+      - name: Send deployment notification
+        if: success()
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text":"🚀 *Fixie.Run déployé en production*\n\n• Commit: `${{ github.sha }}`\n• Déployé par: GitHub Actions\n• Date: $(date -u)"}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}

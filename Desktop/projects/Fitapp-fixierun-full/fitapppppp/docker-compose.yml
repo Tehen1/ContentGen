@@ -1,0 +1,114 @@
+version: '3.8'
+
+services:
+  # Backend microservices
+  activity-tracking-service:
+    build:
+      context: ./backend/services/activity-tracking
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/fixie_activity
+    depends_on:
+      - postgres
+      - redis
+
+  rewards-service:
+    build:
+      context: ./backend/services/rewards
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/fixie_rewards
+      - BLOCKCHAIN_NODE_URL=http://blockchain-node:8545
+    depends_on:
+      - postgres
+      - blockchain-node
+
+  analytics-service:
+    build:
+      context: ./backend/services/analytics
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/fixie_analytics
+      - MONGODB_URL=mongodb://mongo:27017/fixie_analytics
+    depends_on:
+      - postgres
+      - mongo
+
+  challenges-service:
+    build:
+      context: ./backend/services/challenges
+    ports:
+      - "3004:3004"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/fixie_challenges
+    depends_on:
+      - postgres
+      - redis
+
+  nft-management-service:
+    build:
+      context: ./backend/services/nft-management
+    ports:
+      - "3005:3005"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/fixie_nft
+      - BLOCKCHAIN_NODE_URL=http://blockchain-node:8545
+    depends_on:
+      - postgres
+      - blockchain-node
+
+  # Frontend web app
+  web-app:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+  # Databases
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infrastructure/postgres/init:/docker-entrypoint-initdb.d
+
+  mongo:
+    image: mongo:5
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  # Caching and real-time updates
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  # Local blockchain node for development
+  blockchain-node:
+    image: trufflesuite/ganache-cli:latest
+    ports:
+      - "8545:8545"
+    command: --deterministic --mnemonic "fitness blockchain rewards application token fixie web3 integration"
+
+volumes:
+  postgres_data:
+  mongo_data:

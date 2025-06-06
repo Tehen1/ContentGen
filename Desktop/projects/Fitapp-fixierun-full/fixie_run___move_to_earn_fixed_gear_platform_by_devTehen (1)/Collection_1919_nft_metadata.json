@@ -1,0 +1,19 @@
+{
+  "name": "Collection_1919",
+  "description": "NFT généré à partir de Collection_1919.jpg",
+  "image": "Collection_1919_nft.png",
+  "attributes": [
+    {
+      "trait_type": "Width",
+      "value": 2048
+    },
+    {
+      "trait_type": "Height",
+      "value": 2048
+    },
+    {
+      "trait_type": "Format",
+      "value": "PNG"
+    }
+  ]
+}

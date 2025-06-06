@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixie.RUN - Move-to-Earn Cycling Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>🚴 Fixie.RUN</h1>
+            </div>
+            <div class="nav-menu">
+                <button class="nav-btn active" data-section="home">Accueil</button>
+                <button class="nav-btn" data-section="dashboard">Dashboard</button>
+                <button class="nav-btn" data-section="simulator">Simulateur</button>
+                <button class="nav-btn" data-section="marketplace">Marketplace</button>
+                <button class="nav-btn" data-section="defi">DeFi</button>
+                <button class="nav-btn" data-section="analytics">Analytics</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="section active">
+        <div class="container">
+            <div class="hero">
+                <h1>Pédalez, Gagnez, Évoluez</h1>
+                <p class="hero-subtitle">La première plateforme Move-to-Earn dédiée aux cyclistes. Transformez vos trajets quotidiens en revenus crypto.</p>
+                <button class="btn btn--primary btn--lg" id="startBtn">Commencer à Pédaler</button>
+            </div>
+            
+            <div class="market-stats">
+                <h2>Statistiques du Marché M2E</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>125,000</h3>
+                        <p>Cyclistes Actifs</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>2.8M FIX</h3>
+                        <p>Tokens Distribués</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>22.5 FIX</h3>
+                        <p>Récompense Quotidienne Moyenne</p>
+                    </div>
+                </div>
+                
+                <div class="market-charts">
+                    <div class="chart-container">
+                        <h3>Parts de Marché Move-to-Earn</h3>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1748650847/pplx_code_interpreter/66f35da6_mw0u1t.jpg" alt="Market Share Chart" class="chart-img">
+                    </div>
+                    <div class="chart-container">
+                        <h3>Croissance du Marché Fitness & Web3</h3>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1748650894/pplx_code_interpreter/db1f065b_zo3qom.jpg" alt="Growth Chart" class="chart-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="section">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Dashboard Personnel</h1>
+                <div class="user-level">
+                    <span class="level-badge">Niveau 12</span>
+                    <div class="streak">🔥 15 jours consécutifs</div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- User Profile -->
+                <div class="card profile-card">
+                    <div class="card__header">
+                        <h3>👤 Alex Cycliste</h3>
+                    </div>
+                    <div class="card__body">
+                        <div class="wallet">
+                            <div class="balance">
+                                <span class="token-amount">1,247.5</span>
+                                <span class="token-symbol">FIX</span>
+                            </div>
+                            <div class="balance">
+                                <span class="token-amount">23</span>
+                                <span class="token-symbol">PEDAL</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Stats -->
+                <div class="card stats-card">
+                    <div class="card__header">
+                        <h3>📊 Statistiques d'Activité</h3>
+                    </div>
+                    <div class="card__body">
+                        <div class="activity-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">2,847.3</span>
+                                <span class="stat-label">km parcourus</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">89,420</span>
+                                <span class="stat-label">calories brûlées</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">87</span>
+                                <span class="stat-label">jours actifs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NFT Bikes Collection -->
+                <div class="card bikes-card">
+                    <div class="card__header">
+                        <h3>🚲 Mes Vélos NFT</h3>
+                    </div>
+                    <div class="card__body">
+                        <div class="bikes-collection" id="bikesCollection">
+                            <!-- Bikes will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Challenges -->
+                <div class="card challenges-card">
+                    <div class="card__header">
+                        <h3>🎯 Défis Actifs</h3>
+                    </div>
+                    <div class="card__body">
+                        <div class="challenges-list" id="challengesList">
+                            <!-- Challenges will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simulator Section -->
+    <section id="simulator" class="section">
+        <div class="container">
+            <h1>🚴‍♂️ Simulateur de Vélo</h1>
+            
+            <div class="simulator-grid">
+                <div class="card simulator-card">
+                    <div class="card__header">
+                        <h3>Session Active</h3>
+                        <div class="session-status" id="sessionStatus">
+                            <span class="status status--info">Prêt à commencer</span>
+                        </div>
+                    </div>
+                    <div class="card__body">
+                        <div class="session-controls">
+                            <button class="btn btn--primary btn--lg" id="startSessionBtn">Démarrer Session</button>
+                            <button class="btn btn--secondary" id="pauseSessionBtn" disabled>Pause</button>
+                            <button class="btn btn--outline" id="stopSessionBtn" disabled>Arrêter</button>
+                        </div>
+                        
+                        <div class="session-metrics">
+                            <div class="metric">
+                                <span class="metric-value" id="currentSpeed">0.0</span>
+                                <span class="metric-unit">km/h</span>
+                                <span class="metric-label">Vitesse</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value" id="sessionDistance">0.00</span>
+                                <span class="metric-unit">km</span>
+                                <span class="metric-label">Distance</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value" id="sessionTime">00:00</span>
+                                <span class="metric-unit">min</span>
+                                <span class="metric-label">Temps</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value" id="tokensEarned">0.0</span>
+                                <span class="metric-unit">FIX</span>
+                                <span class="metric-label">Tokens Gagnés</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bike-evolution-card">
+                    <div class="card__header">
+                        <h3>Évolution du Vélo</h3>
+                    </div>
+                    <div class="card__body">
+                        <div class="selected-bike" id="selectedBike">
+                            <!-- Selected bike info will be populated by JS -->
+                        </div>
+                        <div class="evolution-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="evolutionProgress" style="width: 65%"></div>
+                            </div>
+                            <span class="progress-text">65% vers niveau 16</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marketplace Section -->
+    <section id="marketplace" class="section">
+        <div class="container">
+            <h1>🏪 Marketplace NFT</h1>
+            
+            <div class="marketplace-filters">
+                <button class="filter-btn active" data-rarity="all">Tous</button>
+                <button class="filter-btn" data-rarity="Common">Commun</button>
+                <button class="filter-btn" data-rarity="Rare">Rare</button>
+                <button class="filter-btn" data-rarity="Epic">Épique</button>
+                <button class="filter-btn" data-rarity="Legendary">Légendaire</button>
+            </div>
+
+            <div class="marketplace-grid" id="marketplaceGrid">
+                <!-- Marketplace items will be populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- DeFi Section -->
+    <section id="defi" class="section">
+        <div class="container">
+            <h1>💰 DeFi & Staking</h1>
+            
+            <div class="defi-grid">
+                <div class="card staking-card">
+                    <div class="card__header">
+                        <h3>🔒 Pools de Staking</h3>
+                    </div>
+                    <div class="card__body">
+                        <div class="staking-pools" id="stakingPools">
+                            <!-- Staking pools will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card rewards-card">
+                    <div class="card__header">
+                        <h3>💎 Récompenses Accumulées</h3>
+                    </div>
+                    <div class="card__body">
+                        <div class="pending-rewards">
+                            <div class="reward-item">
+                                <span class="reward-amount">12.5 FIX</span>
+                                <span class="reward-source">Pool FIX (7 jours)</span>
+                            </div>
+                            <div class="reward-item">
+                                <span class="reward-amount">2.8 PEDAL</span>
+                                <span class="reward-source">Pool Governance (15 jours)</span>
+                            </div>
+                            <button class="btn btn--primary btn--full-width">Réclamer Tout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics Section -->
+    <section id="analytics" class="section">
+        <div class="container">
+            <h1>📈 Analytics</h1>
+            
+            <div class="analytics-grid">
+                <div class="card chart-card">
+                    <div class="card__header">
+                        <h3>Progression Personnelle</h3>
+                    </div>
+                    <div class="card__body">
+                        <canvas id="progressChart" height="300"></canvas>
+                    </div>
+                </div>
+
+                <div class="card leaderboard-card">
+                    <div class="card__header">
+                        <h3>🏆 Classement Hebdomadaire</h3>
+                    </div>
+                    <div class="card__body">
+                        <div class="leaderboard" id="leaderboard">
+                            <!-- Leaderboard will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card platform-stats-card">
+                    <div class="card__header">
+                        <h3>Statistiques Globales</h3>
+                    </div>
+                    <div class="card__body">
+                        <div class="global-stats">
+                            <div class="global-stat">
+                                <span class="stat-number">125,000</span>
+                                <span class="stat-desc">Utilisateurs Actifs</span>
+                            </div>
+                            <div class="global-stat">
+                                <span class="stat-number">15.6M</span>
+                                <span class="stat-desc">FIX Stakés</span>
+                            </div>
+                            <div class="global-stat">
+                                <span class="stat-number">2.4M</span>
+                                <span class="stat-desc">PEDAL en Circulation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+</html>

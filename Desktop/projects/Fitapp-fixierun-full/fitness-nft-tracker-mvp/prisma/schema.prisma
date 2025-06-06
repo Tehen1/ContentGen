@@ -1,0 +1,71 @@
+generator client {
+provider = "prisma-client-js"
+}
+
+datasource db {
+provider = "postgresql"
+url      = env("DATABASE_URL")
+}
+
+model User {
+id            String           @id @default(cuid())
+email         String           @unique
+password      String
+name          String?
+cryptoBalance Float            @default(0)
+profileImage  String?
+isActive      Boolean          @default(true)
+lastLoginAt   DateTime?
+workouts      WorkoutSession[]
+nftTokens     NFTToken[]
+createdAt     DateTime         @default(now())
+updatedAt     DateTime         @updatedAt
+
+@@index([email])
+}
+
+model WorkoutSession {
+id           String      @id @default(cuid())
+userId       String
+user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+type         String      // e.g., "RUN", "WALK", "BIKE"
+distance     Float       // in kilometers
+duration     Int         // in seconds
+cryptoEarned Float      @default(0)
+startTime    DateTime
+endTime      DateTime
+pace         Float?      // average pace
+calories     Int?        // estimated calories burned
+description  String?
+intensity    String?     // "LOW", "MEDIUM", "HIGH"
+heartRate    Json?       // Store heart rate data points
+nftMinted    Boolean     @default(false)
+nftToken     NFTToken?
+createdAt    DateTime    @default(now())
+updatedAt    DateTime    @updatedAt
+
+@@index([userId])
+@@index([createdAt])
+@@index([type])
+@@index([startTime])
+}
+
+model NFTToken {
+id              String         @id @default(cuid())
+tokenId         String         // NFT token ID on the blockchain
+contractAddress String         // NFT contract address
+metadata        Json           // NFT metadata (IPFS hash, attributes, etc.)
+mintedAt        DateTime       @default(now())
+userId          String
+user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+workoutId       String         @unique
+workout         WorkoutSession @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+transactionHash String?        // Ethereum transaction hash
+ipfsHash        String?        // IPFS hash of NFT metadata
+status          String         @default("PENDING") // "PENDING", "MINTED", "FAILED"
+
+@@index([userId])
+@@index([tokenId])
+@@index([status])
+}
+

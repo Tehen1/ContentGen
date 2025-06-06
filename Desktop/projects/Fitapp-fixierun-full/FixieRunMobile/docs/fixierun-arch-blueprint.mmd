@@ -1,0 +1,23 @@
+flowchart TD
+    A[Utilisateur sur mobile] -- OAuth (Health Connect) --> B[App mobile]
+    B -- Données Health Connect chiffrées avec libsodium --> C[Supabase Function]
+    C -- validation/vérification/éventuel déchiffrement --> D[Supabase DB (Vault)]
+    C -- Appel sécurisé Viem -- Metamask non exposé côté client --> E[Smart Contract FixieRun sur blockchain]
+    E -- Transaction hash --> D
+    D -- Référence transaction + log audit --> F[Log d’audit chiffré]
+    style B fill:#E4F5FF
+    style C fill:#FFE9E1
+    style E fill:#F3FFCD
+    style F fill:#DFFFB3
+    subgraph Sécurité
+        D
+        F
+    end
+    subgraph Web2
+        C
+        D
+        F
+    end
+    subgraph Blockchain
+        E
+    end

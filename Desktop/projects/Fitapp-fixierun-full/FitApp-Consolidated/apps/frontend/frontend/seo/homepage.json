@@ -1,0 +1,81 @@
+{
+  "title": "FixieRun - Web3 Fitness App That Rewards Your Workouts",
+  "longTitle": "FixieRun - Track Workouts & Earn Crypto Rewards with Web3 Fitness",
+  "description": "Transform your fitness journey with FixieRun - the Web3 fitness app that rewards your workouts with crypto tokens. Track rides, join challenges & build your NFT collection.",
+  "shortDescription": "Earn crypto rewards for your workouts with the FixieRun Web3 fitness app",
+  "keywords": [
+    "fitness tracking",
+    "blockchain rewards",
+    "workout NFTs",
+    "fixed gear community",
+    "cycling app",
+    "fitness tokens",
+    "bike tracking",
+    "earn while exercising",
+    "crypto fitness",
+    "web3 workout",
+    "fitness blockchain",
+    "cycling rewards"
+  ],
+  "features": [
+    {
+      "name": "Track Workouts",
+      "description": "GPS tracking for runs, rides, and other activities with detailed metrics."
+    },
+    {
+      "name": "Earn Tokens",
+      "description": "Get rewarded with crypto tokens for completing workouts and challenges."
+    },
+    {
+      "name": "Join Challenges",
+      "description": "Compete in community challenges and earn special NFT rewards."
+    },
+    {
+      "name": "Collect NFTs",
+      "description": "Build a collection of unique NFTs representing your fitness achievements."
+    },
+    {
+      "name": "Connect Devices",
+      "description": "Sync with your favorite fitness trackers and wearables."
+    }
+  ],
+  "heroSection": {
+    "heading": "Revolutionize Your Fitness Journey",
+    "subheading": "Track. Earn. Compete. Collect.",
+    "cta": "Start Earning Rewards"
+  },
+  "testimonials": [
+    {
+      "quote": "FixieRun transformed how I think about fitness. I'm motivated to work out knowing I'm earning tokens each time.",
+      "author": "Sarah J.",
+      "location": "San Francisco, CA"
+    },
+    {
+      "quote": "As a fixed gear enthusiast, this app is perfect. I track my daily commute and weekend rides while earning crypto.",
+      "author": "Mike T.",
+      "location": "Brooklyn, NY"
+    }
+  ],
+  "socialProof": {
+    "users": "10,000+",
+    "workouts": "250,000+",
+    "tokensAwarded": "1,000,000+"
+  },
+  "structuredData": {
+    "faqItems": [
+      {
+        "question": "How do I earn tokens on FixieRun?",
+        "answer": "You earn tokens by completing workouts, participating in challenges, and reaching fitness milestones. The amount earned depends on duration, intensity, and consistency."
+      },
+      {
+        "question": "What can I do with my earned tokens?",
+        "answer": "Tokens can be used to purchase NFTs, enter premium challenges, unlock exclusive features, or converted to other cryptocurrencies."
+      },
+      {
+        "question": "Do I need cryptocurrency knowledge to use FixieRun?",
+        "answer": "Not at all! FixieRun is designed to be user-friendly for everyone, with or without crypto experience. The app handles all the technical aspects for you."
+      }
+    ]
+  }
+}
+

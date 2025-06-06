@@ -1,0 +1,20 @@
+graph TD
+    A[User] --> B[Frontend (Next.js)]
+    B --> C[API Gateway (FastAPI)]
+    C -->|Auth| D[User Auth]
+    C -->|Data| E[Activity Tracking]
+    C -->|NFT| F[NFT Manager]
+    C -->|Analytics| G[Analytics Service]
+    
+    H[Mobile (Flutter)] --> C
+    I[Blockchain] --> F
+    
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#bfb,stroke:#333,stroke-width:2px
+    style D fill:#fbb,stroke:#333,stroke-width:2px
+    style E fill:#fbb,stroke:#333,stroke-width:2px
+    style F fill:#fbb,stroke:#333,stroke-width:2px
+    style G fill:#fbb,stroke:#333,stroke-width:2px
+    style H fill:#bbf,stroke:#333,stroke-width:2px
+    style I fill:#bbb,stroke:#333,stroke-width:2px

@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # Next.js application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=${DATABASE_URL}
+      - NEXT_PUBLIC_CHAIN_ID=${NEXT_PUBLIC_CHAIN_ID:-1101}
+      - NEXT_PUBLIC_ZKEVM_RPC_URL=${NEXT_PUBLIC_ZKEVM_RPC_URL}
+      - NEXT_PUBLIC_RHYMECHAIN_NFT_ADDRESS=${NEXT_PUBLIC_RHYMECHAIN_NFT_ADDRESS}
+      - NEXT_PUBLIC_RHYMECHAIN_MARKETPLACE_ADDRESS=${NEXT_PUBLIC_RHYMECHAIN_MARKETPLACE_ADDRESS}
+      - NEXT_PUBLIC_RHYMECHAIN_BATTLE_ADDRESS=${NEXT_PUBLIC_RHYMECHAIN_BATTLE_ADDRESS}
+    depends_on:
+      - postgres
+    networks:
+      - fixierun-network
+
+  # PostgreSQL database for local development
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=fixierun
+      - POSTGRES_PASSWORD=fixierun
+      - POSTGRES_DB=fixierun
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - fixierun-network
+
+  # pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "5050:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@fixierun.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - fixierun-network
+
+networks:
+  fixierun-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  pgadmin-data:

@@ -1,0 +1,55 @@
+
+> fittrack-zkevm@0.1.0 dev
+> next dev --turbopack
+
+   ▲ Next.js 15.2.0 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.2:3000
+   - Environments: .env
+
+ ✓ Starting...
+   skipping / (conflict)
+ ✓ Ready in 874ms
+ ○ Compiling /_not-found/page ...
+ ✓ Compiled /_not-found/page in 1122ms
+ ✓ Compiled /_error in 448ms
+ HEAD / 500 in 1676ms
+ GET / 500 in 31ms
+[1m[31mFATAL[39m[0m: An unexpected Turbopack error occurred. Please report the content of /var/folders/5k/zkg0vd8x5y9gnt6htls210tm0000gn/T/next-panic-5cbf5de3e96bdfb665a9483475fb4310.log, along with a description of what you were doing when the error occurred, to https://github.com/vercel/next.js/issues/new?template=1.bug_report.yml
+[Error: ENOENT: no such file or directory, scandir '/Users/devtehen/fittrack-zkevm/app'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'scandir',
+  path: '/Users/devtehen/fittrack-zkevm/app'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, scandir '/Users/devtehen/fittrack-zkevm/app'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'scandir',
+  path: '/Users/devtehen/fittrack-zkevm/app'
+}
+ ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, scandir '/Users/devtehen/fittrack-zkevm/app'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'scandir',
+  path: '/Users/devtehen/fittrack-zkevm/app'
+}
+[Error: ENOENT: no such file or directory, scandir '/Users/devtehen/fittrack-zkevm/app'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'scandir',
+  path: '/Users/devtehen/fittrack-zkevm/app'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, scandir '/Users/devtehen/fittrack-zkevm/app'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'scandir',
+  path: '/Users/devtehen/fittrack-zkevm/app'
+}
+ ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, scandir '/Users/devtehen/fittrack-zkevm/app'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'scandir',
+  path: '/Users/devtehen/fittrack-zkevm/app'
+}
+[?25h

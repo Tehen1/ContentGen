@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./packages/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - BACKEND_URL=http://backend:4000
+    depends_on:
+      - backend
+    networks:
+      - fixierun-network
+
+  backend:
+    build:
+      context: ./packages/backend
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - ANALYZER_URL=http://analyzer:5000
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - analyzer
+      - database
+    networks:
+      - fixierun-network
+
+  analyzer:
+    build:
+      context: ./packages/analyzer
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - analyzer-data:/app/data
+      - analyzer-visualizations:/app/visualizations
+    networks:
+      - fixierun-network
+
+  database:
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - fixierun-network
+
+networks:
+  fixierun-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  analyzer-data:
+  analyzer-visualizations:

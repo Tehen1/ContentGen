@@ -1,0 +1,230 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Project Tracking JSON-LD Schema",
+  "description": "Schema for validating project tracking data in JSON-LD format",
+  "type": "object",
+  "required": ["@context", "@type", "@id"],
+  "properties": {
+    "@context": {
+      "description": "The JSON-LD context that maps terms to IRIs",
+      "oneOf": [
+        { "type": "string" },
+        { "type": "object" },
+        { "type": "array", "items": { "anyOf": [{ "type": "string" }, { "type": "object" }] } }
+      ]
+    },
+    "@type": {
+      "description": "The type of the resource",
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "@id": {
+      "description": "The identifier of the resource",
+      "type": "string",
+      "format": "uri"
+    },
+    "name": {
+      "description": "The name of the project",
+      "type": "string"
+    },
+    "description": {
+      "description": "A description of the project",
+      "type": "string"
+    },
+    "status": {
+      "description": "The current status of the project",
+      "type": "string",
+      "enum": ["Not Started", "In Progress", "Completed", "On Hold", "Cancelled"]
+    },
+    "priority": {
+      "description": "The priority level of the project",
+      "type": "string",
+      "enum": ["Low", "Medium", "High", "Critical"]
+    },
+    "owner": {
+      "description": "The person or organization that owns the project",
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "properties": {
+            "@type": { "type": "string" },
+            "@id": { "type": "string" },
+            "name": { "type": "string" }
+          }
+        }
+      ]
+    },
+    "team": {
+      "description": "The team working on the project",
+      "type": "array",
+      "items": {
+        "oneOf": [
+          { "type": "string" },
+          {
+            "type": "object",
+            "properties": {
+              "@type": { "type": "string" },
+              "@id": { "type": "string" },
+              "name": { "type": "string" },
+              "role": { "type": "string" }
+            }
+          }
+        ]
+      }
+    },
+    "start_date": {
+      "description": "The date when the project started",
+      "type": "string",
+      "format": "date-time"
+    },
+    "due_date": {
+      "description": "The date when the project is due",
+      "type": "string",
+      "format": "date-time"
+    },
+    "completion_date": {
+      "description": "The date when the project was completed",
+      "type": "string",
+      "format": "date-time"
+    },
+    "budget": {
+      "description": "The project budget",
+      "type": "number",
+      "minimum": 0
+    },
+    "is_active": {
+      "description": "Indicates if the project is currently active",
+      "type": "boolean"
+    },
+    "tags": {
+      "description": "Tags associated with the project",
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "tasks": {
+      "description": "Tasks associated with the project",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "@type": { "type": "string" },
+          "@id": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "status": { 
+            "type": "string",
+            "enum": ["Not Started", "In Progress", "Completed", "On Hold", "Cancelled"]
+          },
+          "assignee": {
+            "oneOf": [
+              { "type": "string" },
+              {
+                "type": "object",
+                "properties": {
+                  "@type": { "type": "string" },
+                  "@id": { "type": "string" },
+                  "name": { "type": "string" }
+                }
+              }
+            ]
+          },
+          "start_date": { "type": "string", "format": "date-time" },
+          "due_date": { "type": "string", "format": "date-time" },
+          "completion_date": { "type": "string", "format": "date-time" },
+          "depends_on": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["@type", "name"]
+      }
+    },
+    "milestones": {
+      "description": "Milestones associated with the project",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "@type": { "type": "string" },
+          "@id": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "due_date": { "type": "string", "format": "date-time" },
+          "status": { 
+            "type": "string",
+            "enum": ["Not Started", "In Progress", "Completed", "On Hold", "Cancelled"]
+          }
+        },
+        "required": ["@type", "name", "due_date"]
+      }
+    },
+    "dependencies": {
+      "description": "Other projects this project depends on",
+      "type": "array",
+      "items": {
+        "oneOf": [
+          { "type": "string" },
+          {
+            "type": "object",
+            "properties": {
+              "@type": { "type": "string" },
+              "@id": { "type": "string" },
+              "name": { "type": "string" }
+            },
+            "required": ["@id"]
+          }
+        ]
+      }
+    },
+    "category": {
+      "description": "The category of the project",
+      "type": "string"
+    },
+    "location": {
+      "description": "The location where the project is being conducted",
+      "oneOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "properties": {
+            "@type": { "type": "string" },
+            "name": { "type": "string" },
+            "address": { "type": "string" },
+            "geo": {
+              "type": "object",
+              "properties": {
+                "latitude": { "type": "number" },
+                "longitude": { "type": "number" }
+              },
+              "required": ["latitude", "longitude"]
+            }
+          }
+        }
+      ]
+    },
+    "url": {
+      "description": "URL associated with the project",
+      "type": "string",
+      "format": "uri"
+    },
+    "created": {
+      "description": "When the project entry was created",
+      "type": "string",
+      "format": "date-time"
+    },
+    "modified": {
+      "description": "When the project entry was last modified",
+      "type": "string",
+      "format": "date-time"
+    },
+    "version": {
+      "description": "Version of the project",
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}
+

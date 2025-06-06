@@ -1,0 +1,14 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "tracking": {
+      "@id": "https://techen.inc/tracking#",
+      "@prefix": true
+    },
+    "project": "schema:Project",
+    "task": "schema:Action",
+    "owner": "schema:agent",
+    "due_date": "schema:dueDate"
+  }
+}
+

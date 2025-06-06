@@ -1,0 +1,20 @@
+graph TD
+    A[Device] --> B[Activity Data]
+    B --> C[Mobile App]
+    C --> D[API Gateway]
+    D --> E[Activity Tracking]
+    E --> F[Database]
+    
+    G[User Auth] --> D
+    H[NFT Manager] --> F
+    I[Analytics] --> F
+    
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#bbf,stroke:#333,stroke-width:2px
+    style D fill:#bfb,stroke:#333,stroke-width:2px
+    style E fill:#fbb,stroke:#333,stroke-width:2px
+    style F fill:#fbb,stroke:#333,stroke-width:2px
+    style G fill:#fbb,stroke:#333,stroke-width:2px
+    style H fill:#fbb,stroke:#333,stroke-width:2px
+    style I fill:#fbb,stroke:#333,stroke-width:2px

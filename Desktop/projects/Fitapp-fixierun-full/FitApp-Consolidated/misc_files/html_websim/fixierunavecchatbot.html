@@ -1,0 +1,238 @@
+<html><head><base href="https://FixieRun.com">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixieRun - Revolutionary Fixed-Gear Cycling App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f6f0;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #10B981, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .moving-text {
+            animation: moveText 20s linear infinite;
+        }
+
+        @keyframes moveText {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .bike-animation {
+            animation: bikeSpin 10s linear infinite;
+        }
+
+        @keyframes bikeSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #chatbot {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        #chat-input {
+            display: flex;
+            padding: 10px;
+        }
+
+        #chat-input input {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-12">
+            <h1 class="text-6xl font-bold mb-4 gradient-text">FixieRun</h1>
+            <p class="text-2xl text-gray-700">Ride, Earn, Conquer the Urban Jungle</p>
+            <div class="mt-4">
+                <select id="language-selector" class="bg-white border border-gray-300 rounded-md px-4 py-2">
+                    <option value="en">English</option>
+                    <option value="fr">Français</option>
+                    <option value="es">Español</option>
+                    <option value="de">Deutsch</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- Rest of the content remains the same -->
+
+        <footer class="text-center mt-16">
+            <div class="bg-black text-white py-4 overflow-hidden">
+                <div class="moving-text whitespace-nowrap">
+                    RIDE * EARN * EXPLORE * COMPETE * RIDE * EARN * EXPLORE * COMPETE * RIDE * EARN * EXPLORE * COMPETE *
+                </div>
+            </div>
+            <p class="mt-4 text-gray-600">&copy; 2023 FixieRun. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <button id="chat-button" class="fixed bottom-4 right-4 bg-green-500 text-white rounded-full p-4 shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+        </svg>
+    </button>
+
+    <div id="chatbot">
+        <div id="chat-header" class="bg-green-500 text-white p-2 flex justify-between items-center">
+            <span>FixieRun Assistant</span>
+            <button id="close-chat" class="text-white">&times;</button>
+        </div>
+        <div id="chat-messages"></div>
+        <div id="chat-input">
+            <input type="text" id="user-input" placeholder="Type your message..." class="border rounded px-2 py-1">
+            <button id="send-message" class="bg-green-500 text-white px-4 py-1 rounded">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Language translation
+        const translations = {
+            en: {
+                title: "FixieRun - Revolutionary Fixed-Gear Cycling App",
+                subtitle: "Ride, Earn, Conquer the Urban Jungle",
+                startButton: "Start Your Journey",
+                // Add more translations as needed
+            },
+            fr: {
+                title: "FixieRun - Application révolutionnaire de vélo à pignon fixe",
+                subtitle: "Pédalez, Gagnez, Conquérez la Jungle Urbaine",
+                startButton: "Commencez Votre Aventure",
+                // Add more translations as needed
+            },
+            es: {
+                title: "FixieRun - Aplicación Revolucionaria de Ciclismo de Piñón Fijo",
+                subtitle: "Pedalea, Gana, Conquista la Jungla Urbana",
+                startButton: "Comienza Tu Viaje",
+                // Add more translations as needed
+            },
+            de: {
+                title: "FixieRun - Revolutionäre Fixed-Gear-Fahrrad-App",
+                subtitle: "Fahren, Verdienen, Erobern Sie den Urbanen Dschungel",
+                startButton: "Starten Sie Ihre Reise",
+                // Add more translations as needed
+            }
+        };
+
+        function updateLanguage(lang) {
+            document.title = translations[lang].title;
+            document.querySelector('h1').nextElementSibling.textContent = translations[lang].subtitle;
+            document.querySelector('button').textContent = translations[lang].startButton;
+            // Update other elements as needed
+        }
+
+        document.getElementById('language-selector').addEventListener('change', (e) => {
+            updateLanguage(e.target.value);
+        });
+
+        // Chatbot functionality
+        const chatButton = document.getElementById('chat-button');
+        const chatbot = document.getElementById('chatbot');
+        const closeChat = document.getElementById('close-chat');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendMessage = document.getElementById('send-message');
+
+        chatButton.addEventListener('click', () => {
+            chatbot.style.display = 'flex';
+        });
+
+        closeChat.addEventListener('click', () => {
+            chatbot.style.display = 'none';
+        });
+
+        sendMessage.addEventListener('click', () => {
+            const message = userInput.value.trim();
+            if (message) {
+                addMessage('user', message);
+                userInput.value = '';
+                // Send message to AI agent and get response
+                getAIResponse(message);
+            }
+        });
+
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage.click();
+            }
+        });
+
+        function addMessage(sender, message) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add(sender === 'user' ? 'text-right' : 'text-left', 'mb-2');
+            messageElement.innerHTML = `<span class="inline-block bg-${sender === 'user' ? 'green' : 'gray'}-200 rounded px-2 py-1">${message}</span>`;
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function getAIResponse(message) {
+            // Simulate AI response (replace with actual AI integration)
+            const response = await simulateAIResponse(message);
+            addMessage('ai', response);
+        }
+
+        async function simulateAIResponse(message) {
+            // This is a placeholder for the AI response.
+            // In a real implementation, you would send the message to your AI service and get a response.
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate delay
+            
+            const responses = {
+                en: [
+                    "Welcome to FixieRun! How can I assist you today?",
+                    "FixieRun is a revolutionary app that rewards you for cycling. What would you like to know more about?",
+                    "Our NFT bikes are unique digital assets that you can upgrade as you ride. Would you like more details?",
+                    "You can earn crypto rewards by completing rides and challenges. Interested in learning how?"
+                ],
+                fr: [
+                    "Bienvenue sur FixieRun ! Comment puis-je vous aider aujourd'hui ?",
+                    "FixieRun est une application révolutionnaire qui vous récompense pour le cyclisme. Que voulez-vous savoir de plus ?",
+                    "Nos vélos NFT sont des actifs numériques uniques que vous pouvez améliorer en roulant. Voulez-vous plus de détails ?",
+                    "Vous pouvez gagner des récompenses crypto en terminant des courses et des défis. Intéressé d'en savoir plus ?"
+                ],
+                es: [
+                    "¡Bienvenido a FixieRun! ¿Cómo puedo ayudarte hoy?",
+                    "FixieRun es una aplicación revolucionaria que te recompensa por andar en bicicleta. ¿Sobre qué te gustaría saber más?",
+                    "Nuestras bicicletas NFT son activos digitales únicos que puedes mejorar mientras conduces. ¿Te gustaría más detalles?",
+                    "Puedes ganar recompensas cripto completando recorridos y desafíos. ¿Interesado en aprender cómo?"
+                ],
+                de: [
+                    "Willkommen bei FixieRun! Wie kann ich Ihnen heute helfen?",
+                    "FixieRun ist eine revolutionäre App, die Sie fürs Radfahren belohnt. Worüber möchten Sie mehr erfahren?",
+                    "Unsere NFT-Fahrräder sind einzigartige digitale Assets, die Sie beim Fahren upgraden können. Möchten Sie mehr Details?",
+                    "Sie können Krypto-Belohnungen verdienen, indem Sie Fahrten und Herausforderungen absolvieren. Interessiert, wie das funktioniert?"
+                ]
+            };
+
+            const lang = document.getElementById('language-selector').value;
+            return responses[lang][Math.floor(Math.random() * responses[lang].length)];
+        }
+
+    </script>
+</body>
+</html>

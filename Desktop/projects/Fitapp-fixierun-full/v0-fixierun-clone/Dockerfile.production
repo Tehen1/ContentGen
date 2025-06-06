@@ -1,0 +1,58 @@
+# Étape 1: Base avec les dépendances
+FROM node:18-alpine AS deps
+WORKDIR /app
+
+# Installer les dépendances nécessaires pour les modules natifs
+RUN apk add --no-cache libc6-compat python3 make g++
+
+# Copier les fichiers de dépendances
+COPY package.json package-lock.json* ./
+
+# Installer les dépendances
+RUN npm ci --only=production
+
+# Étape 2: Builder l'application
+FROM node:18-alpine AS builder
+WORKDIR /app
+
+# Copier les dépendances de l'étape précédente
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Définir les variables d'environnement pour la construction
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
+
+# Construire l'application
+RUN npm run build
+
+# Étape 3: Image de production
+FROM node:18-alpine AS runner
+WORKDIR /app
+
+# Installer Sharp pour l'optimisation des images
+RUN npm install --global --no-update-notifier --no-fund sharp
+
+# Définir les variables d'environnement pour l'exécution
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
+
+# Créer un utilisateur non-root pour plus de sécurité
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+USER nextjs
+
+# Copier les fichiers nécessaires
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Exposer le port
+EXPOSE 3000
+
+# Définir les variables d'environnement pour la santé
+ENV PORT 3000
+ENV HOSTNAME "0.0.0.0"
+
+# Commande de démarrage
+CMD ["node", "server.js"]

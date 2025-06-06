@@ -1,0 +1,285 @@
+import os
+import sys
+from pathlib import Path
+
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+
+# Add the project root to the Python path
+root_dir = Path(__file__).resolve().parent.parent.parent
+sys.path.append(str(root_dir))
+
+# Import project configuration and utils
+from src.app.config import (
+    UI_CONFIG,
+    DATA_CONFIG,
+    DASHBOARD_CONFIG,
+    get_data_path,
+    DATA_DIR
+)
+
+# Define numeric columns for data processing
+NUMERIC_COLUMNS = [
+    'Points cardio',
+    'Minutes cardio',
+    'Distance (m)',
+    'Nombre de pas',
+    'Durée de l\'activité "Marche à pied" (ms)',
+    'Durée de l\'activité "Vélo" (ms)',
+    'Durée de l\'activité "Course à pied" (ms)'
+]
+
+# Configure Streamlit page
+st.set_page_config(**UI_CONFIG)
+# Load data
+@st.cache_data
+def load_data():
+    """
+    Load and preprocess the activity data.
+    Returns processed DataFrame or None if error occurs.
+    """
+    try:
+        # Determine environment
+        is_local = os.path.exists(DATA_DIR)
+        data_path = get_data_path(is_local)
+        
+        # List all CSV files
+        if is_local:
+            csv_files = list(Path(data_path).glob("*.csv"))
+        else:
+            csv_files = [f for f in os.listdir(data_path) if f.endswith('.csv')]
+        
+        # Read and combine all CSV files
+        dfs = []
+        for file in csv_files:
+            try:
+                # Read CSV with explicit date parsing
+                df = pd.read_csv(
+                    file if is_local else os.path.join(data_path, file),
+                    parse_dates=['Date'],
+                    date_parser=lambda x: pd.to_datetime(x, format=DATA_CONFIG['date_format']).tz_localize(None),
+                    na_values=['', 'nan', 'NaN']
+                )
+                dfs.append(df)
+            except Exception as e:
+                st.warning(f"Erreur lors de la lecture du fichier {file}: {str(e)}")
+                continue
+        
+        if not dfs:
+            st.error("Aucune donnée n'a pu être chargée.")
+            return None
+
+        # Combine all dataframes
+        df = pd.concat(dfs, ignore_index=True)
+
+        # Ensure dates are in Arrow-compatible format
+        df['Date'] = pd.to_datetime(df['Date']).dt.normalize()
+        
+        # Handle numeric conversions safely
+        for col in NUMERIC_COLUMNS:
+            if col in df.columns:
+                df[col] = pd.to_numeric(df[col], errors='coerce').fillna(0)
+            else:
+                df[col] = 0
+                st.warning(f"Colonne '{col}' non trouvée. Initialisée à 0.")
+
+        # Convert distance to kilometers
+        if 'Distance (m)' in df.columns:
+            df['Distance (km)'] = df['Distance (m)'] / 1000
+        else:
+            df['Distance (km)'] = 0
+            st.warning("Colonne 'Distance (m)' non trouvée. Distance en km initialisée à 0.")
+
+        # Handle activity durations
+        activity_columns = {
+            "walking": 'Durée de l\'activité "Marche à pied" (ms)',
+            "cycling": 'Durée de l\'activité "Vélo" (ms)',
+            "running": 'Durée de l\'activité "Course à pied" (ms)'
+        }
+
+        # Initialize activity minutes columns
+        df['Nombre de minutes actives'] = 0
+        for activity, col in activity_columns.items():
+            if col in df.columns:
+                df[f"{activity}_minutes"] = pd.to_numeric(df[col], errors='coerce').fillna(0) / (1000 * 60)
+                df['Nombre de minutes actives'] += df[f"{activity}_minutes"]
+            else:
+                df[f"{activity}_minutes"] = 0
+                st.warning(f"Colonne '{col}' non trouvée. Initialisée à 0.")
+
+        return df
+    except FileNotFoundError:
+        st.error("Le fichier de données n'a pas été trouvé.")
+        return None
+    except pd.errors.EmptyDataError:
+        st.error("Le fichier de données est vide.")
+        return None
+    except Exception as e:
+        st.error(f"Erreur lors du chargement des données: {str(e)}")
+        st.warning("Certaines colonnes peuvent être manquantes. Les valeurs manquantes seront initialisées à 0.")
+        return None
+
+df = load_data()
+if df is None:
+    st.stop()
+
+# Sidebar filters
+st.sidebar.title("Filtres")
+
+# Date range selector
+date_range = st.sidebar.date_input(
+    "Sélectionner une période",
+    [df['Date'].min(), df['Date'].max()],
+    min_value=df['Date'].min().date(),
+    max_value=df['Date'].max().date()
+)
+
+# Main dashboard
+st.title("Dashboard d'Activité Physique")
+
+# Top metrics
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    st.metric("Distance Totale (km)", 
+            f"{df['Distance (km)'].sum():.1f}")
+with col2:
+    st.metric(
+        "Minutes Actives", 
+        f"{df['walking_minutes'].sum() + df['cycling_minutes'].sum() + df['running_minutes'].sum():.0f}"
+    )
+with col3:
+    st.metric("Points Cardio", 
+            f"{df['Points cardio'].sum():.0f}")
+with col4:
+    st.metric("Pas Total", 
+            f"{df['Nombre de pas'].sum():,.0f}")
+
+# Activity charts
+st.subheader("Analyse des Activités")
+
+tab1, tab2, tab3, tab4 = st.tabs(["Tendances", "Vitesse", "Distribution", "Carte"])
+
+with tab1:
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        # Distance trend
+        fig_distance = px.line(df, x='Date', y='Distance (km)',
+                            title='Évolution de la Distance')
+        st.plotly_chart(fig_distance, use_container_width=True)
+        
+    with col2:
+        # Active minutes trend
+        fig_active = px.line(df, x='Date', y='Nombre de minutes actives',
+                        title='Minutes Actives par Jour')
+        st.plotly_chart(fig_active, use_container_width=True)
+
+with tab2:
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        # Speed analysis
+        fig_speed = px.line(df, x='Date', y=['Vitesse moyenne (m/s)', 'Vitesse maximale (m/s)'],
+                        title='Analyse de la Vitesse')
+        st.plotly_chart(fig_speed, use_container_width=True)
+        
+    with col2:
+        # Speed distribution
+        fig_speed_dist = px.histogram(df, x='Vitesse moyenne (m/s)',
+                                title='Distribution des Vitesses')
+        st.plotly_chart(fig_speed_dist, use_container_width=True)
+
+with tab3:
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        # Activity type distribution
+        # Create activity data for pie chart
+        activity_data = pd.DataFrame({
+            'Activity': ['Marche', 'Vélo', 'Course'],
+            'Minutes': [
+                df['walking_minutes'].sum(),
+                df['cycling_minutes'].sum(),
+                df['running_minutes'].sum()
+            ]
+        })
+        
+        fig_pie = px.pie(
+            activity_data,
+            values='Minutes',
+            names='Activity',
+            title='Répartition des Activités',
+            hole=0.3
+        )
+        fig_pie.update_traces(textposition='inside', textinfo='percent+label')
+        st.plotly_chart(fig_pie, use_container_width=True)
+        
+    with col2:
+        # Weekly activity summary
+        # Use end-of-month ('ME') instead of deprecated 'M'
+        monthly_data = df.resample('ME', on='Date').sum()
+        fig_monthly = px.bar(monthly_data, y='Points cardio',
+                    title='Points Cardio Mensuels')
+        st.plotly_chart(fig_monthly, use_container_width=True)
+
+    with tab4:
+        st.subheader("Carte des Activités")
+        
+        # Filter rows with valid coordinates
+        map_data = df[
+            df['Basse latitude (°)'].notna() & 
+            df['Basse longitude (°)'].notna()
+        ].copy()
+        
+        if not map_data.empty:
+            fig_map = px.scatter_mapbox(
+                map_data,
+                lat='Basse latitude (°)',
+                lon='Basse longitude (°)',
+                color='Distance (m)',
+                size='Nombre de pas',
+                hover_data=['Date', 'Distance (km)', 'Nombre de minutes actives'],
+                zoom=11,
+                title="Carte des Activités"
+            )
+            fig_map.update_layout(
+                mapbox_style="open-street-map",
+                margin={"r":0,"t":0,"l":0,"b":0}
+            )
+            st.plotly_chart(fig_map, use_container_width=True)
+        else:
+            st.warning("Aucune donnée de localisation disponible pour afficher la carte.")
+
+    # Detailed stats
+st.subheader("Statistiques Détaillées")
+
+detailed_stats = st.container()
+with detailed_stats:
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.dataframe(df.describe(), use_container_width=True)
+    
+    with col2:
+        # Monthly averages
+        monthly_avg = df.resample('ME', on='Date').mean()
+        st.write("Moyennes Mensuelles")
+        st.dataframe(monthly_avg.round(2), use_container_width=True)
+
+# Export functionality with error handling
+if st.button("Exporter les Données"):
+    try:
+        csv = df.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            "Télécharger CSV",
+            csv,
+            "activity_data.csv",
+            "text/csv",
+            key='download-csv'
+        )
+    except Exception as e:
+        st.error(f"Erreur lors de l'export des données: {str(e)}")
+

@@ -1,0 +1,606 @@
+<html><head><base href="https://FixieRun.com">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixieNFTRun: Earn Crypto & Collect NFT Bikes While Cycling | Ride-to-Earn</title>
+    <meta name="description" content="Transform your cycling passion into digital assets with FixieNFTRun. Ride your fixie, earn tokens, and collect unique NFT bikes. Join the cycling revolution today!">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+    <style>
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .hover\:animate-pulse:hover {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .shadow-glow {
+            box-shadow: 0 0 15px rgba(66, 153, 225, 0.5);
+        }
+        .bg-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <header class="bg-gradient-to-br from-indigo-800 to-pink-800 py-6 sticky top-0 z-50">
+        <nav class="container mx-auto px-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-white hover:text-pink-300 transition duration-300">FixieNFTRun</a>
+            <div class="hidden md:flex space-x-6">
+                <a href="#about" class="text-white hover:text-pink-300 transition duration-300">About</a>
+                <a href="#how-it-works" class="text-white hover:text-pink-300 transition duration-300">How It Works</a>
+                <a href="#nft-showcase" class="text-white hover:text-pink-300 transition duration-300">NFT Showcase</a>
+                <a href="#community" class="text-white hover:text-pink-300 transition duration-300">Community</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-indigo-900 p-4 absolute top-full left-0 right-0">
+            <a href="#about" class="block py-2 text-white hover:text-pink-300 transition duration-300">About</a>
+            <a href="#how-it-works" class="block py-2 text-white hover:text-pink-300 transition duration-300">How It Works</a>
+            <a href="#nft-showcase" class="block py-2 text-white hover:text-pink-300 transition duration-300">NFT Showcase</a>
+            <a href="#community" class="block py-2 text-white hover:text-pink-300 transition duration-300">Community</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="py-20 bg-gradient text-center">
+            <div class="container mx-auto px-4">
+                <h1 class="text-5xl font-bold mb-6 animate-pulse">Ride. Earn. Collect.</h1>
+                <p class="text-xl mb-8">Transform your cycling passion into digital assets with FixieNFTRun.</p>
+                <a href="#newsletter" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 hover:animate-pulse">Sign up for newsletter</a>
+                <a href="#app" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 hover:animate-pulse">Download app</a>
+                <a href="#community" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 hover:animate-pulse">Join community</a>
+            </div>
+        </section>
+
+        <section id="about" class="py-16 bg-gray-800">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold mb-8 text-center">About FixieNFTRun</h2>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <p class="text-lg mb-4">FixieNFTRun is revolutionizing the cycling experience by combining blockchain technology, NFTs, and fitness. Our platform allows cyclists to earn rewards, collect unique NFT bikes, and be part of a thriving community.</p>
+                        <ul class="list-disc list-inside mb-4">
+                            <li>Earn $FIXIE tokens while cycling</li>
+                            <li>Collect and trade unique NFT bikes</li>
+                            <li>Participate in challenges and competitions</li>
+                            <li>Connect with a global community of cyclists</li>
+                        </ul>
+                    </div>
+                    <div class="relative">
+                        <img src="https://devtehen.xyz/wp-content/uploads/2024/03/fixie.webp" alt="FixieNFTRun concept" class="rounded-lg shadow-2xl">
+                        <div class="absolute -bottom-4 -right-4 bg-pink-600 text-white p-4 rounded-lg shadow-lg">
+                            <p class="font-bold">Join the cycling revolution!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="py-16 bg-gray-900">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold mb-12 text-center">How It Works</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <i class="fas fa-bicycle text-4xl text-pink-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">1. Ride Your Bike</h3>
+                        <p>Use the FixieNFTRun app to track your cycling activities and earn $FIXIE tokens based on your performance.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <i class="fas fa-coins text-4xl text-pink-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">2. Earn Rewards</h3>
+                        <p>Accumulate $FIXIE tokens for every kilometer you ride. The more you cycle, the more you earn!</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <i class="fas fa-cubes text-4xl text-pink-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">3. Collect NFTs</h3>
+                        <p>Use your earned tokens to mint unique NFT bikes, each with its own attributes and rarity levels.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="nft-showcase" class="py-16 bg-gray-800">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold mb-12 text-center">NFT Showcase</h2>
+                <div class="grid md:grid-cols-4 gap-8">
+                    <!-- NFT Cards -->
+                    <div class="bg-gray-700 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
+                        <img src="https://picsum.photos/300/200?random=1" alt="NFT Bike 1" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-bold mb-2">Urban Sprinter</h3>
+                            <p class="text-sm mb-2">Rarity: Rare</p>
+                            <p class="text-sm">Boost: +10% Speed</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
+                        <img src="https://picsum.photos/300/200?random=2" alt="NFT Bike 2" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-bold mb-2">Mountain Master</h3>
+                            <p class="text-sm mb-2">Rarity: Epic</p>
+                            <p class="text-sm">Boost: +15% Climbing</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
+                        <img src="https://picsum.photos/300/200?random=3" alt="NFT Bike 3" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-bold mb-2">Neon Rider</h3>
+                            <p class="text-sm mb-2">Rarity: Legendary</p>
+                            <p class="text-sm">Boost: +20% Night Riding</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
+                        <img src="https://picsum.photos/300/200?random=4" alt="NFT Bike 4" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-bold mb-2">Retro Cruiser</h3>
+                            <p class="text-sm mb-2">Rarity: Uncommon</p>
+                            <p class="text-sm">Boost: +5% Token Earnings</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="community" class="py-16 bg-gray-900">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold mb-12 text-center">Join Our Community</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold mb-4">Community Stats</h3>
+                        <p class="mb-2">Total Kilometers Ridden: <span id="total-km" class="font-bold">0</span></p>
+                        <p class="mb-2">Active Riders: <span class="font-bold">5,234</span></p>
+                        <p>NFTs Minted: <span class="font-bold">12,567</span></p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-bold mb-4">Connect With Us</h3>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-2xl hover:text-pink-500 transition duration-300"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="text-2xl hover:text-pink-500 transition duration-300"><i class="fab fa-discord"></i></a>
+                            <a href="#" class="text-2xl hover:text-pink-500 transition duration-300"><i class="fab fa-telegram"></i></a>
+                            <a href="#" class="text-2xl hover:text-pink-500 transition duration-300"><i class="fab fa-medium"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2023 FixieNFTRun. All rights reserved.</p>
+            <div class="mt-4">
+                <a href="#" class="text-gray-400 hover:text-white mx-2">Privacy Policy</a>
+                <a href="#" class="text-gray-400 hover:text-white mx-2">Terms of Service</a>
+                <a href="#" class="text-gray-400 hover:text-white mx-2">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="newsletterModal" class="modal hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                        Subscribe to Our Newsletter
+                    </h3>
+                    <div class="mt-2">
+                        <p class="text-sm text-gray-500">
+                            Stay updated with the latest news, features, and community events!
+                        </p>
+                        <input type="email" placeholder="Enter your email" class="mt-2 w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300">
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        Subscribe
+                    </button>
+                    <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm close">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="appModal" class="modal hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                        Download the FixieNFTRun App
+                    </h3>
+                    <div class="mt-2">
+                        <p class="text-sm text-gray-500">
+                            Get started with FixieNFTRun by downloading our app:
+                        </p>
+                        <div class="mt-4 flex justify-center space-x-4">
+                            <a href="#" class="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800">
+                                <i class="fab fa-apple mr-2"></i> App Store
+                            </a>
+                            <a href="#" class="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700">
+                                <i class="fab fa-google-play mr-2"></i> Google Play
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm close">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="communityModal" class="modal hidden fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                        Join Our Community
+                    </h3>
+                    <div class="mt-2">
+                        <p class="text-sm text-gray-500">
+                            Connect with fellow cyclists and NFT enthusiasts:
+                        </p>
+                        <div class="mt-4 grid grid-cols-2 gap-4">
+                            <a href="#" class="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
+                                <i class="fab fa-discord mr-2"></i> Discord
+                            </a>
+                            <a href="#" class="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-400 hover:bg-blue-500">
+                                <i class="fab fa-twitter mr-2"></i> Twitter
+                            </a>
+                            <a href="#" class="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600">
+                                <i class="fab fa-telegram mr-2"></i> Telegram
+                            </a>
+                            <a href="#" class="flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700">
+                                <i class="fab fa-medium mr-2"></i> Medium
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm close">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="chatbot-toggle" class="fixed bottom-4 right-4 bg-pink-600 text-white p-4 rounded-full cursor-pointer shadow-lg z-50">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <div id="chatbot" class="hidden fixed bottom-20 right-4 w-80 bg-white rounded-lg shadow-xl overflow-hidden z-50">
+        <div id="chatbot-header" class="bg-pink-600 text-white p-4 flex justify-between items-center">
+            <h3 class="font-bold">FixieNFTRun Assistant</h3>
+            <button class="close text-white focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="chatbot-messages" class="h-80 overflow-y-auto p-4">
+            <!-- Chat messages will be appended here -->
+        </div>
+        <div id="chatbot-input" class="p-4 border-t">
+            <div class="flex">
+                <input type="text" placeholder="Type your message..." class="flex-grow px-3 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                <button class="bg-pink-600 text-white px-4 py-2 rounded-r-lg hover:bg-pink-700 transition duration-300">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Translation functionality
+        const translate = async () => {
+            const elements = document.querySelectorAll('[data-translate]');
+            const lang = document.documentElement.lang;
+            
+            if (lang === 'en') return;  // No need to translate if it's already in English
+
+            try {
+                const response = await axios.post('https://api.openai.com/v1/engines/text-davinci-002/completions', {
+                    prompt: `Translate the following English phrases to ${lang}:\n${Array.from(elements).map(el => el.textContent).join('\n')}`,
+                    max_tokens: 1000,
+                    n: 1,
+                    stop: null,
+                    temperature: 0.5,
+                }, {
+                    headers: {
+                        'Authorization': 'Bearer YOUR_OPENAI_API_KEY',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const translations = response.data.choices[0].text.split('\n');
+                elements.forEach((el, index) => {
+                    el.textContent = translations[index];
+                });
+            } catch (error) {
+                console.error('Translation error:', error);
+            }
+        };
+
+        // Call translate function when the page loads
+        document.addEventListener('DOMContentLoaded', translate);
+
+        // Modal functionality
+        const modals = {
+            newsletter: document.getElementById('newsletterModal'),
+            app: document.getElementById('appModal'),
+            community: document.getElementById('communityModal')
+        };
+
+        const openModal = (modalType) => {
+            if (modals[modalType]) {
+                modals[modalType].style.display = 'block';
+            }
+        };
+
+        const closeModal = (modalType) => {
+            if (modals[modalType]) {
+                modals[modalType].style.display = 'none';
+            }
+        };
+
+        document.querySelectorAll('.modal .close').forEach(closeBtn => {
+            closeBtn.addEventListener('click', () => {
+                const modal = closeBtn.closest('.modal');
+                if (modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        window.onclick = (event) => {
+            Object.values(modals).forEach(modal => {
+                if (modal && event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        };
+
+        // Update CTA buttons to open modals
+        const newsletterBtn = document.querySelector('a[href="#newsletter"]');
+        const appBtn = document.querySelector('a[href="#app"]');
+        const communityBtn = document.querySelector('a[href="#community"]');
+
+        if (newsletterBtn) {
+            newsletterBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal('newsletter');
+            });
+        }
+
+        if (appBtn) {
+            appBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal('app');
+            });
+        }
+
+        if (communityBtn) {
+            communityBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal('community');
+            });
+        }
+
+        // Mobile menu functionality
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // Community Stats
+        const updateCommunityStats = () => {
+            const totalKmElement = document.getElementById('total-km');
+            if (totalKmElement) {
+                const totalKm = Math.floor(Math.random() * 1000000) + 500000; // Random number between 500,000 and 1,500,000
+                totalKmElement.textContent = totalKm.toLocaleString();
+            }
+        };
+
+        setInterval(updateCommunityStats, 5000); // Update every 5 seconds
+        updateCommunityStats(); // Initial update
+
+        // Chatbot functionality
+        const chatbotToggle = document.getElementById('chatbot-toggle');
+        const chatbot = document.getElementById('chatbot');
+        const chatbotMessages = document.getElementById('chatbot-messages');
+        const chatbotInput = document.querySelector('#chatbot-input input');
+        const chatbotSendButton = document.querySelector('#chatbot-input button');
+
+        if (chatbotToggle && chatbot) {
+            chatbotToggle.addEventListener('click', () => {
+                chatbot.classList.toggle('hidden');
+            });
+        }
+
+        const chatbotCloseBtn = document.querySelector('#chatbot-header .close');
+        if (chatbotCloseBtn && chatbot) {
+            chatbotCloseBtn.addEventListener('click', () => {
+                chatbot.classList.add('hidden');
+            });
+        }
+
+        const addMessage = (message, isUser = false) => {
+            if (chatbotMessages) {
+                const messageElement = document.createElement('div');
+                messageElement.textContent = message;
+                messageElement.classList.add('mb-2', 'p-2', 'rounded');
+                messageElement.classList.add(isUser ? 'bg-purple-600' : 'bg-gray-700');
+                chatbotMessages.appendChild(messageElement);
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }
+        };
+
+        const chatbotRespond = (message) => {
+            const lowercaseMessage = message.toLowerCase();
+            if (lowercaseMessage.includes('hello') || lowercaseMessage.includes('hi')) {
+                return "Hello! How can I assist you with FixieNFTRun today?";
+            } else if (lowercaseMessage.includes('nft')) {
+                return "FixieNFTRun offers unique NFT bikes that you can collect, use, and trade. Each NFT bike has its own characteristics and rarity level.";
+            } else if (lowercaseMessage.includes('earn') || lowercaseMessage.includes('token')) {
+                return "You can earn $FIXIE tokens by cycling with the FixieNFTRun app. The amount you earn depends on your distance, frequency, and the NFT bikes you own.";
+            } else if (lowercaseMessage.includes('app') || lowercaseMessage.includes('download')) {
+                return "You can download the FixieNFTRun app from the App Store for iOS devices or Google Play Store for Android devices.";
+            } else if (lowercaseMessage.includes('community') || lowercaseMessage.includes('join')) {
+                return "Join our vibrant community on Discord and Twitter! You'll find links to our social channels on our website.";
+            } else {
+                return "I'm not sure how to respond to that. Can you try rephrasing your question or ask about NFTs, earning tokens, the app, or our community?";
+            }
+        };
+
+        if (chatbotSendButton && chatbotInput) {
+            chatbotSendButton.addEventListener('click', () => {
+                const message = chatbotInput.value.trim();
+                if (message) {
+                    addMessage(message, true);
+                    chatbotInput.value = '';
+                    setTimeout(() => {
+                        const response = chatbotRespond(message);
+                        addMessage(response);
+                    }, 500);
+                }
+            });
+
+            chatbotInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const message = chatbotInput.value.trim();
+                    if (message) {
+                        addMessage(message, true);
+                        chatbotInput.value = '';
+                        setTimeout(() => {
+                            const response = chatbotRespond(message);
+                            addMessage(response);
+                        }, 500);
+                    }
+                }
+            });
+        }
+
+        // Add this to ensure the chatbot is initialized
+        document.addEventListener('DOMContentLoaded', () => {
+            if (chatbotToggle && chatbot && chatbotMessages && chatbotInput && chatbotSendButton) {
+                // Chatbot is ready
+                addMessage("Hello! How can I assist you with FixieNFTRun today?");
+            } else {
+                console.error('Chatbot elements not found');
+            }
+        });
+
+        // Add popup functionality
+        const openPopup = (popupId) => {
+            const popup = document.getElementById(popupId);
+            if (popup) {
+                popup.classList.remove('hidden');
+            }
+        };
+
+        const closePopup = (popupId) => {
+            const popup = document.getElementById(popupId);
+            if (popup) {
+                popup.classList.add('hidden');
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const newsletterBtn = document.querySelector('a[href="#newsletter"]');
+            const appBtn = document.querySelector('a[href="#app"]');
+            const communityBtn = document.querySelector('a[href="#community"]');
+
+            if (newsletterBtn) {
+                newsletterBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openPopup('newsletterPopup');
+                });
+            }
+
+            if (appBtn) {
+                appBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openPopup('appPopup');
+                });
+            }
+
+            if (communityBtn) {
+                communityBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openPopup('communityPopup');
+                });
+            }
+
+            // Close buttons for pop-ups
+            document.querySelectorAll('.close-popup').forEach(closeBtn => {
+                closeBtn.addEventListener('click', () => {
+                    const popup = closeBtn.closest('.popup');
+                    if (popup) {
+                        closePopup(popup.id);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Newsletter Pop-up -->
+    <div id="newsletterPopup" class="popup hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg max-w-md">
+            <h2 class="text-2xl font-bold mb-4">Sign up for our newsletter</h2>
+            <form>
+                <input type="email" placeholder="Enter your email" class="w-full p-2 mb-4 border rounded">
+                <button type="submit" class="w-full bg-pink-600 text-white p-2 rounded hover:bg-pink-700">Subscribe</button>
+            </form>
+            <button class="close-popup mt-4 text-gray-600 hover:text-gray-800">Close</button>
+        </div>
+    </div>
+
+    <!-- App Download Pop-up -->
+    <div id="appPopup" class="popup hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg max-w-md">
+            <h2 class="text-2xl font-bold mb-4">Download our app</h2>
+            <div class="flex justify-around mb-4">
+                <a href="#" class="bg-black text-white p-2 rounded">App Store</a>
+                <a href="#" class="bg-green-600 text-white p-2 rounded">Google Play</a>
+            </div>
+            <button class="close-popup mt-4 text-gray-600 hover:text-gray-800">Close</button>
+        </div>
+    </div>
+
+    <!-- Community Pop-up -->
+    <div id="communityPopup" class="popup hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-lg max-w-md">
+            <h2 class="text-2xl font-bold mb-4">Join our community</h2>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <a href="#" class="bg-blue-600 text-white p-2 rounded text-center">Discord</a>
+                <a href="#" class="bg-blue-400 text-white p-2 rounded text-center">Twitter</a>
+                <a href="#" class="bg-blue-500 text-white p-2 rounded text-center">Telegram</a>
+                <a href="#" class="bg-green-600 text-white p-2 rounded text-center">Medium</a>
+            </div>
+            <button class="close-popup mt-4 text-gray-600 hover:text-gray-800">Close</button>
+        </div>
+    </div>
+</body>
+</html>

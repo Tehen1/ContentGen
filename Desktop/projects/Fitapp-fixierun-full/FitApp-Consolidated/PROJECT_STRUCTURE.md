@@ -1,0 +1,176 @@
+# Plan de répertoires et fichiers - Projet FitApp/Fixie/FitApp-zkEVM (unifié)
+
+---
+
+## 1. Backend Microservices (FastAPI/Python, racine `backend/`)
+- **activity-tracking/**
+    - main.py
+    - routers/
+        - activities.py
+        - gps.py
+    - services/
+        - tracking.py
+        - sync.py
+    - models/
+        - activity.py
+        - user.py
+    - schemas/
+        - activity.py
+    - tests/
+        - test_activities.py
+    - requirements.txt
+- **rewards/**
+    - main.py
+    - routers/tokens.py
+    - services/rewards.py
+    - models/token.py
+    - schemas/token.py
+    - tests/test_rewards.py
+    - requirements.txt
+- **analytics/**
+    - main.py
+    - routers/analytics.py
+    - services/analytics.py
+    - models/metrics.py
+    - schemas/metrics.py
+    - tests/test_analytics.py
+    - requirements.txt
+- **challenges/**
+    - main.py
+    - routers/challenges.py
+    - services/challenge.py
+    - models/challenge.py
+    - schemas/challenge.py
+    - tests/test_challenge.py
+    - requirements.txt
+- **nft-management/**
+    - main.py
+    - routers/nft.py
+    - services/nft.py
+    - models/nft.py
+    - schemas/nft.py
+    - tests/test_nft.py
+    - requirements.txt
+- **user-auth/**
+    - main.py
+    - routers/user.py
+    - routers/auth.py
+    - services/user.py
+    - models/user.py
+    - schemas/user.py
+    - tests/test_user.py
+    - requirements.txt
+- **ws-gateway/** (WebSocket/real-time hub)
+    - main.py
+    - routers/events.py
+    - services/socket.py
+    - tests/test_ws.py
+    - requirements.txt
+- **api-gateway/** (agrégateur REST/websockets)
+    - main.py
+    - routers/gateway.py
+    - services/aggregator.py
+    - requirements.txt
+
+---
+
+## 2. Frontend (Next.js dans `frontend/`)
+- pages/
+    - index.tsx
+    - dashboard.tsx
+    - login.tsx
+    - achievements.tsx
+- components/
+    - Navbar.tsx
+    - ActivityChart.tsx
+    - NFTGallery.tsx
+    - Web3Wallet.tsx
+    - Notification.tsx
+- contexts/
+    - AuthContext.tsx
+    - Web3Context.tsx
+- hooks/
+    - useActivities.ts
+    - useWebSocket.ts
+    - useWallet.ts
+- store/ (Redux)
+    - index.ts
+    - slices/
+       - userSlice.ts
+       - activitiesSlice.ts
+       - rewardsSlice.ts
+       - notificationsSlice.ts
+- public/
+    - images/
+    - icons/
+- styles/
+- utils/
+- tests/
+- .env
+- package.json
+- tsconfig.json
+
+---
+
+## 3. Mobile (Flutter `mobile/`)
+- lib/
+    - main.dart
+    - src/
+        - screens/
+          - dashboard.dart
+          - login.dart
+          - activity_tracking.dart
+          - nft_gallery.dart
+        - widgets/
+          - navbar.dart
+          - notification.dart
+        - services/
+          - api_service.dart
+          - web3_service.dart
+        - models/
+          - activity.dart
+          - user.dart
+        - bloc/
+          - activity_bloc.dart
+          - auth_bloc.dart
+    - assets/
+        - images/
+        - icons/
+    - utils/
+    - test/
+- pubspec.yaml
+
+---
+
+## 4. Blockchain (Solidity, Hardhat racine `blockchain/`)
+- contracts/
+    - HealthCoin.sol
+    - AchievementTracker.sol
+    - ProfileManager.sol
+- scripts/
+    - deploy.ts
+    - setup.ts
+    - verify.ts
+- test/
+    - HealthCoin.test.ts
+    - AchievementTracker.test.ts
+    - ProfileManager.test.ts
+- deployments/
+    - deployed-contracts.json
+- hardhat.config.ts
+- package.json
+- README.md
+
+---
+
+## 5. DevOps / Infrastructure
+- docker-compose.yml (orchestration microservices/base front)
+- kubernetes/ (Helm charts, manifests : optionnel)
+- scripts/
+    - migrate_db.sh
+    - seed_db.sh
+- ci-cd/
+    - github/
+        - workflows/ci.yml
+        - workflows/cd.yml
+

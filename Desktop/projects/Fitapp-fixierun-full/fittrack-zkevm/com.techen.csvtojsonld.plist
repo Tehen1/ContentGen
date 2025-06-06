@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Basic identification -->
+    <key>Label</key>
+    <string>com.techen.csvtojsonld</string>
+    <key>Description</key>
+    <string>Daily CSV to JSON-LD conversion for project tracking files</string>
+    
+    <!-- Program to execute -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>-c</string>
+        <string>source ~/project_tracking_env/bin/activate && ~/convert_csv_to_jsonld.sh</string>
+    </array>
+    
+    <!-- Working directory -->
+    <key>WorkingDirectory</key>
+    <string>/Users/devtehen/project_tracking_jsonld</string>
+    
+    <!-- Environment variables -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>PYTHONIOENCODING</key>
+        <string>UTF-8</string>
+        <key>LANG</key>
+        <string>en_US.UTF-8</string>
+    </dict>
+    
+    <!-- Schedule: Run daily at 3:00 AM -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>3</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+    
+    <!-- Error handling and logging -->
+    <key>StandardOutPath</key>
+    <string>/Users/devtehen/project_tracking_jsonld/conversion.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/devtehen/project_tracking_jsonld/conversion_error.log</string>
+    
+    <!-- Run settings -->
+    <key>RunAtLoad</key>
+    <false/>
+    <key>KeepAlive</key>
+    <false/>
+    
+    <!-- Prevent excessive CPU usage -->
+    <key>ThrottleInterval</key>
+    <integer>300</integer>
+    
+    <!-- Enable on-demand runs -->
+    <key>StartOnMount</key>
+    <false/>
+    
+    <!-- Disable job if it fails too many times -->
+    <key>AbandonProcessGroup</key>
+    <true/>
+</dict>
+</plist>
+

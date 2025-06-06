@@ -1,0 +1,115 @@
+name: Create/Delete Branch for Pull Request
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+concurrency:
+  group: neon-pr-${{ github.event.number }}
+  cancel-in-progress: true
+
+# Uncomment for schema diff functionality
+# permissions:
+#   contents: read
+#   pull-requests: write
+
+jobs:
+  setup:
+    name: Setup
+    outputs:
+      branch_name: ${{ steps.get_branch.outputs.branch_name }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract branch name
+        id: get_branch
+        run: echo "branch_name=$(echo '${{ github.head_ref }}' | sed 's/refs\/heads\///')" >> $GITHUB_OUTPUT
+
+  create_neon_branch:
+    name: Create Neon Branch
+    outputs:
+      db_url: ${{ steps.create_neon_branch.outputs.connection_string }}
+      db_url_with_pooler: ${{ steps.create_neon_branch.outputs.connection_string }}
+    needs: setup
+    if: |
+      github.event.action == 'opened' ||
+      github.event.action == 'reopened' ||
+      github.event.action == 'synchronize'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Create Neon branch
+        id: create_neon_branch
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+          NEON_PROJECT_ID: ${{ vars.NEON_PROJECT_ID }}
+        run: |
+          BRANCH_NAME="preview/pr-${{ github.event.number }}-${{ needs.setup.outputs.branch_name }}"
+          response=$(curl --fail-with-body -s -X POST \
+            "https://console.neon.tech/api/v2/projects/$NEON_PROJECT_ID/branches" \
+            -H "Accept: application/json" \
+            -H "Authorization: Bearer $NEON_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "branch": {
+                "name": "'"$BRANCH_NAME"'",
+                "parent_id": "br-xxxx" 
+              }
+            }')
+          echo "branch_id=$(jq -r '.branch.id' <<< "$response")" >> $GITHUB_OUTPUT
+          echo "connection_string=$(jq -r '.connection_uris[0].connection_uri' <<< "$response")" >> $GITHUB_OUTPUT
+          
+      - name: Generate Prisma URL
+        run: |
+          echo "DATABASE_URL=${{ steps.create_neon_branch.outputs.connection_string }}" >> $GITHUB_ENV
+
+      # Uncomment to run database migrations using pnpm
+      # - name: Checkout repository
+      #   uses: actions/checkout@v4
+      # 
+      # - name: Setup Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '20'
+      # 
+      # - name: Setup pnpm
+      #   uses: pnpm/action-setup@v3
+      #   with:
+      #     version: 8
+      # 
+      # - name: Install dependencies
+      #   run: pnpm install
+      # 
+      # - name: Run Prisma Migrations
+      #   run: pnpm prisma migrate deploy
+      #   env:
+      #     DATABASE_URL: ${{ steps.create_neon_branch.outputs.connection_string }}
+
+      # Uncomment to add schema diff comment to PR
+      # - name: Post Schema Diff Comment to PR
+      #   uses: actions/github-script@v6
+      #   with:
+      #     script: |
+      #       // Add schema diff comment implementation here
+
+  delete_neon_branch:
+    name: Delete Neon Branch
+    needs: setup
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Delete Neon branch
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+          NEON_PROJECT_ID: ${{ vars.NEON_PROJECT_ID }}
+        run: |
+          BRANCH_NAME="preview/pr-${{ github.event.number }}-${{ needs.setup.outputs.branch_name }}"
+          curl --fail-with-body -X DELETE \
+            "https://console.neon.tech/api/v2/projects/$NEON_PROJECT_ID/branches/$BRANCH_NAME" \
+            -H "Accept: application/json" \
+            -H "Authorization: Bearer $NEON_API_KEY"
+

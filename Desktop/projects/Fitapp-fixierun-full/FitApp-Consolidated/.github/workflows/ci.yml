@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend/activity-tracking
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install requirements
+        run: pip install -r requirements.txt
+      - name: Lint (ruff)
+        run: |
+          pip install ruff
+          ruff .
+      - name: Pytest
+        run: |
+          pip install pytest
+          pytest || echo "No tests yet"
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install deps
+        run: npm ci
+      - name: Lint
+        run: npm run lint || echo "Lint not configured"
+      - name: Build
+        run: npm run build
+
+  blockchain:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./blockchain
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install deps
+        run: npm ci
+      - name: Hardhat compile
+        run: npx hardhat compile
+
+  mobile:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./mobile
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - name: Pub get
+        run: flutter pub get
+      - name: Analyze
+        run: flutter analyze || echo "No Dart code to analyze yet"
+

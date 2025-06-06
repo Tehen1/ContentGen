@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FixieRun - Fixed Gear NFT Web3 FitApp</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .gradient-text {
+      background: linear-gradient(90deg, #ff0066, #00ccff, #7ecea1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 300% 300%;
+      animation: gradient 5s ease infinite;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .btn {
+      background-color: transparent;
+      border: 2px solid #00ccff;
+      color: #00ccff;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      left: -100%;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #00ccff;
+      transition: all 0.3s ease;
+      z-index: -1;
+    }
+
+    .btn:hover {
+      color: #0a0a0a;
+    }
+
+    .btn:hover::before {
+      left: 0;
+    }
+
+    .hero-bg {
+      background: url('https://www.fixierun.com/images/hero-bg.jpg') center center/cover fixed no-repeat;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      z-index: -1;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border: 0;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen bg-black text-white">
+  <!-- Navbar -->
+  <nav class="bg-transparent absolute w-full top-0 left-0 p-4 z-10">
+    <div class="container mx-auto flex justify-between items-center">
+      <!-- Logo -->
+      <a href="https://fixierun.com" class="text-2xl font-bold gradient-text">FixieRun</a>
+      
+      <!-- Navigation Links -->
+      <ul class="flex space-x-6">
+        <li>
+          <a href="https://fixierun.com#hero" class="hover:text-green-400 transition-colors duration-300">Home</a>
+        </li>
+        <li>
+          <a href="https://fixierun.com#white-paper" class="hover:text-green-400 transition-colors duration-300">White Paper 🏁🚴‍♂️</a>
+        </li>
+        <li>
+          <a href="https://fixierun.com#features" class="hover:text-green-400 transition-colors duration-300">Features</a>
+        </li>
+        <li>
+          <a href="https://fixierun.com#roadmap" class="hover:text-green-400 transition-colors duration-300">Roadmap</a>
+        </li>
+      </ul>
+
+      <!-- Language Selector -->
+      <div class="ml-4">
+        <label for="langSelect" class="sr-only">Choose language</label>
+        <select id="langSelect" class="rounded border border-gray-400 bg-white px-4 py-2 font-semibold text-gray-800 shadow">
+          <option value="en">English</option>
+          <option value="fr">Français</option>
+          <option value="es">Español</option>
+          <option value="de">Deutsch</option>
+          <option value="zh">中文</option>
+        </select>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="hero" class="hero-bg text-white py-20 relative">
+    <div class="container mx-auto px-4 flex flex-col-reverse md:flex-row items-center relative z-10">
+      <div class="md:w-1/2">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">FixieRun - Fixed Gear NFT Web3 FitApp</h1>
+        <p class="text-lg mb-6">
+          <strong>Roulez, gagnez et collectionnez des NFTs uniques !</strong> Rejoignez notre application de cyclisme basée sur la blockchain Web3 et découvrez une nouvelle manière de faire du sport tout en gagnant des cryptomonnaies.
+        </p>
+        <a href="https://fixierun.com#cta" class="btn">Commencer Maintenant</a>
+      </div>
+      <div class="md:w-1/2 mt-10 md:mt-0">
+        <video width="400" height="400" autoplay muted playsinline class="w-full h-auto mx-auto" data-aos="fade-up">
+          <source src="https://techbuzzinga.com/wp-content/uploads/2024/09/fixierun1.webm" type="video/webm">
+          <source src="https://techbuzzinga.com/wp-content/uploads/2024/09/fixierun1.mp4" type="video/mp4">
+          Votre navigateur ne supporte pas la lecture vidéo.
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- White Paper Section -->
+  <section id="white-paper" class="py-20 bg-gray-800">
+    <div class="container mx-auto px-4">
+      <h2 class="mb-8 text-center text-4xl font-bold text-white">FixieRun White Paper 🏁🚴‍♂️</h2>
+      <div class="bg-gray-900 p-8 rounded-lg shadow-lg">
+        
+        <!-- Introduction -->
+        <h3 class="mb-4 text-2xl font-bold text-green-400">Introduction</h3>
+        <p class="mb-4 text-lg text-gray-300">
+          FixieRun est une plateforme Web3 révolutionnaire qui combine l'activité physique, la blockchain et les NFTs pour créer un écosystème unique dans lequel les cyclistes peuvent non seulement rester actifs, mais aussi collecter et échanger des actifs numériques tout en recevant des récompenses pour leur effort. Le cœur de FixieRun est de transformer chaque mouvement (particulièrement le cyclisme) en une expérience enrichissante à plusieurs niveaux, alliant la passion du vélo à la technologie blockchain, inspirant ainsi des millions de personnes à vivre plus sainement.
+        </p>
+  
+        <!-- Vision -->
+        <h3 class="mb-4 text-2xl font-bold text-green-400">Vision</h3>
+        <p class="mb-4 text-lg text-gray-300">
+          FixieRun vise à rendre l'activité physique plus gratifiante, non seulement par le biais de récompenses numériques, mais aussi par le biais d’un sentiment d’accomplissement, de partages communautaires et des compétitions cyclistes.
+        </p>
+        <p class="mb-4 text-lg text-gray-300">
+          Notre plateforme entend également encourager l'innovation dans la gamification de l'activité physique, avec un accent particulier sur la lutte contre l'inaction via un écosystème motivant et transparent.
+        </p>
+  
+        <!-- Fonctionnement de FixieRun -->
+        <h3 class="mb-4 text-2xl font-bold text-green-400">Fonctionnement de FixieRun</h3>
+        <ol class="list-decimal list-inside space-y-2 mb-4 text-gray-300">
+          <li><strong>Installation et Démarrage</strong>
+            <ul class="list-disc list-inside ml-4 mt-2 space-y-2">
+              <li>Les utilisateurs téléchargent l'application FixieRun depuis leur store favori (App Store ou Google Play).</li>
+              <li>Ils connectent un portefeuille crypto (MetaMask, WalletConnect, etc.) au sein de l'application pour commencer à participer.</li>
+              <li>Après avoir acheté ou minté leur premier NFT Bike, les utilisateurs peuvent immédiatement commencer à pédaler pour accumuler des jetons $FIXIE.</li>
+            </ul>
+          </li>
+          <li><strong>Move-to-Earn (Bouger pour Gagner)</strong>
+            <p class="mt-2">Le mécanisme central de FixieRun repose sur la mécanique move-to-earn, permettant aux utilisateurs de recevoir des récompenses en fonction de leurs efforts dans le monde réel. Chaque kilomètre parcouru permet de :</p>
+            <ul class="list-disc list-inside ml-4 mt-2 space-y-2">
+              <li>Accumuler des jetons $FIXIE</li>
+              <li>Améliorer son NFT Bike</li>
+              <li>Collecter d'autres NFT exclusifs (vélos, accessoires, gemmes)</li>
+            </ul>
+            <p class="mt-2">Le tracking des efforts est assuré en temps réel grâce à des intégrations avec des API telles que Google Fitness ou Strava, ce qui permet une reconnexion avec des appareils de mesure comme des montres connectées ou capteurs de vélo.</p>
+          </li>
+        </ol>
+  
+        <!-- Technologie -->
+        <h3 class="mb-4 text-2xl font-bold text-green-400">Technologie</h3>
+        <p class="mb-4 text-lg text-gray-300">
+          FixieRun utilise des technologies avancées pour garantir une expérience utilisateur optimale et sécurisée.
+        </p>
+        <ol class="list-decimal list-inside space-y-2 mb-4 text-gray-300">
+          <li><strong>Blockchain : zkEVM</strong>
+            <p class="mt-2">Nous exploitons la technologie zkEVM comme un Layer 2 d'Ethereum, offrant une scalabilité et des frais de transaction réduits, tout en conservant la sécurité de la blockchain Ethereum.</p>
+            <ul class="list-disc list-inside ml-4 mt-2 space-y-2">
+              <li>Les NFTs (vélos, objets, gemmes) sont des ERC-721.</li>
+              <li>Le jeton utilitaire $FIXIE est conforme à la norme ERC-20.</li>
+            </ul>
+          </li>
+          <li><strong>Frontend</strong>
+            <ul class="list-disc list-inside ml-4 mt-2 space-y-2">
+              <li>React.js + Next.js : Pour offrir une interface utilisateur réactive et rapide.</li>
+              <li>Styled-components : Pour un style durable et cohérent sur toutes les plateformes.</li>
+            </ul>
+          </li>
+          <li><strong>Systèmes d'API & Backend</strong>
+            <ul class="list-disc list-inside ml-4 mt-2 space-y-2">
+              <li>Node.js + Express avec une API GraphQL pour optimiser les requêtes.</li>
+              <li>MongoDB pour les données utilisateur et informations hors chaîne.</li>
+              <li>IPFS pour le stockage décentralisé des métadonnées NFT.</li>
+            </ul>
+          </li>
+        </ol>
+  
+        <!-- Les Vélo NFTs -->
+        <h3 class="mb-4 text-2xl font-bold text-green-400">Les Vélo NFTs</h3>
+        <h4 class="mb-2 text-xl font-semibold text-green-300">Rareté des Vélos</h4>
+        <p class="mb-4 text-lg text-gray-300">
+          Les NFTs Bikes sont définis selon cinq niveaux de rareté. Chaque vélo possède des statistiques initiales liées à sa rareté.
+        </p>
+        <ul class="list-disc list-inside ml-4 mb-4 text-gray-300">
+          <li>Commun (50% de distribution) : Faciles à obtenir mais offrant des statistiques de base.</li>
+          <li>Rare (25%) : Bon équilibre entre accessibilité et performances supérieures.</li>
+          <li>Épique (15%) : Optimisés pour les utilisateurs à la recherche de défis plus exigeants.</li>
+          <li>Légendaire (8%) : Des vélos extrêmement performants, parfaits pour les compétitions d'élite.</li>
+          <li>Mythique (2%) : Les plus rares et les plus puissants, avec des caractéristiques d'exception.</li>
+        </ul>
+  
+        <h4 class="mb-2 text-xl font-semibold text-green-300">Statistiques Clés</h4>
+        <p class="mb-4 text-lg text-gray-300">
+          Chaque vélo est noté selon 7 statistiques importantes, qui influencent leurs performances dans les courses et activités :
+        </p>
+        <ul class="list-disc list-inside ml-4 mb-4 text-gray-300">
+          <li>Vitesse : Vitesse de pointe</li>
+          <li>Endurance : Faculté à poursuivre des activités de longue durée</li>
+          <li>Agilité : Capacité à manœuvrer dans des environnements complexes</li>
+          <li>Force : Aide à surmonter les obstacles physiques</li>
+          <li>Équilibre : Maintien de la stabilité durant le parcours</li>
+          <li>Réflexes : Réactivité du vélo lors de virages ou changements soudains</li>
+          <li>Résilience : Pourcentage de résistance à l’usure au fil du temps</li>
+        </ul>
+  
+        <h4 class="mb-2 text-xl font-semibold text-green-300">Améliorations via Gemmes</h4>
+        <p class="mb-4 text-lg text-gray-300">
+          Les gemmes sont des objets appliqués dans les sockets des vélos NFT pour augmenter leurs statistiques.
+        </p>
+        <ul class="list-disc list-inside ml-4 mb-4 text-gray-300">
+          <li>Gemmes de Vitesse : Boost de la vitesse maximale.</li>
+          <li>Gemmes d’Endurance : Accroît la capacité à tenir sur de longues distances.</li>
+          <li>Gemmes Cycloniques : Améliore la vitesse et l’agilité, parfait pour les parcours complexes.</li>
+          <li>Gemmes Fusionnées : Accroissement multi-statistique avec un impact double sur la performance.</li>
+        </ul>
+  
+        <h4 class="mb-2 text-xl font-semibold text-green-300">Le Système de Fusion</h4>
+        <p class="mb-4 text-lg text-gray-300">
+          Le système de fusion permet aux utilisateurs d'améliorer leurs vélos en combinant plusieurs vélos NFT pour en créer un plus puissant.
+        </p>
+        <ol class="list-decimal list-inside ml-4 mb-4 text-gray-300 space-y-2">
+          <li><strong>Sélection des vélos à fusionner :</strong> Les joueurs sélectionnent deux vélos (ou plus).</li>
+          <li><strong>Optimisation des statistiques :</strong> Les attributs des vélos fusionnés se combinent pour créer un nouvel NFT avec des statistiques accrues.</li>
+          <li><strong>Augmentation de la rareté :</strong> Il est possible de passer à une rareté supérieure (par exemple, un vélo rare peut devenir épique après fusion).</li>
+          <li><strong>Coût en $FIXIE :</strong> La fusion nécessite de dépenser des jetons $FIXIE, qui varient selon la rareté et les vélos utilisés.</li>
+        </ol>
+  
+        <!-- Tokenomics -->
+        <h3 class="mb-4 text-2xl font-bold text-green-400">Tokenomics 🎟</h3>
+        <p class="mb-4 text-lg text-gray-300">
+          Le $FIXIE est l’élément central de tout l’écosystème FixieRun.
+        </p>
+        <ul class="list-disc list-inside ml-4 mb-4 text-gray-300">
+          <li><strong>Supply totale :</strong> 1 milliard (1,000,000,000 $FIXIE)</li>
+        </ul>
+  
+        <h4 class="mb-2 text-xl font-semibold text-green-300">Répartition :</h4>
+        <ul class="list-disc list-inside ml-4 mb-4 text-gray-300">
+          <li>40% : Récompenses pour l'utilisateur</li>
+          <li>25% : Développement & maintenance</li>
+          <li>15% : Marketing et partenariats</li>
+          <li>10% : Équipe & conseillers (avec verrouillage de trois ans)</li>
+          <li>10% : Réserve communautaire</li>
+        </ul>
+  
+        <h4 class="mb-2 text-xl font-semibold text-green-300">Utilité du $FIXIE :</h4>
+        <ul class="list-disc list-inside ml-4 mb-4 text-gray-300">
+          <li>Achats de NFTs (nouveaux vélos, gemmes) sur le Marketplace.</li>
+          <li>Upgrades pour améliorer les statistiques des vélos.</li>
+          <li>Entrée aux compétitions exclusives, réservées aux détenteurs de vélos légendaires ou élites.</li>
+        </ul>
+  
+        <!-- Feuille de route -->
+        <h3 class="mb-4 text-2xl font-bold text-green-400">Feuille de route 🚀</h3>
+        <table class="w-full text-left border-collapse border border-gray-700 mb-4">
+          <thead>
+            <tr>
+              <th class="border border-gray-700 px-4 py-2">Étape</th>
+              <th class="border border-gray-700 px-4 py-2">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border border-gray-700 px-4 py-2">Q3 2023</td>
+              <td class="border border-gray-700 px-4 py-2">Lancement de la Bêta, première collection de NFTs</td>
+            </tr>
+            <tr>
+              <td class="border border-gray-700 px-4 py-2">Q4 2023</td>
+              <td class="border border-gray-700 px-4 py-2">Déploiement officiel de l'application mobile FixieRun, émission du $FIXIE</td>
+            </tr>
+            <tr>
+              <td class="border border-gray-700 px-4 py-2">Q1 2024</td>
+              <td class="border border-gray-700 px-4 py-2">Amélioration du Marketplace NFT, introduction des compétitions mondiales</td>
+            </tr>
+            <tr>
+              <td class="border border-gray-700 px-4 py-2">Q2 2024</td>
+              <td class="border border-gray-700 px-4 py-2">Intégration VR, nouveaux partenariats avec des marques de vélos</td>
+            </tr>
+            <tr>
+              <td class="border border-gray-700 px-4 py-2">Q3 2024</td>
+              <td class="border border-gray-700 px-4 py-2">Gouvernance communautaire avec des votes influencés par le $FIXIE</td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <!-- Événements Spéciaux -->
+        <h3 class="mb-4 text-2xl font-bold text-green-400">Événements Spéciaux 🔥</h3>
+        <ul class="list-disc list-inside ml-4 mb-4 text-gray-300">
+          <li><strong>Course des Légendes (Q4 2023)</strong>: Compétition réservée aux détenteurs de vélos légendaires avec des récompenses conséquentes.</li>
+          <li><strong>Championnat Mondial FixieRun (Q1 2024)</strong>: Participation ouverte à tous les utilisateurs, avec des prix NFT exclusifs et des vélos épiques ou légendaires pour les meilleurs performeurs.</li>
+          <li><strong>Minting Party Collaboration avec des Marques (Janvier 2024)</strong>: Un événement collaboratif pour la création exclusive de NFT Bikes, possiblement légendaires.</li>
+          <li><strong>Marathon de Fin d'Année (Décembre 2023)</strong>: Défi longue distance avec des récompenses en gemmes, $FIXIE, et vélos rares.</li>
+        </ul>
+  
+        <!-- Conclusion -->
+        <h3 class="mb-4 text-2xl font-bold text-green-400">Conclusion</h3>
+        <p class="mb-4 text-lg text-gray-300">
+          Rejoignez la communauté FixieRun dès aujourd'hui, commencez à pédaler vers un avenir plus actif, connecté, et récompensé. 🌐🚴‍♂️
+        </p>
+  
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-4">
+    <div class="container mx-auto text-center">
+      <p>&copy; 2023 FixieRun. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <!-- Optional JavaScript -->
+  <script>
+    // Add any JavaScript needed, such as for the Language Selector or navigation
+  </script>
+</body>
+</html>

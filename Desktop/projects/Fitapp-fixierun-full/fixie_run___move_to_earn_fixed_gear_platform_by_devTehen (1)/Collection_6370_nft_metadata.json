@@ -1,0 +1,19 @@
+{
+  "name": "Collection_6370",
+  "description": "NFT généré à partir de Collection_6370.png",
+  "image": "Collection_6370_nft.png",
+  "attributes": [
+    {
+      "trait_type": "Width",
+      "value": 2048
+    },
+    {
+      "trait_type": "Height",
+      "value": 2048
+    },
+    {
+      "trait_type": "Format",
+      "value": "PNG"
+    }
+  ]
+}

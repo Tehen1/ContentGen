@@ -1,0 +1,93 @@
+{
+  "title": "Your Fitness Dashboard",
+  "description": "Track your workout progress, analyze your fitness stats, and monitor your token earnings in your personalized FixieRun dashboard.",
+  "keywords": [
+    "workout analytics",
+    "fitness dashboard",
+    "activity tracker",
+    "exercise statistics",
+    "fitness progress",
+    "token rewards",
+    "achievement tracking",
+    "workout history",
+    "health metrics",
+    "performance analytics"
+  ],
+  "sections": [
+    {
+      "id": "activity-summary",
+      "title": "Activity Summary",
+      "description": "View a summary of your recent workout activities including distance, duration, and calories burned.",
+      "keywords": ["workout summary", "activity log", "fitness summary", "exercise record"]
+    },
+    {
+      "id": "token-earnings",
+      "title": "Token Earnings",
+      "description": "Track your token earnings from workouts, challenges, and achievements.",
+      "keywords": ["crypto rewards", "fitness tokens", "workout rewards", "earnings history"]
+    },
+    {
+      "id": "achievements",
+      "title": "Achievements & Milestones",
+      "description": "View your fitness achievements, NFT collections, and milestone progress.",
+      "keywords": ["fitness achievements", "workout milestones", "fitness goals", "NFT collection"]
+    },
+    {
+      "id": "statistics",
+      "title": "Performance Analytics",
+      "description": "Analyze detailed statistics about your workouts to improve your performance.",
+      "keywords": ["fitness analytics", "workout statistics", "performance metrics", "training analysis"]
+    },
+    {
+      "id": "challenges",
+      "title": "Active Challenges",
+      "description": "View and participate in ongoing fitness challenges with the community.",
+      "keywords": ["fitness challenges", "community challenges", "workout goals", "fitness competitions"]
+    }
+  ],
+  "metrics": [
+    {
+      "name": "Total Distance",
+      "unit": "km",
+      "description": "Total distance covered across all your activities."
+    },
+    {
+      "name": "Active Days",
+      "unit": "days",
+      "description": "Number of days with recorded activity."
+    },
+    {
+      "name": "Calories Burned",
+      "unit": "kcal",
+      "description": "Total calories burned across all activities."
+    },
+    {
+      "name": "Token Balance",
+      "unit": "tokens",
+      "description": "Current balance of fitness tokens earned."
+    },
+    {
+      "name": "NFTs Collected",
+      "unit": "count",
+      "description": "Number of fitness achievement NFTs collected."
+    }
+  ],
+  "charts": [
+    {
+      "id": "weekly-activity",
+      "title": "Weekly Activity Chart",
+      "description": "Visual representation of your activity levels throughout the week."
+    },
+    {
+      "id": "fitness-progress",
+      "title": "Fitness Progress Chart",
+      "description": "Track your fitness improvements over time."
+    },
+    {
+      "id": "token-history",
+      "title": "Token Earnings History",
+      "description": "View your token earning history and trends."
+    }
+  ]
+}
+

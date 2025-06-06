@@ -1,0 +1,13 @@
+version: '3'
+services:
+  frontend:
+    build: .
+    ports:
+      - "80:80"
+    environment:
+      - VITE_MAPBOX_TOKEN=your_mapbox_token
+      - VITE_API_URL=http://localhost:8000
+      - VITE_CONTRACT_ADDRESSES={"token":"0x...","nft":"0x..."}
+    # Add volumes for development if needed
+    # volumes:
+    #   - ./src:/app/src

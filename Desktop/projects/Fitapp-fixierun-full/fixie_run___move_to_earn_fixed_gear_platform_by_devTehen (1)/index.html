@@ -1,0 +1,795 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixie.Run - Move-to-Earn Fixed Gear Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="brand-logo">
+                    <div class="fixed-gear-icon">
+                        <div class="wheel front"></div>
+                        <div class="wheel rear"></div>
+                        <div class="frame"></div>
+                        <div class="chain"></div>
+                    </div>
+                    <span>Fixie.Run</span>
+                </div>
+                <span class="powered-by">Powered by zkEVM</span>
+            </div>
+            
+            <ul class="nav-menu">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#nft-bikes">NFT Collection</a></li>
+                <li><a href="#leaderboard">Leaderboard</a></li>
+                <li><a href="#marketplace">Marketplace</a></li>
+                <li><a href="#community">Community</a></li>
+            </ul>
+            
+            <div class="nav-controls">
+                <div class="wallet-info hidden">
+                    <span class="balance">1,247 $FIX</span>
+                    <div class="wallet-address">0x1234...5678</div>
+                </div>
+                <button class="connect-btn">Connect Wallet</button>
+                <div class="theme-toggle">
+                    <button class="theme-btn" data-theme="dark">🌙</button>
+                    <button class="theme-btn active" data-theme="cyberpunk">⚡</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-background">
+                <div class="grid-overlay"></div>
+                <div class="floating-particles"></div>
+            </div>
+            
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>
+                        <span class="gradient-text">Ride Fixed.</span>
+                        <span class="gradient-text">Earn Crypto.</span>
+                        <span class="gradient-text">Own the Track.</span>
+                    </h1>
+                    <p>The ultimate Move-to-Earn platform for fixed gear warriors. Turn every skid, every track stand, every urban mile into cryptocurrency rewards.</p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="number">47,382</span>
+                            <span class="label">Fixie Riders</span>
+                        </div>
+                        <div class="stat">
+                            <span class="number">2.8M</span>
+                            <span class="label">Miles Tracked</span>
+                        </div>
+                        <div class="stat">
+                            <span class="number">$847K</span>
+                            <span class="label">Rewards Paid</span>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-actions">
+                        <button class="btn-primary">
+                            <span>Start Your Journey</span>
+                            <svg viewBox="0 0 24 24" width="20" height="20">
+                                <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                        </button>
+                        <button class="btn-secondary">
+                            <span>Explore Collection</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="hero-bike">
+                    <div class="nft-showcase">
+                        <div class="showcase-bike active" data-bike="neon-track">
+                            <img src="/Collection_3600_nft.png" alt="Neon City Bike" loading="lazy">
+                            <div class="bike-glow"></div>
+                        </div>
+                        <div class="showcase-bike" data-bike="velocity">
+                            <img src="/Collection_1894_nft.png" alt="Neon Bike City" loading="lazy">
+                            <div class="bike-glow"></div>
+                        </div>
+                        <div class="showcase-bike" data-bike="quantum">
+                            <img src="/Collection_6370_nft.png" alt="Black Purple Fixie" loading="lazy">
+                            <div class="bike-glow"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="bike-selector">
+                        <button class="selector-btn active" data-target="neon-track"></button>
+                        <button class="selector-btn" data-target="velocity"></button>
+                        <button class="selector-btn" data-target="quantum"></button>
+                    </div>
+                    
+                    <div class="featured-card">
+                        <div class="card-header">
+                            <span class="rarity legendary">Legendary</span>
+                            <span class="level">Lvl 87</span>
+                        </div>
+                        <h3>Neon Velocity Track</h3>
+                        <div class="performance-stats">
+                            <div class="stat-bar">
+                                <span class="label">Speed</span>
+                                <div class="bar"><div class="fill" style="width: 94%"></div></div>
+                                <span class="value">94</span>
+                            </div>
+                            <div class="stat-bar">
+                                <span class="label">Aero</span>
+                                <div class="bar"><div class="fill" style="width: 89%"></div></div>
+                                <span class="value">89</span>
+                            </div>
+                            <div class="stat-bar">
+                                <span class="label">Earn Rate</span>
+                                <div class="bar"><div class="fill" style="width: 76%"></div></div>
+                                <span class="value">+45%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="live-stats">
+            <div class="container">
+                <div class="stats-ticker">
+                    <div class="ticker-item">
+                        <span class="icon">🚴</span>
+                        <span class="text">247 riders currently active</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="icon">💰</span>
+                        <span class="text">$1,247 earned in the last hour</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="icon">⚡</span>
+                        <span class="text">New track stand record: 4:37 minutes</span>
+                    </div>
+                    <div class="ticker-item">
+                        <span class="icon">🏆</span>
+                        <span class="text">Weekly challenge ends in 2 days</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Built for Fixed Gear Culture</h2>
+                    <p>Every feature designed with the fixed gear community in mind - from track stands to messenger runs</p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card primary">
+                        <div class="feature-visual">
+                            <div class="track-stand-demo">
+                                <div class="bike-silhouette"></div>
+                                <div class="balance-indicator"></div>
+                            </div>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Track Stand Mastery</h3>
+                            <p>Earn bonus rewards for perfect track stands. Our motion sensors detect balance duration, wobble, and technique quality.</p>
+                            <div class="feature-benefits">
+                                <div class="benefit">💰 +50% rewards for 30+ second stands</div>
+                                <div class="benefit">🏆 Weekly track stand challenges</div>
+                                <div class="benefit">📊 Balance improvement tracking</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                            </svg>
+                        </div>
+                        <h3>Skid Detection</h3>
+                        <p>Advanced algorithms detect and reward controlled skids, measuring distance, control, and style points.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                <polyline points="3.27,6.96 12,12.01 20.73,6.96"/>
+                                <line x1="12" y1="22.08" x2="12" y2="12"/>
+                            </svg>
+                        </div>
+                        <h3>Messenger Challenges</h3>
+                        <p>Complete delivery-style routes through urban environments with time bonuses and efficiency rewards.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M8 12h8M12 8v8"/>
+                            </svg>
+                        </div>
+                        <h3>Fixed Gear Verification</h3>
+                        <p>Zero-knowledge proofs verify authentic fixed gear riding patterns - no freewheel cheating allowed.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <h3>Crew Formation</h3>
+                        <p>Form fixed gear crews with friends, compete in group challenges, and share collective rewards.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24">
+                                <polygon points="12,2 22,8.5 22,15.5 12,22 2,15.5 2,8.5"/>
+                                <line x1="12" y1="22" x2="12" y2="15.5"/>
+                                <polyline points="22,8.5 12,15.5 2,8.5"/>
+                            </svg>
+                        </div>
+                        <h3>Evolving Components</h3>
+                        <p>Your NFT bike gains realistic fixed gear components as you ride - from basic to premium track parts.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="leaderboard" class="leaderboard">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Global Fixed Gear Rankings</h2>
+                    <p>See how you stack up against the world's best fixed gear riders</p>
+                </div>
+                
+                <div class="leaderboard-tabs">
+                    <button class="tab-btn active" data-tab="weekly">This Week</button>
+                    <button class="tab-btn" data-tab="monthly">This Month</button>
+                    <button class="tab-btn" data-tab="alltime">All Time</button>
+                </div>
+                
+                <div class="leaderboard-content">
+                    <div class="leaderboard-table">
+                        <div class="table-header">
+                            <div class="rank">Rank</div>
+                            <div class="rider">Rider</div>
+                            <div class="miles">Miles</div>
+                            <div class="earned">Earned</div>
+                            <div class="bike">Top Bike</div>
+                        </div>
+                        
+                        <div class="table-row champion">
+                            <div class="rank">
+                                <span class="crown">👑</span>
+                                <span>1</span>
+                            </div>
+                            <div class="rider">
+                                <img src="https://images.websim.com/avatar/FixieKing" alt="FixieKing">
+                                <div class="rider-info">
+                                    <span class="name">FixieKing</span>
+                                    <span class="location">San Francisco, CA</span>
+                                </div>
+                            </div>
+                            <div class="miles">847.3</div>
+                            <div class="earned">2,847 $FIX</div>
+                            <div class="bike">Neon Phantom</div>
+                        </div>
+                        
+                        <div class="table-row">
+                            <div class="rank">2</div>
+                            <div class="rider">
+                                <img src="https://images.websim.com/avatar/TrackStandPro" alt="TrackStandPro">
+                                <div class="rider-info">
+                                    <span class="name">TrackStandPro</span>
+                                    <span class="location">Brooklyn, NY</span>
+                                </div>
+                            </div>
+                            <div class="miles">782.1</div>
+                            <div class="earned">2,456 $FIX</div>
+                            <div class="bike">Velocity Track</div>
+                        </div>
+                        
+                        <div class="table-row">
+                            <div class="rank">3</div>
+                            <div class="rider">
+                                <img src="https://images.websim.com/avatar/MessengerLife" alt="MessengerLife">
+                                <div class="rider-info">
+                                    <span class="name">MessengerLife</span>
+                                    <span class="location">London, UK</span>
+                                </div>
+                            </div>
+                            <div class="miles">693.8</div>
+                            <div class="earned">2,078 $FIX</div>
+                            <div class="bike">Urban Fixie</div>
+                        </div>
+                        
+                        <div class="table-row you">
+                            <div class="rank">42</div>
+                            <div class="rider">
+                                <img src="https://images.websim.com/avatar/You" alt="You">
+                                <div class="rider-info">
+                                    <span class="name">You</span>
+                                    <span class="location">Your City</span>
+                                </div>
+                            </div>
+                            <div class="miles">127.4</div>
+                            <div class="earned">387 $FIX</div>
+                            <div class="bike">Starter Track</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="nft-bikes" class="nft-bikes">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Legendary Fixed Gear Collection</h2>
+                    <p>Own authentic digital track bikes that evolve with your riding skills</p>
+                </div>
+                
+                <div class="collection-filters">
+                    <button class="filter-btn active" data-filter="all">All Bikes</button>
+                    <button class="filter-btn" data-filter="track">Track Bikes</button>
+                    <button class="filter-btn" data-filter="messenger">Messenger</button>
+                    <button class="filter-btn" data-filter="street">Street</button>
+                </div>
+                
+                <div class="bikes-grid">
+                    <div class="bike-card legendary" data-category="track">
+                        <div class="bike-image">
+                            <img src="/Collection_223_nft.png" alt="Purple Fixie" loading="lazy">
+                            <div class="evolution-indicator">
+                                <span>Evolved: 87%</span>
+                            </div>
+                        </div>
+                        <div class="bike-details">
+                            <div class="card-header">
+                                <span class="rarity legendary">Legendary</span>
+                                <span class="level">Level 87</span>
+                            </div>
+                            <h3>Purple Track Phantom</h3>
+                            <p>Carbon fiber pursuit frame with premium track components and velodrome optimization</p>
+                            
+                            <div class="stats-grid">
+                                <div class="stat">
+                                    <span class="label">Speed</span>
+                                    <span class="value">98</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">Aero</span>
+                                    <span class="value">95</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">Earn Rate</span>
+                                    <span class="value">+45%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bike-card epic" data-category="messenger">
+                        <div class="bike-image">
+                            <img src="/Collection_2353_nft.png" alt="Black Bike City Night" loading="lazy">
+                        </div>
+                        <div class="bike-details">
+                            <div class="card-header">
+                                <span class="rarity epic">Epic</span>
+                                <span class="level">Level 34</span>
+                            </div>
+                            <h3>Urban Night Rider</h3>
+                            <p>Steel frame messenger bike with purple rims and city optimization mods</p>
+                            
+                            <div class="stats-grid">
+                                <div class="stat">
+                                    <span class="label">Durability</span>
+                                    <span class="value">92</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">Cargo</span>
+                                    <span class="value">88</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">City Bonus</span>
+                                    <span class="value">+25%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bike-card rare" data-category="street">
+                        <div class="bike-image">
+                            <img src="/Collection_5714_nft.png" alt="Black Bike Night" loading="lazy">
+                        </div>
+                        <div class="bike-details">
+                            <div class="card-header">
+                                <span class="rarity rare">Rare</span>
+                                <span class="level">Level 15</span>
+                            </div>
+                            <h3>Night Street Fixie</h3>
+                            <p>Classic steel frame with purple-rimmed wheels, perfect for urban night riding</p>
+                            
+                            <div class="stats-grid">
+                                <div class="stat">
+                                    <span class="label">Comfort</span>
+                                    <span class="value">75</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">Style</span>
+                                    <span class="value">82</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">Earn Rate</span>
+                                    <span class="value">+15%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bike-card legendary" data-category="track">
+                        <div class="bike-image">
+                            <img src="/Collection_9588_nft.png" alt="Glowing Bicycle" loading="lazy">
+                        </div>
+                        <div class="bike-details">
+                            <div class="card-header">
+                                <span class="rarity legendary">Legendary</span>
+                                <span class="level">Level 76</span>
+                            </div>
+                            <h3>Quantum Glow Track</h3>
+                            <p>Wireframe design with energy trails and advanced particle effects</p>
+                            
+                            <div class="stats-grid">
+                                <div class="stat">
+                                    <span class="label">Speed</span>
+                                    <span class="value">97</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">Weight</span>
+                                    <span class="value">94</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">Track Bonus</span>
+                                    <span class="value">+40%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bike-card epic" data-category="street">
+                        <div class="bike-image">
+                            <img src="/Collection_1919_nft.png" alt="City Bike Night" loading="lazy">
+                        </div>
+                        <div class="bike-details">
+                            <div class="card-header">
+                                <span class="rarity epic">Epic</span>
+                                <span class="level">Level 42</span>
+                            </div>
+                            <h3>FLYDEFFION City</h3>
+                            <p>Illuminated rim design with sparkling effects for night city rides</p>
+                            
+                            <div class="stats-grid">
+                                <div class="stat">
+                                    <span class="label">Speed</span>
+                                    <span class="value">92</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">Aero</span>
+                                    <span class="value">90</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">City Bonus</span>
+                                    <span class="value">+30%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bike-card rare" data-category="track">
+                        <div class="bike-image">
+                            <img src="/Untitled_327_nft.png" alt="Glowing Bike" loading="lazy">
+                        </div>
+                        <div class="bike-details">
+                            <div class="card-header">
+                                <span class="rarity rare">Rare</span>
+                                <span class="level">Level 28</span>
+                            </div>
+                            <h3>Energy Fusion Bike</h3>
+                            <p>Dark aesthetic with swirling blue and purple energy emanating from wheels</p>
+                            
+                            <div class="stats-grid">
+                                <div class="stat">
+                                    <span class="label">Speed</span>
+                                    <span class="value">88</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">Weight</span>
+                                    <span class="value">85</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">Track Bonus</span>
+                                    <span class="value">+25%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="community" class="community">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Join the Fixed Gear Revolution</h2>
+                    <p>Connect with riders worldwide, share your achievements, and grow the community</p>
+                </div>
+                
+                <div class="community-grid">
+                    <div class="community-card">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                            </svg>
+                        </div>
+                        <h3>Discord Community</h3>
+                        <p>Join 15K+ fixed gear enthusiasts sharing tips, organizing rides, and celebrating achievements</p>
+                        <button class="community-btn">Join Discord</button>
+                    </div>
+                    
+                    <div class="community-card">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24">
+                                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                                <line x1="8" y1="21" x2="16" y2="21"/>
+                                <line x1="12" y1="17" x2="12" y2="21"/>
+                            </svg>
+                        </div>
+                        <h3>Live Events</h3>
+                        <p>Participate in virtual and real-world fixed gear events with exclusive NFT rewards</p>
+                        <button class="community-btn">View Events</button>
+                    </div>
+                    
+                    <div class="community-card">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                            </svg>
+                        </div>
+                        <h3>Open Source</h3>
+                        <p>Contribute to the platform development and help shape the future of Move-to-Earn</p>
+                        <button class="community-btn">GitHub Repo</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="roadmap">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Development Roadmap</h2>
+                    <p>See what's coming next for the Fixie.Run platform</p>
+                </div>
+                
+                <div class="roadmap-timeline">
+                    <div class="timeline-item completed">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>Q1 2024</h3>
+                            <h4>Platform Launch</h4>
+                            <ul>
+                                <li>✅ Basic tracking and rewards</li>
+                                <li>✅ NFT bike collection</li>
+                                <li>✅ Track stand detection</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item current">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>Q2 2024</h3>
+                            <h4>Enhanced Features</h4>
+                            <ul>
+                                <li>🚧 Advanced skid detection</li>
+                                <li>🚧 Crew formation system</li>
+                                <li>⏳ Marketplace v2.0</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item upcoming">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>Q3 2024</h3>
+                            <h4>Social & Competition</h4>
+                            <ul>
+                                <li>🔮 Global tournaments</li>
+                                <li>🔮 AR bike visualization</li>
+                                <li>🔮 Real-world partnerships</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item upcoming">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>Q4 2024</h3>
+                            <h4>Ecosystem Expansion</h4>
+                            <ul>
+                                <li>🔮 Mobile app launch</li>
+                                <li>🔮 Hardware integration</li>
+                                <li>🔮 Cross-chain support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="faq">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Frequently Asked Questions</h2>
+                    <p>Everything you need to know about Fixie.Run</p>
+                </div>
+                
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>What makes Fixie.Run different from other fitness apps?</span>
+                            <svg class="faq-icon" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Fixie.Run is specifically designed for fixed gear cycling culture. We understand track stands, skids, messenger runs, and the unique aspects of riding without freewheels. Our rewards system recognizes authentic fixed gear techniques.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>How does the track stand detection work?</span>
+                            <svg class="faq-icon" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Using advanced motion sensors and machine learning, we detect when you're performing a track stand by analyzing balance patterns, micro-movements, and duration. Perfect stands earn bonus rewards!</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>Can I use any bike or only fixed gear?</span>
+                            <svg class="faq-icon" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Fixie.Run is optimized for fixed gear bikes. Our algorithms detect fixed gear riding patterns through pedal cadence, braking patterns, and movement signatures that are unique to fixies.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <button class="faq-question">
+                            <span>How do NFT bikes evolve?</span>
+                            <svg class="faq-icon" viewBox="0 0 24 24">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                        </button>
+                        <div class="faq-answer">
+                            <p>As you accumulate miles, your NFT bike gains new components, visual upgrades, and performance boosts. Each evolution reflects real fixed gear culture - from basic track builds to premium pursuit setups.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="brand-logo">
+                        <div class="fixed-gear-icon">
+                            <div class="wheel front"></div>
+                            <div class="wheel rear"></div>
+                            <div class="frame"></div>
+                            <div class="chain"></div>
+                        </div>
+                        <span>Fixie.Run</span>
+                    </div>
+                    <p>The ultimate Move-to-Earn platform for the fixed gear community.</p>
+                    
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Platform</h4>
+                        <ul>
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#how-it-works">How It Works</a></li>
+                            <li><a href="#marketplace">Marketplace</a></li>
+                            <li><a href="#leaderboard">Leaderboard</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="link-group">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="#whitepaper">Whitepaper</a></li>
+                            <li><a href="#docs">Documentation</a></li>
+                            <li><a href="#api">API</a></li>
+                            <li><a href="#support">Support</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="link-group">
+                        <h4>Community</h4>
+                        <ul>
+                            <li><a href="#discord">Discord</a></li>
+                            <li><a href="#events">Events</a></li>
+                            <li><a href="#crews">Find Crews</a></li>
+                            <li><a href="#challenges">Challenges</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-legal">
+                    <p>&copy; 2024 Fixie.Run. All rights reserved.</p>
+                    <div class="legal-links">
+                        <a href="#privacy">Privacy Policy</a>
+                        <a href="#terms">Terms of Service</a>
+                        <a href="#cookies">Cookie Policy</a>
+                    </div>
+                </div>
+                
+                <div class="footer-powered">
+                    <span>Powered by</span>
+                    <div class="tech-badges">
+                        <span class="tech-badge">zkEVM</span>
+                        <span class="tech-badge">Polygon</span>
+                        <span class="tech-badge">IPFS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

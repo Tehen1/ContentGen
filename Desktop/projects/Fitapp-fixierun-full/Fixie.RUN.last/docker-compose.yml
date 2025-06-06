@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  # Frontend - Next.js application
+  frontend:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_BACKEND_URL=http://backend:3001
+      - NEXT_PUBLIC_WEBSOCKET_URL=ws://backend:3001
+    networks:
+      - fixierun-network
+
+  # Backend - Express API server
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - postgres
+      - analyzer
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/fixierun_db
+      - PYTHON_PATH=/usr/bin/python3
+      - ANALYZER_URL=http://analyzer:5000
+    networks:
+      - fixierun-network
+
+  # Analyzer - Python service
+  analyzer:
+    build:
+      context: ./analyzer
+      dockerfile: ./Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./analyzer:/app
+    environment:
+      - DEBUG=True
+      - API_PORT=5000
+      - API_HOST=0.0.0.0
+    networks:
+      - fixierun-network
+
+  # Database - PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=fixierun_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - fixierun-network
+
+volumes:
+  postgres-data:
+
+networks:
+  fixierun-network:
+    driver: bridge

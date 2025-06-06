@@ -1,0 +1,118 @@
+"""
+Configuration centralisée pour l'application Streamlit
+"""
+import os
+from pathlib import Path
+from datetime import datetime
+import pandas as pd
+
+# Chemins des fichiers
+BASE_DIR = Path(__file__).parent.parent.parent
+DATA_DIR = BASE_DIR / "Fit"
+ACTIVITY_DATA = DATA_DIR / "Métriques d_activité quotidiennes"
+MAPS_DATA = DATA_DIR / "Historique des positions"
+
+# Configuration des données
+DATA_CONFIG = {
+    "date_format": "%Y-%m-%d %H:%M:%S",
+    "daily_metrics": {
+        "source_path": ACTIVITY_DATA,
+        "file_pattern": "*.csv",
+        "date_columns": ["Date"],
+        "metrics_columns": [
+            "Points cardio",
+            "Minutes cardio",
+            "Distance (m)",
+            "Nombre de pas",
+            "Durée des activités",
+        ],
+    },
+}
+
+def get_data_path(is_local=True):
+    """
+    Retourne le chemin des données selon l'environnement
+    """
+    if is_local:
+        return ACTIVITY_DATA
+    # Pour streamlit.app, utiliser le chemin relatif
+    return "./Fit/Métriques d_activité quotidiennes"
+# Configuration de l'interface utilisateur
+UI_CONFIG = {
+    "page_title": "Fitness Dashboard",
+    "page_icon": "🏃‍♂️",
+    "layout": "wide",
+    "initial_sidebar_state": "expanded",
+}
+
+# Configuration du dashboard
+DASHBOARD_CONFIG = {
+    # Paramètres temporels
+    "default_period": "ME",  # Month End (remplace 'M')
+    "date_format": "%Y-%m-%d",
+    
+    # Configuration des graphiques
+    "graphs": {
+        "colors": {
+            "primary": "#FF4B4B",
+            "secondary": "#0068C9",
+            "background": "#FFFFFF",
+        },
+        "height": 400,
+        "width": "100%"
+    },
+    
+    # Métriques à afficher
+    "metrics": {
+        "cardio": {
+            "display_name": "Minutes cardio",
+            "column": "Minutes cardio",
+            "unit": "min",
+        },
+        "steps": {
+            "display_name": "Nombre de pas",
+            "column": "Nombre de pas",
+            "unit": "pas",
+        },
+        "distance": {
+            "display_name": "Distance",
+            "column": "Distance (m)",
+            "unit": "m",
+        }
+    }
+}
+
+# Configuration des données
+DATA_CONFIG = {
+    # Colonnes attendues dans les fichiers CSV
+    "required_columns": [
+        "Date",
+        "Minutes cardio",
+        "Nombre de pas",
+        "Distance (m)",
+        "Points cardio"
+    ],
+    
+    # Configuration du parsing des données
+    "date_handling": {
+        "parse_dates": ["Date"],
+        "date_parser": lambda x: pd.to_datetime(x, format="%Y-%m-%d", utc=True),
+        "na_values": ["", "nan", "NaN"],
+    },
+    
+    # Configuration des agrégations
+    "aggregations": {
+        "daily": "D",
+        "weekly": "W",
+        "monthly": "ME"
+    }
+}
+
+# Configuration des cartes
+MAP_CONFIG = {
+    "default_location": [48.8566, 2.3522],  # Paris
+    "default_zoom": 11,
+    "style": "mapbox://styles/mapbox/streets-v11",
+    "map_token": os.getenv("MAPBOX_TOKEN", ""),
+}
+

@@ -1,0 +1,114 @@
+/* Accessibility styles */
+
+/* Base font scaling */
+:root {
+  --font-scale: 1;
+}
+
+/* Apply font scaling to all text elements */
+body {
+  font-size: calc(1rem * var(--font-scale));
+}
+
+h1 {
+  font-size: calc(2.25rem * var(--font-scale));
+}
+
+h2 {
+  font-size: calc(1.875rem * var(--font-scale));
+}
+
+h3 {
+  font-size: calc(1.5rem * var(--font-scale));
+}
+
+h4 {
+  font-size: calc(1.25rem * var(--font-scale));
+}
+
+p,
+li,
+a,
+button,
+input,
+textarea,
+select {
+  font-size: calc(1rem * var(--font-scale));
+}
+
+/* High contrast mode */
+.high-contrast {
+  --contrast-text: #000000;
+  --contrast-bg: #ffffff;
+  --contrast-primary: #0000ff;
+  --contrast-secondary: #9000ff;
+  --contrast-border: #000000;
+  --contrast-focus: #ff8000;
+}
+
+.high-contrast.dark-theme {
+  --contrast-text: #ffffff;
+  --contrast-bg: #000000;
+  --contrast-primary: #00ffff;
+  --contrast-secondary: #ffff00;
+  --contrast-border: #ffffff;
+  --contrast-focus: #ff8000;
+}
+
+.high-contrast * {
+  color: var(--contrast-text) !important;
+  background-color: var(--contrast-bg) !important;
+  border-color: var(--contrast-border) !important;
+}
+
+.high-contrast a,
+.high-contrast button:not([disabled]) {
+  color: var(--contrast-primary) !important;
+  text-decoration: underline !important;
+}
+
+.high-contrast *:focus {
+  outline: 3px solid var(--contrast-focus) !important;
+  outline-offset: 2px !important;
+}
+
+/* Reduced motion */
+.reduced-motion * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Screen reader optimizations */
+.screen-reader-optimized .sr-only {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0.5rem !important;
+  margin: 0.5rem 0 !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+  border: 1px solid currentColor !important;
+}
+
+/* Skip to content link */
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  padding: 8px;
+  z-index: 100;
+  background: white;
+  color: black;
+  transition: top 0.2s;
+}
+
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 3px solid #4c9aff !important;
+  outline-offset: 2px !important;
+}

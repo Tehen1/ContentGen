@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Join FixieRun, the revolutionary Web3 app that rewards you for cycling. Earn crypto, collect NFT bikes, and compete globally. Powered by zkEVM blockchain.">
+    <meta name="keywords" content="blockchain game, NFT bike game, earn crypto by cycling, zkEVM, play to earn, FixieRun, NFT marketplace">
+    <title>FixieRun - Earn Rewards for Cycling with NFTs and Blockchain</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #fff;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            color: #00ccff;
+            transition: color 0.3s ease;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        nav a {
+            color: #00ccff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        nav a:hover {
+            color: #ff0066;
+            text-shadow: 0 0 10px #ff0066;
+        }
+        section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .cta {
+            background-color: transparent;
+            border: 2px solid #00ccff;
+            color: #00ccff;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .cta::before {
+            content: '';
+            position: absolute;
+            left: -100%;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #00ccff;
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+        .cta:hover {
+            color: #0a0a0a;
+        }
+        .cta:hover::before {
+            left: 0;
+        }
+        .features, .tokenomics, .nft-bikes, .testimonials, .roadmap {
+            background-color: #1a1a1a;
+            margin: 20px 0;
+            padding: 40px 20px;
+            border-radius: 10px;
+        }
+        .features h2, .tokenomics h2, .nft-bikes h2, .testimonials h2, .roadmap h2 {
+            color: #00ccff;
+            transition: color 0.3s ease;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            animation: glow 2s infinite alternate;
+        }
+        @keyframes glow {
+            from {text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;}
+            to {text-shadow: 0 0 20px #00ff99, 0 0 30px #00ff99;}
+        }
+        .features p, .tokenomics p, .nft-bikes p, .testimonials p, .roadmap p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        footer {
+            background-color: #1a1a1a;
+            padding: 20px;
+            text-align: center;
+            color: #999;
+        }
+        footer a {
+            color: #00ccff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: #ff0066;
+            text-shadow: 0 0 10px #ff0066;
+        }
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            nav a {
+                font-size: 1rem;
+            }
+        }
+
+        .gradient-text {
+          background: linear-gradient(90deg, #ff0066, #00ccff, #7ecea1);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-size: 300% 300%;
+          animation: gradient 5s ease infinite;
+        }
+
+        @keyframes gradient {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+
+        .btn {
+          background-color: transparent;
+          border: 2px solid #00ccff;
+          color: #00ccff;
+          padding: 0.5rem 1rem;
+          border-radius: 0.375rem;
+          text-transform: uppercase;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+          z-index: 10;
+          cursor: pointer;
+          margin-top: 20px;
+        }
+
+        .btn::before {
+          content: '';
+          position: absolute;
+          left: -100%;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: #00ccff;
+          transition: all 0.3s ease;
+          z-index: -1;
+        }
+
+        .btn:hover {
+          color: #0a0a0a;
+        }
+
+        .btn:hover::before {
+          left: 0;
+        }
+
+        .hero-bg {
+          background: url('https://www.fixierun.com/images/hero-bg.jpg') center center/cover fixed no-repeat;
+          position: relative;
+          z-index: 1;
+        }
+
+        .hero-bg::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0,0,0,0.7);
+          z-index: -1;
+        }
+
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0,0,0,0);
+          border: 0;
+        }
+
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+          from { opacity: 1; }
+          to { opacity: 0; }
+        }
+
+        #emailModal.show {
+          animation: fadeIn 0.5s forwards;
+        }
+
+        #emailModal.hide {
+          animation: fadeOut 0.5s forwards;
+        }
+
+        .hidden {
+          display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1 class="gradient-text">FixieRun: Revolutionizing Fitness with Blockchain</h1>
+        <nav>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#features">Features</a>
+            <a href="#tokenomics">Tokenomics</a>
+            <a href="#nft-bikes">NFT Bikes</a>
+            <a href="#roadmap">Roadmap</a>
+        </nav>
+    </header>
+
+    <!-- Introduction Section -->
+    <section id="intro" class="hero-bg">
+        <h2 class="gradient-text">Earn Crypto Rewards for Cycling with FixieRun</h2>
+        <p>FixieRun is a Web3 fitness app that rewards users for cycling. Powered by zkEVM blockchain, FixieRun allows you to earn $FIXIE tokens and collect unique NFT bikes while staying fit. Join the revolution and turn your physical activity into real-world rewards.</p>
+        <a href="https://www.fixierun.com/white-paper.pdf" class="btn">FIXIERUN WHITE PAPER 🏁🚴‍♂️</a>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="features">
+        <h2>How It Works</h2>
+        <p>1. <strong>Download the App</strong>: Available on iOS and Android.</p>
+        <p>2. <strong>Connect Your Bike</strong>: Sync your cycling activities with the app.</p>
+        <p>3. <strong>Earn $FIXIE Tokens</strong>: Earn crypto rewards for every kilometer you ride.</p>
+        <p>4. <strong>Collect NFT Bikes</strong>: Discover and upgrade unique NFT bikes.</p>
+        <p>5. <strong>Compete Globally</strong>: Join challenges and climb the leaderboard.</p>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <h2>Key Features</h2>
+        <p>🚴‍♂️ Move-to-Earn: Earn rewards for your daily movement and cycling.</p>
+        <p>🏆 NFT Marketplace: Trade unique digital assets and boost your earning potential.</p>
+        <p>🌍 Social Fitness: Connect with friends, join challenges, and compete globally.</p>
+        <p>🔒 Blockchain Security: Powered by zkEVM for secure and transparent transactions.</p>
+    </section>
+
+    <!-- Tokenomics Section -->
+    <section id="tokenomics" class="tokenomics">
+        <h2>Tokenomics</h2>
+        <p><strong>$FIXIE Token</strong>: The native cryptocurrency of the FixieRun ecosystem.</p>
+        <p><strong>Total Supply</strong>: 1,000,000,000 FIXIE</p>
+        <p><strong>Utility</strong>: Earn rewards, upgrade NFT bikes, participate in governance, and unlock premium features.</p>
+    </section>
+
+    <!-- NFT Bikes Section -->
+    <section id="nft-bikes" class="nft-bikes">
+        <h2>Featured NFT Bikes</h2>
+        <p><strong>Urban Fixie</strong>: Sleek and agile, perfect for city rides. (Common)</p>
+        <p><strong>Speed Demon</strong>: Built for velocity and long distances. (Rare)</p>
+        <p><strong>Vintage Cruiser</strong>: Classic style with modern performance. (Epic)</p>
+        <p><strong>CyberFixie Prototype</strong>: Limited edition, retro-futuristic design. (Legendary)</p>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <h2>User Testimonials</h2>
+        <p>"FixieRun has completely changed the way I approach cycling. It's addictive and rewarding!" - Sarah J.</p>
+        <p>"I love collecting NFT bikes and competing with friends. It's a fun way to stay motivated." - Mike T.</p>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="roadmap">
+        <h2>Roadmap</h2>
+        <p><strong>Q4 2024</strong>: Launch beta version of FixieRun app, implement basic move-to-earn mechanics, and introduce FIXIE token.</p>
+        <p><strong>Q1 2025</strong>: Launch NFT marketplace, implement social features, and expand to multiple blockchain networks.</p>
+        <p><strong>Q2 2025</strong>: Introduce advanced AI-powered fitness tracking, launch governance platform, and partner with major fitness brands.</p>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>© 2024 FixieRun. All rights reserved.</p>
+        <p>Follow us on <a href="https://twitter.com/fixierun" target="_blank">Twitter</a> | Join us on <a href="https://discord.com/invite/fixierun" target="_blank">Discord</a></p>
+    </footer>
+
+</body>
+</html>

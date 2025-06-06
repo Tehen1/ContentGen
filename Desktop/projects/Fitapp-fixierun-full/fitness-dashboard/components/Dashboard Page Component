@@ -1,0 +1,83 @@
+import { Suspense } from 'react';
+import { ActivityDashboard } from '@/components/activity-dashboard';
+import { StatsCards } from '@/components/stats-cards';
+import { ActivityHeatmap } from '@/components/activity-heatmap';
+import { RecentActivities } from '@/components/recent-activities';
+import { UpcomingGoals } from '@/components/upcoming-goals';
+import { FriendActivity } from '@/components/friend-activity';
+import { ActivityChart } from '@/components/activity-chart';
+import { DashboardHeader } from '@/components/dashboard-header';
+import { DashboardShell } from '@/components/dashboard-shell';
+
+export default function Dashboard() {
+  return (
+    <DashboardShell>
+      <DashboardHeader
+        heading="Fitness Dashboard"
+        subheading="Track your fitness activities, progress, and goals all in one place."
+      />
+      
+      <div className="grid gap-6">
+        {/* Stats Overview Section */}
+        <Suspense fallback={<div className="h-24 rounded-lg bg-muted animate-pulse" />}>
+          <StatsCards />
+        </Suspense>
+
+        {/* Activity Tracking Section */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="lg:col-span-2">
+            <Suspense fallback={<div className="h-96 rounded-lg bg-muted animate-pulse" />}>
+              <ActivityDashboard />
+            </Suspense>
+          </div>
+          <div className="space-y-6">
+            <div>
+              <h3 className="mb-4 text-lg font-semibold">Upcoming Goals</h3>
+              <Suspense fallback={<div className="h-48 rounded-lg bg-muted animate-pulse" />}>
+                <UpcomingGoals />
+              </Suspense>
+            </div>
+            <div>
+              <h3 className="mb-4 text-lg font-semibold">Performance Analytics</h3>
+              <Suspense fallback={<div className="h-48 rounded-lg bg-muted animate-pulse" />}>
+                <ActivityChart type="performance" showLegend={false} height={180} />
+              </Suspense>
+            </div>
+          </div>
+        </div>
+
+        {/* Activity Insights Section */}
+        <div className="grid gap-6 md:grid-cols-2">
+          <div>
+            <h3 className="mb-4 text-lg font-semibold">Activity Distribution</h3>
+            <Suspense fallback={<div className="h-72 rounded-lg bg-muted animate-pulse" />}>
+              <ActivityHeatmap />
+            </Suspense>
+          </div>
+          <div>
+            <h3 className="mb-4 text-lg font-semibold">Training Progress</h3>
+            <Suspense fallback={<div className="h-72 rounded-lg bg-muted animate-pulse" />}>
+              <ActivityChart type="progress" height={270} />
+            </Suspense>
+          </div>
+        </div>
+
+        {/* Social & Recent Activities Section */}
+        <div className="grid gap-6 md:grid-cols-2">
+          <div>
+            <h3 className="mb-4 text-lg font-semibold">Recent Activities</h3>
+            <Suspense fallback={<div className="h-96 rounded-lg bg-muted animate-pulse" />}>
+              <RecentActivities limit={5} />
+            </Suspense>
+          </div>
+          <div>
+            <h3 className="mb-4 text-lg font-semibold">Friend Activity</h3>
+            <Suspense fallback={<div className="h-96 rounded-lg bg-muted animate-pulse" />}>
+              <FriendActivity />
+            </Suspense>
+          </div>
+        </div>
+      </div>
+    </DashboardShell>
+  );
+}

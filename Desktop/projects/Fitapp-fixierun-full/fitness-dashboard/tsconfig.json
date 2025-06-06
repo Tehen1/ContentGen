@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "commonjs",
+    "lib": ["dom", "esnext", "es2017", "es6"],
+    "allowJs": true,
+    "moduleResolution": "node",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./build",
+    "rootDir": ".",
+    "types": ["@types/node"],
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*", "types/**/*"]
+}

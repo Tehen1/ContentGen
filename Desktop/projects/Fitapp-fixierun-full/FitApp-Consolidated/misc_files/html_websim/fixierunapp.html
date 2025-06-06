@@ -1,0 +1,111 @@
+<html><head><base href="https://fixienftrun.com/"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>FixieNFTRun - Web3 Move-to-Earn App for Fixed-Gear Cycling</title><meta name="description" content="FixieNFTRun is a Web3 move-to-earn app focused on fixed-gear cycling with social-fi and game-fi elements. Riders can earn tokens by cycling, racing, and touring outdoors."><link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"><style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f6f0;
+    }
+    .shadow-custom {
+      box-shadow: -3px 4px 0 0 rgba(0,0,0,0.9);
+    }
+  </style></head>
+<body class="text-black">
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+  <script type="text/babel">
+    const Main = () => {
+      return (
+        <div className="max-w-md mx-auto bg-white">
+          {/* Header */}
+          <header className="flex justify-between items-center border-t-2 border-black p-4">
+            <img src="https://fixienftrun.com/logo.png" alt="FixieNFTRun Logo" className="w-36" />
+            <button className="w-10 h-10 flex flex-col justify-center items-center border-l-2 border-black">
+              <div className="w-6 h-0.5 bg-black mb-1"></div>
+              <div className="w-6 h-0.5 bg-black mb-1"></div>
+              <div className="w-6 h-0.5 bg-black"></div>
+            </button>
+          </header>
+
+          {/* Hero Section */}
+          <section className="px-4 py-8">
+            <img src="https://fixienftrun.com/hero-image.png" alt="FixieNFTRun Hero" className="w-full mb-4" />
+            <button className="bg-yellow-400 text-white text-4xl font-bold py-2 px-6 border-3 border-black shadow-custom mx-auto block">+</button>
+            <button className="bg-green-500 text-white text-xl font-bold py-2 px-4 border-3 border-black shadow-custom mx-auto block mt-8">Move to earn</button>
+            <p className="text-center mt-8 text-sm">
+              FIXIENFTRUN IS A WEB3 MOVE-TO-EARN APP<br/>
+              FOCUSED ON FIXED-GEAR CYCLING WITH<br/>
+              SOCIAL-FI AND GAME-FI ELEMENTS.<br/>
+              RIDERS CAN EARN TOKENS BY CYCLING,<br/>
+              RACING, AND TOURING OUTDOORS.
+            </p>
+          </section>
+
+          {/* NFT Items Section */}
+          <section className="px-4 py-8 bg-gray-100">
+            <h2 className="text-4xl font-bold text-center mb-8">
+              <span className="text-green-500">NFT</span>
+              <span className="text-yellow-100">ITEM</span>
+            </h2>
+            <div className="bg-white p-6 rounded-lg border-5 border-blue-900 shadow-custom">
+              <h3 className="text-2xl font-bold text-center mb-4">Fixie<br/>bike</h3>
+              <img src="https://fixienftrun.com/nft-bike.png" alt="Fixie Bike NFT" className="w-full mb-4" />
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="font-semibold">Rarity:</span>
+                  <span>Rare</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-semibold">Level:</span>
+                  <span>5</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-semibold">Boost:</span>
+                  <span>+10% FXR earnings</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Features Section */}
+          <section className="px-4 py-8">
+            <h2 className="text-3xl font-bold text-green-500 text-center mb-8">Features</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                { title: "GPS Tracking", description: "Track your rides with precision" },
+                { title: "NFT Bikes", description: "Collect and upgrade unique digital bikes" },
+                { title: "Earn FXR", description: "Get rewarded for your cycling efforts" },
+                { title: "Community", description: "Join events and compete with others" }
+              ].map((feature, index) => (
+                <div key={index} className="bg-gray-100 p-4 rounded-lg border-2 border-black shadow-custom">
+                  <h3 className="text-lg font-bold mb-2">{feature.title}</h3>
+                  <p className="text-sm">{feature.description}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer className="bg-black text-white py-8 px-4 text-center">
+            <img src="https://fixienftrun.com/logo-white.png" alt="FixieNFTRun Logo" className="w-36 mx-auto mb-4" />
+            <div className="flex justify-center space-x-4 mb-4">
+              <a href="https://twitter.com/FixieNFTRun" target="_blank" rel="noopener noreferrer">
+                <img src="https://fixienftrun.com/twitter-icon.png" alt="Twitter" className="w-6 h-6" />
+              </a>
+              <a href="https://discord.gg/FixieNFTRun" target="_blank" rel="noopener noreferrer">
+                <img src="https://fixienftrun.com/discord-icon.png" alt="Discord" className="w-6 h-6" />
+              </a>
+              <a href="https://t.me/FixieNFTRun" target="_blank" rel="noopener noreferrer">
+                <img src="https://fixienftrun.com/telegram-icon.png" alt="Telegram" className="w-6 h-6" />
+              </a>
+            </div>
+            <p className="text-sm">© 2023 FixieNFTRun. All rights reserved.</p>
+          </footer>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<Main />, document.getElementById('root'));
+  </script>
+</body>
+</html>

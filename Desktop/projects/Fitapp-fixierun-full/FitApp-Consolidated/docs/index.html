@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitApp - Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .docs-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .docs-section {
+            margin-bottom: 3rem;
+        }
+        
+        .docs-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .docs-content {
+            line-height: 1.6;
+        }
+        
+        .docs-code {
+            background-color: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: monospace;
+        }
+        
+        .docs-diagram {
+            max-width: 100%;
+            height: auto;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="docs-container">
+        <header class="docs-header">
+            <h1 class="text-4xl font-bold text-gray-900">FitApp Documentation</h1>
+            <p class="mt-2 text-gray-600">Comprehensive documentation for the FitApp Web3 Fitness Platform</p>
+        </header>
+
+        <nav class="mb-8">
+            <ul class="flex flex-wrap gap-4">
+                <li><a href="#architecture" class="text-blue-600 hover:text-blue-800">Architecture</a></li>
+                <li><a href="#api" class="text-blue-600 hover:text-blue-800">API</a></li>
+                <li><a href="#smart-contracts" class="text-blue-600 hover:text-blue-800">Smart Contracts</a></li>
+                <li><a href="#mobile" class="text-blue-600 hover:text-blue-800">Mobile App</a></li>
+                <li><a href="#blockchain" class="text-blue-600 hover:text-blue-800">Blockchain</a></li>
+            </ul>
+        </nav>
+
+        <section id="architecture" class="docs-section">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Architecture</h2>
+            <div class="docs-content">
+                <p class="mb-4">FitApp is built as a microservices architecture with separate services for different functionalities.</p>
+                
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">Microservices Architecture</h3>
+                <img src="diagrams/microservices.png" alt="Microservices Architecture" class="docs-diagram">
+                
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">Data Flow</h3>
+                <img src="diagrams/data_flow.png" alt="Data Flow" class="docs-diagram">
+            </div>
+        </section>
+
+        <section id="api" class="docs-section">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">API Documentation</h2>
+            <div class="docs-content">
+                <p class="mb-4">The API is built using FastAPI and follows RESTful principles.</p>
+                
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">Endpoints</h3>
+                <div class="docs-code">
+                    GET /api/v1/auth/login - Login endpoint<br>
+                    POST /api/v1/auth/register - Registration endpoint<br>
+                    GET /api/v1/activity - Get activity data<br>
+                    POST /api/v1/activity - Create new activity<br>
+                    GET /api/v1/nft - Get NFT data<br>
+                    POST /api/v1/nft/mint - Mint new NFT<br>
+                </div>
+            </div>
+        </section>
+
+        <section id="smart-contracts" class="docs-section">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Smart Contracts</h2>
+            <div class="docs-content">
+                <p class="mb-4">The smart contracts are built using Solidity and deployed on the Ethereum blockchain.</p>
+                
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">Contract Architecture</h3>
+                <img src="diagrams/blockchain.png" alt="Blockchain Architecture" class="docs-diagram">
+                
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">Key Contracts</h3>
+                <div class="docs-code">
+                    // HealthCoin.sol<br>
+                    contract HealthCoin is ERC20, Ownable {<br>
+                        function mint(address to, uint256 amount) public onlyOwner {<br>
+                            _mint(to, amount);<br>
+                        }<br>
+                    }<br>
+                    <br>
+                    // ProfileManager.sol<br>
+                    contract ProfileManager {<br>
+                        struct Profile {<br>
+                            uint256 level;<br>
+                            uint256 experience;<br>
+                            uint256 streakDays;<br>
+                        }<br>
+                        mapping(address => Profile) public profiles;<br>
+                    }<br>
+                </div>
+            </div>
+        </section>
+
+        <section id="mobile" class="docs-section">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Mobile App</h2>
+            <div class="docs-content">
+                <p class="mb-4">The mobile app is built using Flutter and follows the BLoC pattern for state management.</p>
+                
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">Key Features</h3>
+                <ul class="list-disc list-inside mb-4">
+                    <li>Activity tracking</li>
+                    <li>NFT integration</li>
+                    <li>Blockchain interactions</li>
+                    <li>Social features</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="blockchain" class="docs-section">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Blockchain Integration</h2>
+            <div class="docs-content">
+                <p class="mb-4">FitApp integrates with the Ethereum blockchain for NFT minting and token transfers.</p>
+                
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">Integration Points</h3>
+                <div class="docs-code">
+                    // NFT Minting<br>
+                    async function mintNFT(activityData) {<br>
+                        const contract = new ethers.Contract(contractAddress, abi, signer);<br>
+                        const tx = await contract.mintNFT(activityData);<br>
+                        await tx.wait();<br>
+                    }<br>
+                    <br>
+                    // Token Transfers<br>
+                    async function transferTokens(toAddress, amount) {<br>
+                        const contract = new ethers.Contract(tokenAddress, tokenAbi, signer);<br>
+                        const tx = await contract.transfer(toAddress, amount);<br>
+                        await tx.wait();<br>
+                    }<br>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

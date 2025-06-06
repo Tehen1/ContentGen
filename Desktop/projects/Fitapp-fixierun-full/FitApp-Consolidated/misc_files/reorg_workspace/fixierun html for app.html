@@ -1,0 +1,386 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>FixieRun - Plateforme de Suivi de Course</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header, nav, footer {
+            background-color: #222;
+            color: #fff;
+        }
+        header {
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            overflow: hidden;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        nav li {
+            display: inline-block;
+        }
+        nav a {
+            display: block;
+            padding: 15px 20px;
+            color: #fff;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #575757;
+        }
+        main {
+            padding: 20px;
+        }
+        .btn {
+            background-color: #222;
+            color: #fff;
+            padding: 10px 15px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #575757;
+        }
+        /* Additional styles for forms and components */
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            width: 50%;
+            border-radius: 5px;
+        }
+        .form-container h2 {
+            margin-top: 0;
+        }
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ccc;
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .dashboard-item {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .nft-gallery, .leaderboard, .news-feed {
+            margin: 20px 0;
+        }
+        .nft-item, .challenge-item, .feed-item {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        /* Styles for the admin panel */
+        .admin-nav {
+            background-color: #444;
+        }
+        .admin-nav a {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bienvenue sur FixieRun</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="inscription.html">Inscription</a></li>
+            <li><a href="connexion.html">Connexion</a></li>
+            <li><a href="tableau_de_bord.html">Tableau de Bord</a></li>
+            <li><a href="suivi_des_courses.html">Suivi des Courses</a></li>
+            <li><a href="communaute.html">Communauté</a></li>
+            <li><a href="marche_nft.html">Marché NFT</a></li>
+            <li><a href="ma_collection.html">Ma Collection</a></li>
+            <li><a href="profil.html">Profil</a></li>
+            <li><a href="support.html">Support</a></li>
+        </ul>
+    </nav>
+    <main>
+        <!-- Page d'accueil -->
+        <section id="accueil">
+            <h2>Une Nouvelle Façon de Suivre Vos Performances</h2>
+            <p>FixieRun est votre compagnon ultime pour suivre vos courses, fixer des objectifs, et rejoindre une communauté passionnée.</p>
+            <a href="inscription.html" class="btn">Rejoignez-nous dès maintenant</a>
+        </section>
+
+        <!-- Inscription -->
+        <section id="inscription">
+            <div class="form-container">
+                <h2>Inscription</h2>
+                <form action="tableau_de_bord.html" method="post">
+                    <label for="nom">Nom :</label>
+                    <input type="text" id="nom" name="nom" required>
+                    <label for="email">E-mail :</label>
+                    <input type="email" id="email" name="email" required>
+                    <label for="mot_de_passe">Mot de passe :</label>
+                    <input type="password" id="mot_de_passe" name="mot_de_passe" required>
+                    <button type="submit" class="btn">S'inscrire</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Connexion -->
+        <section id="connexion">
+            <div class="form-container">
+                <h2>Connexion</h2>
+                <form action="tableau_de_bord.html" method="post">
+                    <label for="email_connexion">E-mail :</label>
+                    <input type="email" id="email_connexion" name="email" required>
+                    <label for="mot_de_passe_connexion">Mot de passe :</label>
+                    <input type="password" id="mot_de_passe_connexion" name="mot_de_passe" required>
+                    <button type="submit" class="btn">Se connecter</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Tableau de bord -->
+        <section id="tableau_de_bord">
+            <h2>Tableau de Bord</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-item">
+                    <h3>Vue d'ensemble des données</h3>
+                    <p>Distance totale courue : <strong>150 km</strong></p>
+                    <p>Courses cette semaine : <strong>3</strong></p>
+                </div>
+                <div class="dashboard-item">
+                    <h3>Objectifs de performance</h3>
+                    <p>Prochain objectif : Courir 200 km ce mois-ci</p>
+                    <button class="btn">Définir un nouvel objectif</button>
+                </div>
+                <div class="dashboard-item">
+                    <h3>Suivi des progrès</h3>
+                    <canvas id="progressChart" width="200" height="200"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Suivi des courses -->
+        <section id="suivi_des_courses">
+            <h2>Suivi de Vos Courses</h2>
+            <button class="btn" onclick="ouvrirFormulaireCourse()">Enregistrer une nouvelle course</button>
+            <div id="formulaireCourse" style="display:none;" class="form-container">
+                <h2>Nouvelle Course</h2>
+                <form onsubmit="enregistrerCourse(event)">
+                    <label for="distance">Distance (km) :</label>
+                    <input type="text" id="distance" name="distance" required>
+                    <label for="temps">Temps (min) :</label>
+                    <input type="text" id="temps" name="temps" required>
+                    <label for="parcours">Parcours :</label>
+                    <input type="text" id="parcours" name="parcours">
+                    <button type="submit" class="btn">Enregistrer</button>
+                </form>
+            </div>
+            <h3>Historique des Courses</h3>
+            <ul id="historiqueCourses">
+                <!-- Les courses enregistrées apparaîtront ici -->
+            </ul>
+        </section>
+
+        <!-- Communauté -->
+        <section id="communaute">
+            <h2>Rejoignez la Communauté</h2>
+            <div class="challenges">
+                <h3>Défis Communautaires</h3>
+                <div class="challenge-item">
+                    <h4>Défi Marathon</h4>
+                    <p>Courez un marathon complet ce mois-ci.</p>
+                    <button class="btn">Participer</button>
+                </div>
+                <div class="challenge-item">
+                    <h4>Défi Sprint</h4>
+                    <p>Améliorez votre temps sur 100m.</p>
+                    <button class="btn">Participer</button>
+                </div>
+            </div>
+            <h3>Classement</h3>
+            <div class="leaderboard">
+                <ol>
+                    <li>Utilisateur1 - 300 km</li>
+                    <li>Utilisateur2 - 250 km</li>
+                    <li>Utilisateur3 - 200 km</li>
+                </ol>
+            </div>
+            <h3>Fil d'Actualité Social</h3>
+            <div class="news-feed">
+                <div class="feed-item">
+                    <p><strong>Alice</strong> a complété le Défi Marathon !</p>
+                </div>
+                <div class="feed-item">
+                    <p><strong>Bob</strong> a amélioré son temps sur 5 km.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Marché NFT -->
+        <section id="marche_nft">
+            <h2>Marché NFT</h2>
+            <div class="nft-gallery">
+                <div class="nft-item">
+                    <img alt="NFT Médaille d'Or" src="nft1.jpg" width="200" height="200">
+                    <p>Médaille d'Or - 50 ETH</p>
+                    <button class="btn">Ajouter au panier</button>
+                </div>
+                <div class="nft-item">
+                    <img alt="NFT Trophée Marathon" src="nft2.jpg" width="200" height="200">
+                    <p>Trophée Marathon - 100 ETH</p>
+                    <button class="btn">Ajouter au panier</button>
+                </div>
+            </div>
+            <button class="btn">Finaliser l'achat</button>
+        </section>
+
+        <!-- Ma Collection -->
+        <section id="ma_collection">
+            <h2>Ma Collection de NFT</h2>
+            <div class="nft-gallery">
+                <!-- Les NFT possédés par l'utilisateur apparaîtront ici -->
+                <div class="nft-item">
+                    <img alt="NFT Médaille d'Argent" src="nft3.jpg" width="200" height="200">
+                    <p>Médaille d'Argent</p>
+                </div>
+            </div>
+            <button class="btn">Créer un NFT pour une réalisation</button>
+        </section>
+
+        <!-- Profil -->
+        <section id="profil">
+            <h2>Mon Profil</h2>
+            <div class="form-container">
+                <form action="profil.html" method="post">
+                    <label for="nom_profil">Nom :</label>
+                    <input type="text" id="nom_profil" name="nom" value="Utilisateur">
+                    <label for="email_profil">E-mail :</label>
+                    <input type="email" id="email_profil" name="email" value="utilisateur@example.com">
+                    <button type="submit" class="btn">Enregistrer les modifications</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Support -->
+        <section id="support">
+            <h2>Support & Assistance</h2>
+            <div class="form-container">
+                <h3>Contactez-nous</h3>
+                <form action="support.html" method="post">
+                    <label for="message">Votre Message :</label>
+                    <textarea id="message" name="message" rows="5" style="width:100%;"></textarea>
+                    <button type="submit" class="btn">Envoyer</button>
+                </form>
+            </div>
+            <h3>FAQ</h3>
+            <ul>
+                <li>Comment réinitialiser mon mot de passe ?</li>
+                <li>Comment participer aux défis communautaires ?</li>
+            </ul>
+            <h3>Chat en Direct</h3>
+            <p>Assistance en temps réel disponible de 9h à 17h.</p>
+            <button class="btn">Commencer le chat</button>
+        </section>
+
+        <!-- Sections destinées aux administrateurs -->
+        <section id="admin">
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="admin_connexion.html">Connexion Administrateur</a></li>
+                    <li><a href="admin_tableau_de_bord.html">Tableau de Bord Admin</a></li>
+                    <li><a href="admin_gestion_utilisateurs.html">Gestion des Utilisateurs</a></li>
+                    <li><a href="admin_nft.html">Gestion des NFT</a></li>
+                </ul>
+            </nav>
+
+            <!-- Panneau d'administration -->
+            <section id="panneau_administration">
+                <h2>Panneau d'Administration</h2>
+                <div class="dashboard-grid">
+                    <div class="dashboard-item">
+                        <h3>Vue d'ensemble</h3>
+                        <p>Nombre total d'utilisateurs : <strong>500</strong></p>
+                        <p>Transactions NFT récentes : <strong>50</strong></p>
+                    </div>
+                    <div class="dashboard-item">
+                        <h3>Gestion des Utilisateurs</h3>
+                        <button class="btn">Voir tous les utilisateurs</button>
+                    </div>
+                    <div class="dashboard-item">
+                        <h3>Défis Communautaires</h3>
+                        <button class="btn">Gérer les défis</button>
+                    </div>
+                    <div class="dashboard-item">
+                        <h3>Rapports et Analyses</h3>
+                        <button class="btn">Générer un rapport</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Panneau de gestion des NFT -->
+            <section id="panneau_nft">
+                <h2>Gestion des NFT</h2>
+                <button class="btn">Créer un nouveau NFT</button>
+                <button class="btn">Gérer les ventes et enchères</button>
+                <button class="btn">Intégration Blockchain</button>
+            </section>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 FixieRun. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // Chart.js pour le graphique des progrès
+        // Vous devez inclure la bibliothèque Chart.js via CDN ou localement
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        const progressChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Semaine 1', 'Semaine 2', 'Semaine 3', 'Semaine 4'],
+                datasets: [{
+                    label: 'Distance Courue (km)',
+                    data: [40, 45, 50, 55],
+                    backgroundColor: 'rgba(34, 34, 34, 0.2)',
+                    borderColor: '#222',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        // Fonctionnalités de suivi des courses
+        function ouvrirFormulaireCourse() {
+            document.getElementById('formulaireCourse').style.display = 'block';
+        }
+
+        function enregistrerCourse(event) {
+            event.preventDefault();
+            const distance = document.getElementById('distance').value;
+            const temps = document.getElementById('temps').value;
+            const parcours = document.getElementById('parcours').value;
+            const li = document.createElement('li');
+            li.textContent = `Distance: ${distance} km, Temps: ${temps} min, Parcours: ${parcours}`;
+            document.getElementById('historiqueCourses').appendChild(li);
+            document.getElementById('formulaireCourse').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

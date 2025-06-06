@@ -1,0 +1,28 @@
+{
+  "name": "fitapp-zkevm-dashboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "hardhat test",
+    "test:coverage": "hardhat coverage",
+    "test:healthcoin": "hardhat test ./test/HealthCoin.test.ts",
+    "test:achievement": "hardhat test ./test/AchievementTracker.test.ts",
+    "test:profile": "hardhat test ./test/ProfileManager.test.ts",
+    "test:frontend": "cd frontend && npm run test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@matterlabs/hardhat-zksync-deploy": "^1.7.0",
+    "@matterlabs/hardhat-zksync-solc": "^1.3.0",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "^5.2.0",
+    "dotenv": "^16.4.7",
+    "hardhat": "^2.22.19",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

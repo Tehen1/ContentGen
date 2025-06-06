@@ -1,0 +1,308 @@
+version: '3.8'
+
+services:
+  # Frontend
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.prod
+    image: fixierun/frontend:${TAG:-latest}
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../infrastructure/nginx/ssl:/etc/nginx/ssl
+      - ../infrastructure/nginx/logs:/var/log/nginx
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_API_URL=https://api.fixierun.com/api/v1
+      - REACT_APP_BLOCKCHAIN_NETWORK=polygon-zkevm
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # API Gateway
+  api-gateway:
+    build:
+      context: ../infrastructure/api-gateway
+      dockerfile: Dockerfile
+    image: fixierun/api-gateway:${TAG:-latest}
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - activity-tracking
+      - rewards
+      - nft-management
+      - challenges
+      - analytics
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - ACTIVITY_SERVICE_URL=http://activity-tracking:3001
+      - REWARDS_SERVICE_URL=http://rewards:3002
+      - NFT_SERVICE_URL=http://nft-management:3003
+      - CHALLENGES_SERVICE_URL=http://challenges:3004
+      - ANALYTICS_SERVICE_URL=http://analytics:3005
+      - JWT_SECRET=${JWT_SECRET}
+      - RATE_LIMIT_WINDOW=15
+      - RATE_LIMIT_MAX=100
+    deploy:
+      resources:
+        limits:
+          cpus: '0.7'
+          memory: 768M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  # Backend Microservices
+  activity-tracking:
+    build:
+      context: ../backend/services/activity-tracking
+      dockerfile: Dockerfile.prod
+    image: fixierun/activity-tracking:${TAG:-latest}
+    restart: always
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    env_file:
+      - ../infrastructure/env/activity-tracking.env
+    depends_on:
+      - postgres
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  rewards:
+    build:
+      context: ../backend/services/rewards
+      dockerfile: Dockerfile.prod
+    image: fixierun/rewards:${TAG:-latest}
+    restart: always
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    env_file:
+      - ../infrastructure/env/rewards.env
+    depends_on:
+      - postgres
+      - redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  nft-management:
+    build:
+      context: ../backend/services/nft-management
+      dockerfile: Dockerfile.prod
+    image: fixierun/nft-management:${TAG:-latest}
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    env_file:
+      - ../infrastructure/env/nft-management.env
+    depends_on:
+      - postgres
+      - ipfs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3003/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  challenges:
+    build:
+      context: ../backend/services/challenges
+      dockerfile: Dockerfile.prod
+    image: fixierun/challenges:${TAG:-latest}
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    env_file:
+      - ../infrastructure/env/challenges.env
+    depends_on:
+      - postgres
+      - activity-tracking
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3004/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  analytics:
+    build:
+      context: ../backend/services/analytics
+      dockerfile: Dockerfile.prod
+    image: fixierun/analytics:${TAG:-latest}
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    env_file:
+      - ../infrastructure/env/analytics.env
+    depends_on:
+      - postgres
+      - elasticsearch
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3005/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  # Databases and infrastructure
+  postgres:
+    image: postgres:14-alpine
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../infrastructure/db/init:/docker-entrypoint-initdb.d
+    env_file:
+      - ../infrastructure/env/postgres.env
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    env_file:
+      - ../infrastructure/env/redis.env
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  ipfs:
+    image: ipfs/kubo:latest
+    restart: always
+    volumes:
+      - ipfs_data:/data/ipfs
+    ports:
+      - "5001:5001"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+
+  elasticsearch:
+    image: elasticsearch:8.7.0
+    restart: always
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    env_file:
+      - ../infrastructure/env/elasticsearch.env
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Monitoring
+  prometheus:
+    image: prom/prometheus:v2.44.0
+    restart: always
+    volumes:
+      - ../infrastructure/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+  grafana:
+    image: grafana/grafana:10.0.0
+    restart: always
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ../infrastructure/monitoring/grafana/provisioning:/etc/grafana/provisioning
+    env_file:
+      - ../infrastructure/env/grafana.env
+    ports:
+      - "3010:3000"
+    depends_on:
+      - prometheus
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+volumes:
+  postgres_data:
+  redis_data:
+  ipfs_data:
+  es_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

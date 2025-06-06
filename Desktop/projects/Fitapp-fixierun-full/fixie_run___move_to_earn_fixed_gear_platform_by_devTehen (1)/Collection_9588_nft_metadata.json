@@ -1,0 +1,19 @@
+{
+  "name": "Collection_9588",
+  "description": "NFT généré à partir de Collection_9588.jpg",
+  "image": "Collection_9588_nft.png",
+  "attributes": [
+    {
+      "trait_type": "Width",
+      "value": 2048
+    },
+    {
+      "trait_type": "Height",
+      "value": 2048
+    },
+    {
+      "trait_type": "Format",
+      "value": "PNG"
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+/*
+   Fitness Dashboard Custom Styles
+   This file contains custom styles for the fitness dashboard application.
+*/
+
+/* Main container */
+.stApp {
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Header styles */
+h1, h2, h3, h4, h5, h6 {
+    color: #FF5722;
+    font-weight: 600;
+}
+
+/* Tabs styling */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 1px;
+}
+
+.stTabs [data-baseweb="tab"] {
+    height: 50px;
+    white-space: pre-wrap;
+    background-color: #F5F5F5;
+    border-radius: 4px 4px 0 0;
+    gap: 1px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.stTabs [aria-selected="true"] {
+    background-color: #FF5722 !important;
+    color: white !important;
+}
+
+/* Metric cards */
+[data-testid="stMetric"] {
+    background-color: #F8F8F8;
+    padding: 10px;
+    border-radius: 5px;
+    border-left: 5px solid #FF5722;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    margin-bottom: 10px;
+}
+
+[data-testid="stMetric"] > div:first-child {
+    margin-bottom: 5px;
+}
+
+[data-testid="stMetric"] label {
+    color: #555;
+}
+
+[data-testid="stMetric"] [data-testid="stMetricValue"] {
+    font-size: 24px !important;
+    color: #333;
+    font-weight: bold;
+}
+
+[data-testid="stMetric"] [data-testid="stMetricDelta"] {
+    font-size: 14px;
+}
+
+/* Buttons */
+.stButton > button {
+    border-radius: 4px;
+    padding: 0.5em 1em;
+    font-weight: 500;
+}
+
+.stButton > button[kind="primary"] {
+    background-color: #FF5722;
+    color: white;
+}
+
+.stButton > button[kind="secondary"] {
+    border: 1px solid #FF5722;
+    color: #FF5722;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"] {
+    background-color: #F5F5F5;
+    padding-top: 2rem;
+}
+
+[data-testid="stSidebar"] h1 {
+    margin-bottom: 2rem;
+}
+
+/* DataFrames */
+.dataframe {
+    font-family: Arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.dataframe th {
+    background-color: #FF5722;
+    color: white;
+    text-align: left;
+    padding: 8px;
+}
+
+.dataframe td {
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+}
+
+.dataframe tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+.dataframe tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Info, warning, success, error boxes */
+.stAlert {
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin-bottom: 1rem;
+}
+
+.stAlert [data-testid="stMarkdownContainer"] {
+    font-size: 16px;
+}
+
+/* Tooltips */
+[data-baseweb="tooltip"] {
+    background-color: #333;
+    color: white;
+    border-radius: 4px;
+    padding: 5px 10px;
+}
+
+/* Expander */
+.stExpander {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.stExpander [data-testid="stExpander"] {
+    padding: 10px;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 640px) {
+    .stApp {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    /* Make sure tables don't overflow on mobile */
+    .dataframe-container {
+        overflow-x: auto;
+    }
+
+    /* Improve button sizes on mobile */
+    .stButton > button {
+        height: 3em;
+        padding: 0.5em;
+        width: 100%;
+    }
+
+    /* Adjust metrics for mobile */
+    [data-testid="stMetric"] {
+        padding: 5px;
+    }
+
+    [data-testid="stMetric"] [data-testid="stMetricValue"] {
+        font-size: 20px !important;
+    }
+}
+
+/* Calendar visualization */
+.CalHeatMap {
+    margin: 20px 0;
+}
+
+/* Folium maps */
+.folium-map {
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+/* Custom color theme */
+:root {
+    --primary-color: #FF5722;
+    --secondary-color-1: #3F51B5;
+    --secondary-color-2: #4CAF50;
+    --secondary-color-3: #FFC107;
+    --background-color: #F5F5F5;
+    --text-color: #333333;
+    --grid-color: #DDDDDD;
+}

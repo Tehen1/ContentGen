@@ -1,0 +1,224 @@
+{
+  "common": {
+    "title": "Fitness Activity Tracking",
+    "description": "Track your fitness activities and earn tokens for staying active with FixieRun.",
+    "keywords": [
+      "workout tracking",
+      "fitness monitoring",
+      "exercise logging",
+      "activity recording",
+      "fitness rewards",
+      "token earnings",
+      "workout metrics"
+    ],
+    "metrics": [
+      {
+        "name": "Distance",
+        "description": "Track the distance covered during your workout.",
+        "units": ["km", "miles"]
+      },
+      {
+        "name": "Duration",
+        "description": "Monitor how long you've been active.",
+        "units": ["minutes", "hours"]
+      },
+      {
+        "name": "Calories",
+        "description": "Track calories burned during your activity.",
+        "units": ["kcal"]
+      },
+      {
+        "name": "Tokens Earned",
+        "description": "See how many tokens you've earned from this workout.",
+        "units": ["tokens"]
+      },
+      {
+        "name": "Heart Rate",
+        "description": "Monitor your heart rate during the activity.",
+        "units": ["bpm"]
+      },
+      {
+        "name": "Elevation",
+        "description": "Track elevation changes during your workout.",
+        "units": ["meters", "feet"]
+      }
+    ]
+  },
+  "activityTypes": [
+    {
+      "id": "cycling",
+      "name": "Cycling",
+      "title": "Fixed Gear Cycling Activity Tracking",
+      "description": "Track your fixed gear cycling workouts, measure distance, speed, and earn tokens for your rides.",
+      "keywords": [
+        "fixed gear cycling",
+        "bike tracking",
+        "cycling metrics",
+        "urban cycling",
+        "bike ride tracking",
+        "cycling performance",
+        "fixed gear bike",
+        "cycling distances"
+      ],
+      "specificMetrics": [
+        {
+          "name": "Speed",
+          "description": "Track your average and maximum speed.",
+          "units": ["km/h", "mph"]
+        },
+        {
+          "name": "Cadence",
+          "description": "Measure your pedaling rate.",
+          "units": ["rpm"]
+        },
+        {
+          "name": "Route",
+          "description": "Map the route you took during your ride.",
+          "units": ["map"]
+        }
+      ],
+      "structuredData": {
+        "activityType": "Cycling",
+        "fitnessActivity": "CyclingActivity",
+        "exerciseType": "Cardiovascular"
+      }
+    },
+    {
+      "id": "running",
+      "name": "Running",
+      "title": "Running Activity Tracking",
+      "description": "Track your running workouts, measure pace, distance, and earn tokens for your runs.",
+      "keywords": [
+        "run tracking",
+        "jogging metrics",
+        "running rewards",
+        "pace tracking",
+        "running performance",
+        "run distance",
+        "running stats",
+        "cardio tracking"
+      ],
+      "specificMetrics": [
+        {
+          "name": "Pace",
+          "description": "Track your minutes per kilometer/mile.",
+          "units": ["min/km", "min/mile"]
+        },
+        {
+          "name": "Stride Length",
+          "description": "Measure your average stride length.",
+          "units": ["cm", "inches"]
+        },
+        {
+          "name": "Steps",
+          "description": "Count your total steps during the run.",
+          "units": ["steps"]
+        }
+      ],
+      "structuredData": {
+        "activityType": "Running",
+        "fitnessActivity": "RunningActivity",
+        "exerciseType": "Cardiovascular"
+      }
+    },
+    {
+      "id": "walking",
+      "name": "Walking",
+      "title": "Walking Activity Tracking",
+      "description": "Track your walking workouts, measure steps, distance, and earn tokens for staying active.",
+      "keywords": [
+        "step tracking",
+        "walking exercise",
+        "step counter",
+        "daily movement",
+        "walking activity",
+        "pedestrian tracking",
+        "walking distance",
+        "step goals"
+      ],
+      "specificMetrics": [
+        {
+          "name": "Steps",
+          "description": "Count your total steps during the walk.",
+          "units": ["steps"]
+        },
+        {
+          "name": "Pace",
+          "description": "Track your minutes per kilometer/mile.",
+          "units": ["min/km", "min/mile"]
+        }
+      ],
+      "structuredData": {
+        "activityType": "Walking",
+        "fitnessActivity": "WalkingActivity",
+        "exerciseType": "LowImpactCardio"
+      }
+    },
+    {
+      "id": "workout",
+      "name": "Gym Workout",
+      "title": "Gym Workout Tracking",
+      "description": "Track your gym sessions, record sets, reps, and earn tokens for your strength training.",
+      "keywords": [
+        "strength training",
+        "gym workout",
+        "training session",
+        "exercise tracking",
+        "weight training",
+        "workout logging",
+        "sets and reps",
+        "resistance training"
+      ],
+      "specificMetrics": [
+        {
+          "name": "Sets",
+          "description": "Track the number of sets completed.",
+          "units": ["sets"]
+        },
+        {
+          "name": "Reps",
+          "description": "Track the number of repetitions per set.",
+          "units": ["reps"]
+        },
+        {
+          "name": "Weight",
+          "description": "Record the weight used for each exercise.",
+          "units": ["kg", "lbs"]
+        },
+        {
+          "name": "Rest Time",
+          "description": "Track rest periods between sets.",
+          "units": ["seconds", "minutes"]
+        }
+      ],
+      "structuredData": {
+        "activityType": "Workout",
+        "fitnessActivity": "WeightTraining",
+        "exerciseType": "StrengthTraining"
+      }
+    }
+  ],
+  "activityLogElements": {
+    "trackingStart": {
+      "title": "Start Tracking Your Activity",
+      "description": "Begin tracking your workout to earn tokens and record your progress."
+    },
+    "trackingActive": {
+      "title": "Workout In Progress",
+      "description": "Your activity is being tracked. Continue your workout to earn more tokens."
+    },
+    "trackingPaused": {
+      "title": "Workout Paused",
+      "description": "Your activity tracking is paused. Resume to continue earning tokens."
+    },
+    "trackingComplete": {
+      "title": "Workout Complete",
+      "description": "Congratulations on completing your workout! Review your stats and tokens earned."
+    },
+    "activitySummary": {
+      "title": "Activity Summary",
+      "description": "Review the details of your completed workout and tokens earned."
+    }
+  }
+}
+

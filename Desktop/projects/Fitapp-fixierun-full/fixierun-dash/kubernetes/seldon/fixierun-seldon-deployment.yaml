@@ -1,0 +1,26 @@
+apiVersion: machinelearning.seldon.io/v1
+kind: SeldonDeployment
+metadata:
+  name: fixierun-ml-pipeline
+  namespace: seldon
+spec:
+  name: fixierun-prediction
+  predictors:
+  - name: main
+    replicas: 1
+    graph:
+      name: activity-classifier
+      implementation: TENSORFLOW_SERVER
+      modelUri: "s3://fixierun-models/activity-classifier"
+      logger:
+        mode: all
+    engineResources:
+      requests:
+        memory: "1Gi"
+    svcOrchSpec:
+      env:
+      - name: SELDON_LOG_LEVEL
+        value: DEBUG
+    explainer:
+      type: AnchorTabular
+      modelUri: "s3://fixierun-models/activity-explainer"

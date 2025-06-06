@@ -1,0 +1,299 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  color: #333;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.highlight {
+  color: #8a2be2; /* Purple color for zkEVM emphasis */
+}
+
+.nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.navLink:hover {
+  color: #8a2be2;
+}
+
+.walletContainer {
+  min-width: 180px;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #f5f7ff 0%, #f0f0ff 100%);
+}
+
+.heroContent {
+  flex: 1;
+  max-width: 600px;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.description {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+}
+
+.button {
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.primaryButton {
+  background-color: #8a2be2;
+  color: white;
+}
+
+.primaryButton:hover {
+  background-color: #7823c7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(138, 43, 226, 0.2);
+}
+
+.secondaryButton {
+  background-color: white;
+  color: #8a2be2;
+  border: 2px solid #8a2be2;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.secondaryButton:hover {
+  background-color: #f8f2ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(138, 43, 226, 0.1);
+}
+
+.heroImage {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 500px;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 350px;
+  background-color: #f0f0ff;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #8a2be2;
+  border: 1px dashed #8a2be2;
+}
+
+.features {
+  padding: 4rem 2rem;
+  background-color: white;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.sectionTitle:after {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 4px;
+  background-color: #8a2be2;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.featureCard {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.featureIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.featureCard h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.about {
+  padding: 4rem 2rem;
+  background-color: #f9f9f9;
+}
+
+.aboutContent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.aboutText {
+  flex: 2;
+  min-width: 300px;
+}
+
+.aboutText p {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.technologyStack {
+  flex: 1;
+  min-width: 250px;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.techList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.techList li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.techList li:last-child {
+  border-bottom: none;
+}
+
+.cta {
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #8a2be2 0%, #5d3fd3 100%);
+  text-align: center;
+  color: white;
+}
+
+.cta h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.cta .button.primaryButton {
+  background-color: white;
+  color: #8a2be2;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+.cta .button.primaryButton:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+}
+
+.footer {
+  background-color: #222;
+  color: #fff;
+  padding: 3rem 2rem 1rem;
+}
+
+.footerContent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.footerLogo {
+  margin-bottom: 2rem;
+  min-width: 150px;
+}
+
+.footerLogo h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+

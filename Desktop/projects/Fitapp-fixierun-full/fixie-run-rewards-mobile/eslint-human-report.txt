@@ -1,0 +1,138 @@
+
+/Users/devtehen/fixie-run-rewards-mobile/src/components/AchievementCard.tsx
+   52:20  error  Color literal: { backgroundColor: '#fff', shadowColor: '#000' }                                           react-native/no-color-literals
+   56:5   error  Expected style properties to be in ascending order. 'marginBottom' should be before 'padding'             react-native/sort-styles
+   63:18  error  Color literal: { borderLeftColor: '#10B981' }                                                             react-native/no-color-literals
+   65:5   error  Expected style properties to be in ascending order. 'borderLeftColor' should be before 'borderLeftWidth'  react-native/sort-styles
+   67:3   error  Expected class names to be in ascending order. 'achievementHeader' should be before 'completedCard'       react-native/sort-styles
+   70:5   error  Expected style properties to be in ascending order. 'alignItems' should be before 'justifyContent'        react-native/sort-styles
+   77:24  error  Color literal: { color: '#3B82F6' }                                                                       react-native/no-color-literals
+   79:5   error  Expected style properties to be in ascending order. 'color' should be before 'fontSize'                   react-native/sort-styles
+   82:18  error  Color literal: { color: '#10B981' }                                                                       react-native/no-color-literals
+   85:16  error  Color literal: { backgroundColor: '#e0e0e0' }                                                             react-native/no-color-literals
+   87:5   error  Expected style properties to be in ascending order. 'backgroundColor' should be before 'height'           react-native/sort-styles
+   92:17  error  Color literal: { backgroundColor: '#3B82F6' }                                                             react-native/no-color-literals
+   94:5   error  Expected style properties to be in ascending order. 'backgroundColor' should be before 'height'           react-native/sort-styles
+   96:18  error  Color literal: { backgroundColor: '#10B981' }                                                             react-native/no-color-literals
+   99:27  error  Color literal: { color: '#666' }                                                                          react-native/no-color-literals
+  101:5   error  Expected style properties to be in ascending order. 'color' should be before 'fontSize'                   react-native/sort-styles
+  104:19  error  Color literal: { backgroundColor: '#10B981' }                                                             react-native/no-color-literals
+  107:5   error  Expected style properties to be in ascending order. 'right' should be before 'top'                        react-native/sort-styles
+  113:23  error  Color literal: { color: '#fff' }                                                                          react-native/no-color-literals
+
+/Users/devtehen/fixie-run-rewards-mobile/src/components/ActivityControls.tsx
+  34:16  error  Color literal: { backgroundColor: '#3B82F6' }                                                        react-native/no-color-literals
+  38:5   error  Expected style properties to be in ascending order. 'alignItems' should be before 'paddingVertical'  react-native/sort-styles
+  40:3   error  Expected class names to be in ascending order. 'finishButton' should be before 'startButton'         react-native/sort-styles
+  40:17  error  Color literal: { backgroundColor: '#EF4444' }                                                        react-native/no-color-literals
+  44:5   error  Expected style properties to be in ascending order. 'alignItems' should be before 'paddingVertical'  react-native/sort-styles
+  46:15  error  Color literal: { color: '#fff' }                                                                     react-native/no-color-literals
+  49:5   error  Expected style properties to be in ascending order. 'fontSize' should be before 'fontWeight'         react-native/sort-styles
+
+/Users/devtehen/fixie-run-rewards-mobile/src/components/ActivityMode.tsx
+  52:15  error  Color literal: { backgroundColor: '#e0e0e0' }                                                               react-native/no-color-literals
+  54:5   error  Expected style properties to be in ascending order. 'paddingHorizontal' should be before 'paddingVertical'  react-native/sort-styles
+  59:19  error  Color literal: { color: '#333' }                                                                            react-native/no-color-literals
+  61:5   error  Expected style properties to be in ascending order. 'color' should be before 'fontWeight'                   react-native/sort-styles
+  63:3   error  Expected class names to be in ascending order. 'activeMode' should be before 'modeButtonText'               react-native/sort-styles
+  63:15  error  Color literal: { backgroundColor: '#3B82F6' }                                                               react-native/no-color-literals
+  66:19  error  Color literal: { color: '#fff' }                                                                            react-native/no-color-literals
+
+/Users/devtehen/fixie-run-rewards-mobile/src/components/MetricCard.tsx
+  23:5   error  Expected style properties to be in ascending order. 'alignItems' should be before 'flex'    react-native/sort-styles
+  27:16  error  Color literal: { color: '#666' }                                                            react-native/no-color-literals
+  29:5   error  Expected style properties to be in ascending order. 'color' should be before 'fontSize'     react-native/sort-styles
+  36:3   error  Expected class names to be in ascending order. 'metricUnit' should be before 'metricValue'  react-native/sort-styles
+  36:15  error  Color literal: { color: '#666' }                                                            react-native/no-color-literals
+  38:5   error  Expected style properties to be in ascending order. 'color' should be before 'fontSize'     react-native/sort-styles
+
+/Users/devtehen/fixie-run-rewards-mobile/src/components/RewardIndicator.tsx
+  43:15  error  Color literal: { color: '#666' }                                                                     react-native/no-color-literals
+  47:5   error  Expected style properties to be in ascending order. 'color' should be before 'textAlign'             react-native/sort-styles
+  49:3   error  Expected class names to be in ascending order. 'progressBarContainer' should be before 'rewardText'  react-native/sort-styles
+  52:16  error  Color literal: { backgroundColor: '#e0e0e0' }                                                        react-native/no-color-literals
+  54:5   error  Expected style properties to be in ascending order. 'backgroundColor' should be before 'height'      react-native/sort-styles
+  58:17  error  Color literal: { backgroundColor: '#3B82F6' }                                                        react-native/no-color-literals
+  60:5   error  Expected style properties to be in ascending order. 'backgroundColor' should be before 'height'      react-native/sort-styles
+
+/Users/devtehen/fixie-run-rewards-mobile/src/components/TokenCounter.tsx
+  28:5   error  Expected style properties to be in ascending order. 'alignItems' should be before 'flex'    react-native/sort-styles
+  32:16  error  Color literal: { color: '#666' }                                                            react-native/no-color-literals
+  34:5   error  Expected style properties to be in ascending order. 'color' should be before 'fontSize'     react-native/sort-styles
+  41:3   error  Expected class names to be in ascending order. 'metricUnit' should be before 'metricValue'  react-native/sort-styles
+  41:15  error  Color literal: { color: '#666' }                                                            react-native/no-color-literals
+  43:5   error  Expected style properties to be in ascending order. 'color' should be before 'fontSize'     react-native/sort-styles
+  45:16  error  Color literal: { backgroundColor: '#10B981' }                                               react-native/no-color-literals
+  48:5   error  Expected style properties to be in ascending order. 'right' should be before 'top'          react-native/sort-styles
+  54:20  error  Color literal: { color: '#fff' }                                                            react-native/no-color-literals
+
+/Users/devtehen/fixie-run-rewards-mobile/src/hooks/useLocationTracking.ts
+   59:11  error  The two values in this comparison do not have a shared enum type                                                                                                    @typescript-eslint/no-unsafe-enum-comparison
+  196:5   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+
+/Users/devtehen/fixie-run-rewards-mobile/src/screens/HomeScreen.tsx
+   61:10  error  'showRewardModal' is assigned a value but never used                                                                                                                @typescript-eslint/no-unused-vars
+   61:27  error  'setShowRewardModal' is assigned a value but never used                                                                                                             @typescript-eslint/no-unused-vars
+   62:10  error  'rewardModalData' is assigned a value but never used                                                                                                                @typescript-eslint/no-unused-vars
+   62:27  error  'setRewardModalData' is assigned a value but never used                                                                                                             @typescript-eslint/no-unused-vars
+   67:5   error  'hasPermission' is assigned a value but never used                                                                                                                  @typescript-eslint/no-unused-vars
+   98:5   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  225:21  error  Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+  226:22  error  Promise-returning function provided to attribute where a void return was expected                                                                                   @typescript-eslint/no-misused-promises
+  255:5   error  Expected style properties to be in ascending order. 'alignItems' should be before 'justifyContent'                                                                  react-native/sort-styles
+  257:3   error  Expected class names to be in ascending order. 'container' should be before 'loadingContainer'                                                                      react-native/sort-styles
+  257:14  error  Color literal: { backgroundColor: '#f5f5f5' }                                                                                                                       react-native/no-color-literals
+  259:5   error  Expected style properties to be in ascending order. 'backgroundColor' should be before 'flex'                                                                       react-native/sort-styles
+  267:5   error  Expected style properties to be in ascending order. 'alignItems' should be before 'justifyContent'                                                                  react-native/sort-styles
+  273:5   error  Expected style properties to be in ascending order. 'alignItems' should be before 'flex'                                                                            react-native/sort-styles
+  275:18  error  Color literal: { backgroundColor: '#3B82F6' }                                                                                                                       react-native/no-color-literals
+  278:5   error  Expected style properties to be in ascending order. 'paddingHorizontal' should be before 'paddingVertical'                                                          react-native/sort-styles
+  282:22  error  Color literal: { color: '#fff' }                                                                                                                                    react-native/no-color-literals
+  285:5   error  Expected style properties to be in ascending order. 'fontSize' should be before 'fontWeight'                                                                        react-native/sort-styles
+  292:13  error  Color literal: { color: '#666' }                                                                                                                                    react-native/no-color-literals
+  294:5   error  Expected style properties to be in ascending order. 'color' should be before 'fontSize'                                                                             react-native/sort-styles
+  301:17  error  Color literal: { backgroundColor: '#fff', shadowColor: '#000' }                                                                                                     react-native/no-color-literals
+  305:5   error  Expected style properties to be in ascending order. 'marginBottom' should be before 'padding'                                                                       react-native/sort-styles
+
+/Users/devtehen/fixie-run-rewards-mobile/src/screens/NotFoundScreen.tsx
+  21:23  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                             react/no-unescaped-entities
+  21:44  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                             react/no-unescaped-entities
+  33:14  error  Color literal: { backgroundColor: '#f5f5f5' }                                                               react-native/no-color-literals
+  35:5   error  Expected style properties to be in ascending order. 'backgroundColor' should be before 'flex'               react-native/sort-styles
+  40:5   error  Expected style properties to be in ascending order. 'alignItems' should be before 'justifyContent'          react-native/sort-styles
+  43:10  error  Color literal: { color: '#3B82F6' }                                                                         react-native/no-color-literals
+  46:5   error  Expected style properties to be in ascending order. 'color' should be before 'fontWeight'                   react-native/sort-styles
+  49:3   error  Expected class names to be in ascending order. 'subtitle' should be before 'title'                          react-native/sort-styles
+  54:12  error  Color literal: { color: '#666' }                                                                            react-native/no-color-literals
+  56:5   error  Expected style properties to be in ascending order. 'color' should be before 'fontSize'                     react-native/sort-styles
+  60:11  error  Color literal: { backgroundColor: '#3B82F6' }                                                               react-native/no-color-literals
+  63:5   error  Expected style properties to be in ascending order. 'paddingHorizontal' should be before 'paddingVertical'  react-native/sort-styles
+  66:15  error  Color literal: { color: '#fff' }                                                                            react-native/no-color-literals
+  69:5   error  Expected style properties to be in ascending order. 'fontSize' should be before 'fontWeight'                react-native/sort-styles
+
+/Users/devtehen/fixie-run-rewards-mobile/src/screens/ProfileScreen.tsx
+   40:5   error  Promises must be awaited, end with a call to .catch, end with a call to .then with a rejection handler or be explicitly marked as ignored with the `void` operator  @typescript-eslint/no-floating-promises
+  116:14  error  Color literal: { backgroundColor: '#f5f5f5' }                                                                                                                       react-native/no-color-literals
+  118:5   error  Expected style properties to be in ascending order. 'backgroundColor' should be before 'flex'                                                                       react-native/sort-styles
+  123:5   error  Expected style properties to be in ascending order. 'alignItems' should be before 'justifyContent'                                                                  react-native/sort-styles
+  125:16  error  Color literal: { color: '#666' }                                                                                                                                    react-native/no-color-literals
+  127:5   error  Expected style properties to be in ascending order. 'fontSize' should be before 'marginTop'                                                                         react-native/sort-styles
+  133:3   error  Expected class names to be in ascending order. 'header' should be before 'scrollContent'                                                                            react-native/sort-styles
+  135:5   error  Expected style properties to be in ascending order. 'alignItems' should be before 'marginBottom'                                                                    react-native/sort-styles
+  142:13  error  Color literal: { color: '#666' }                                                                                                                                    react-native/no-color-literals
+  144:5   error  Expected style properties to be in ascending order. 'color' should be before 'fontSize'                                                                             react-native/sort-styles
+  150:13  error  Color literal: { backgroundColor: '#fff', shadowColor: '#000' }                                                                                                     react-native/no-color-literals
+  154:5   error  Expected style properties to be in ascending order. 'marginBottom' should be before 'padding'                                                                       react-native/sort-styles
+  167:5   error  Expected style properties to be in ascending order. 'gap' should be before 'justifyContent'                                                                         react-native/sort-styles
+  170:14  error  Color literal: { color: '#3B82F6' }                                                                                                                                 react-native/no-color-literals
+  173:5   error  Expected style properties to be in ascending order. 'color' should be before 'fontWeight'                                                                           react-native/sort-styles
+  176:14  error  Color literal: { color: '#666' }                                                                                                                                    react-native/no-color-literals
+  178:5   error  Expected style properties to be in ascending order. 'color' should be before 'fontSize'                                                                             react-native/sort-styles
+  186:15  error  Color literal: { backgroundColor: '#3B82F6' }                                                                                                                       react-native/no-color-literals
+  190:5   error  Expected style properties to be in ascending order. 'alignItems' should be before 'paddingVertical'                                                                 react-native/sort-styles
+  193:19  error  Color literal: { color: '#fff' }                                                                                                                                    react-native/no-color-literals
+  196:5   error  Expected style properties to be in ascending order. 'fontSize' should be before 'fontWeight'                                                                        react-native/sort-styles
+
+✖ 114 problems (114 errors, 0 warnings)
+  57 errors and 0 warnings potentially fixable with the `--fix` option.
+
