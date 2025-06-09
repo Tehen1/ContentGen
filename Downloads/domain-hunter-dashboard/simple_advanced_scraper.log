@@ -1,0 +1,16 @@
+2025-06-09 01:03:10,423 - INFO - 📡 3 proxies chargés
+2025-06-09 01:20:17,015 - INFO - 📡 3 proxies chargés
+2025-06-09 01:20:17,018 - INFO - 🚀 Démarrage du scraping avancé simulé...
+2025-06-09 01:20:19,932 - INFO - ✅ Scrapé 1/8: ai-consulting-firm.com depuis afternic.com
+2025-06-09 01:20:23,747 - INFO - ✅ Scrapé 2/8: blockchain-solutions.net depuis dan.com
+2025-06-09 01:20:27,225 - INFO - ✅ Scrapé 3/8: crypto-trading-bot.org depuis sedo.com
+2025-06-09 01:20:27,226 - INFO - 🔄 Rotation User-Agent et proxy...
+2025-06-09 01:20:30,536 - INFO - ✅ Scrapé 4/8: cloud-security-pro.com depuis afternic.com
+2025-06-09 01:20:32,864 - INFO - ✅ Scrapé 5/8: data-science-hub.net depuis dan.com
+2025-06-09 01:20:36,337 - INFO - ✅ Scrapé 6/8: marketing-automation-tools.com depuis sedo.com
+2025-06-09 01:20:36,337 - INFO - 🔄 Rotation User-Agent et proxy...
+2025-06-09 01:20:38,524 - INFO - ✅ Scrapé 7/8: ecommerce-analytics.org depuis afternic.com
+2025-06-09 01:20:41,724 - INFO - ✅ Scrapé 8/8: fintech-startup-accelerator.com depuis dan.com
+2025-06-09 01:20:41,725 - INFO - 📊 Total collecté: 8 domaines premium
+2025-06-09 01:20:41,725 - INFO - 💰 Analyse des opportunités premium...
+2025-06-09 01:20:41,727 - INFO - 💾 Résultats exportés vers: premium_opportunities_20250609_012041.csv

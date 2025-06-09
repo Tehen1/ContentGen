@@ -1,0 +1,9 @@
+domain,source,price,estimated_value,roi_percentage,composite_score,classification,da,dr,tf,cf,backlinks,category
+ai-consulting-firm.com,afternic.com,15060.51,48946.66,225.0,88.2,PREMIUM - ACHAT IMMÉDIAT,45,42,38,41,2547,ai_tech
+fintech-startup-accelerator.com,dan.com,16673.46,52021.2,212.0,97.0,PREMIUM - ACHAT IMMÉDIAT,49,46,42,45,3295,fintech
+crypto-trading-bot.org,sedo.com,12912.57,34089.18,164.0,76.0,EXCELLENT - ACHAT RECOMMANDÉ,39,37,34,36,2003,fintech
+blockchain-solutions.net,dan.com,8675.59,20994.93,142.0,71.1,BON - SURVEILLER,37,35,32,34,1787,blockchain
+data-science-hub.net,dan.com,8567.27,19790.39,131.0,74.1,BON - SURVEILLER,39,36,33,35,1891,data_science
+cloud-security-pro.com,afternic.com,6534.35,14375.57,120.0,61.3,BON - SURVEILLER,33,31,28,30,1339,cybersecurity
+ecommerce-analytics.org,afternic.com,7412.65,15492.44,109.0,65.9,BON - SURVEILLER,35,33,30,32,1521,ecommerce
+marketing-automation-tools.com,sedo.com,4970.2,8946.36,80.0,56.0,MOYEN - ÉVALUER,30,28,27,28,1158,marketing
