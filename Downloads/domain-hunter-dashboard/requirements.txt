@@ -1,0 +1,41 @@
+# Domain Hunter Pro - Dépendances Python
+
+# Scraping de base
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+
+# Gestion des sessions et anti-détection
+cloudscraper>=1.2.71
+fake-useragent>=1.4.0
+
+# Automation avec Selenium
+selenium>=4.15.0
+undetected-chromedriver>=3.5.0
+webdriver-manager>=4.0.0
+
+# Parsing et validation
+tld>=0.13
+python-tldextract>=5.0.0
+
+# Base de données et stockage
+sqlite3
+pandas>=2.1.0
+
+# Planification et tâches
+schedule>=1.2.0
+
+# Networking et proxies
+socks>=0
+PySocks>=1.7.1
+
+# Utilitaires
+dataclasses>=0.6
+typing-extensions>=4.8.0
+colorama>=0.4.6
+
+# Optionnel : APIs de métriques SEO
+# ahrefs-api (si disponible)
+# semrush-api (si disponible)
+# majestic-api (si disponible)
+

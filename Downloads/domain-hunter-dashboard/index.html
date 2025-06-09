@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain Hunter Pro - Domaines Expirés</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-search"></i> Domain Hunter Pro</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="menu-item active" data-page="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </li>
+                <li class="menu-item" data-page="analyze">
+                    <i class="fas fa-search"></i>
+                    <span>Analyse de Domaines</span>
+                </li>
+                <li class="menu-item" data-page="opportunities">
+                    <i class="fas fa-gem"></i>
+                    <span>Opportunités</span>
+                </li>
+                <li class="menu-item" data-page="config">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuration</span>
+                </li>
+                <li class="menu-item" data-page="monitoring">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Monitoring</span>
+                </li>
+                <li class="menu-item" data-page="help">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Aide & Stratégies</span>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active">
+                <div class="page-header">
+                    <h1>Dashboard Principal</h1>
+                    <div class="system-status">
+                        <span class="status status--success">API Connectée</span>
+                        <span class="status status--success">Système Actif</span>
+                    </div>
+                </div>
+
+                <!-- Alerts Section -->
+                <div class="alerts-section">
+                    <div class="alerts-container" id="alerts-container">
+                        <!-- Alerts will be populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Metrics Cards -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3 id="domains-analyzed">0</h3>
+                            <p>Domaines Analysés</p>
+                            <span class="metric-change positive">+12% vs hier</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3 id="opportunities-found">0</h3>
+                            <p>Opportunités Trouvées</p>
+                            <span class="metric-change positive">+8% vs hier</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3 id="avg-roi">0%</h3>
+                            <p>ROI Moyen</p>
+                            <span class="metric-change positive">+5% vs hier</span>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-euro-sign"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3 id="api-cost">0€</h3>
+                            <p>Coût API Quotidien</p>
+                            <span class="metric-change neutral">Budget: 0.50€</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-section">
+                    <div class="chart-container">
+                        <h3>Performance des 7 derniers jours</h3>
+                        <canvas id="performance-chart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3>Répartition des Scores</h3>
+                        <canvas id="scores-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analyze Page -->
+            <div id="analyze" class="page">
+                <div class="page-header">
+                    <h1>Analyse de Domaines</h1>
+                </div>
+
+                <div class="analyze-section">
+                    <div class="analyze-form">
+                        <div class="form-group">
+                            <label class="form-label">Nom de domaine</label>
+                            <input type="text" id="domain-input" class="form-control" placeholder="exemple.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Type d'analyse</label>
+                            <select id="analysis-type" class="form-control">
+                                <option value="quick">Analyse Rapide</option>
+                                <option value="detailed">Analyse Détaillée</option>
+                                <option value="market">Analyse de Marché</option>
+                            </select>
+                        </div>
+                        <button id="analyze-btn" class="btn btn--primary">
+                            <i class="fas fa-search"></i> Analyser
+                        </button>
+                    </div>
+
+                    <div id="analysis-results" class="analysis-results hidden">
+                        <div class="results-header">
+                            <h3>Résultats d'analyse</h3>
+                            <button id="export-results" class="btn btn--secondary">
+                                <i class="fas fa-download"></i> Exporter
+                            </button>
+                        </div>
+                        <div id="results-content">
+                            <!-- Results will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-analyses">
+                    <h3>Analyses Récentes</h3>
+                    <div id="recent-analyses-list">
+                        <!-- Recent analyses will be populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Opportunities Page -->
+            <div id="opportunities" class="page">
+                <div class="page-header">
+                    <h1>Opportunités Détectées</h1>
+                    <div class="page-actions">
+                        <button id="export-opportunities" class="btn btn--secondary">
+                            <i class="fas fa-download"></i> Exporter
+                        </button>
+                        <button id="refresh-opportunities" class="btn btn--primary">
+                            <i class="fas fa-sync"></i> Actualiser
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filters-section">
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <label class="form-label">Score minimum</label>
+                            <input type="range" id="min-score" min="0" max="100" value="70" class="range-input">
+                            <span id="min-score-value">70</span>
+                        </div>
+                        <div class="filter-group">
+                            <label class="form-label">ROI minimum (%)</label>
+                            <input type="number" id="min-roi" class="form-control" value="150">
+                        </div>
+                        <div class="filter-group">
+                            <label class="form-label">Prix maximum (€)</label>
+                            <input type="number" id="max-price" class="form-control" value="1000">
+                        </div>
+                        <div class="filter-group">
+                            <label class="form-label">Statut</label>
+                            <select id="status-filter" class="form-control">
+                                <option value="all">Tous</option>
+                                <option value="available">Disponible</option>
+                                <option value="watching">Surveillé</option>
+                                <option value="rejected">Rejeté</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="opportunities-list" id="opportunities-list">
+                    <!-- Opportunities will be populated by JS -->
+                </div>
+            </div>
+
+            <!-- Configuration Page -->
+            <div id="config" class="page">
+                <div class="page-header">
+                    <h1>Configuration</h1>
+                </div>
+
+                <div class="config-sections">
+                    <div class="config-section">
+                        <h3>API Perplexity</h3>
+                        <div class="form-group">
+                            <label class="form-label">Clé API</label>
+                            <input type="password" id="api-key" class="form-control" placeholder="pplx-...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Modèle</label>
+                            <select id="api-model" class="form-control">
+                                <option value="llama-3.1-sonar-large-128k-online">Llama 3.1 Sonar Large (Online)</option>
+                                <option value="llama-3.1-sonar-small-128k-online">Llama 3.1 Sonar Small (Online)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Limite de requêtes/minute</label>
+                            <input type="number" id="rate-limit" class="form-control" value="60">
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3>Critères de Scoring</h3>
+                        <div class="form-group">
+                            <label class="form-label">Score SEO minimum</label>
+                            <input type="number" id="min-seo-score" class="form-control" value="6">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Score commercial minimum</label>
+                            <input type="number" id="min-commercial-score" class="form-control" value="7">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Score global minimum</label>
+                            <input type="number" id="min-global-score" class="form-control" value="70">
+                        </div>
+                    </div>
+
+                    <div class="config-section">
+                        <h3>Alertes</h3>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" id="alert-email" class="form-control" placeholder="votre@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Seuil d'opportunité importante</label>
+                            <input type="number" id="high-opportunity-threshold" class="form-control" value="80">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-actions">
+                    <button id="save-config" class="btn btn--primary">
+                        <i class="fas fa-save"></i> Sauvegarder
+                    </button>
+                    <button id="reset-config" class="btn btn--outline">
+                        <i class="fas fa-undo"></i> Réinitialiser
+                    </button>
+                </div>
+            </div>
+
+            <!-- Monitoring Page -->
+            <div id="monitoring" class="page">
+                <div class="page-header">
+                    <h1>Monitoring du Système</h1>
+                </div>
+
+                <div class="monitoring-grid">
+                    <div class="monitoring-card">
+                        <h3>Performance API</h3>
+                        <div class="monitoring-stats">
+                            <div class="stat">
+                                <span class="stat-label">Requêtes aujourd'hui</span>
+                                <span class="stat-value" id="today-requests">0</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Taux de succès</span>
+                                <span class="stat-value" id="success-rate">0%</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Cache hit rate</span>
+                                <span class="stat-value" id="cache-hit-rate">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="monitoring-card">
+                        <h3>Coûts & Budget</h3>
+                        <div class="monitoring-stats">
+                            <div class="stat">
+                                <span class="stat-label">Coût aujourd'hui</span>
+                                <span class="stat-value" id="today-cost">0€</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Budget mensuel</span>
+                                <span class="stat-value">15€</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-label">Reste ce mois</span>
+                                <span class="stat-value" id="remaining-budget">15€</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="logs-section">
+                    <h3>Logs Système</h3>
+                    <div class="logs-container" id="logs-container">
+                        <!-- Logs will be populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help Page -->
+            <div id="help" class="page">
+                <div class="page-header">
+                    <h1>Aide & Stratégies</h1>
+                </div>
+
+                <div class="help-sections">
+                    <div class="help-section">
+                        <h3>🎯 Meilleures Stratégies</h3>
+                        <div class="help-content">
+                            <h4>Identification des Opportunités</h4>
+                            <ul>
+                                <li>Privilégier les domaines avec un score SEO > 7</li>
+                                <li>Vérifier l'historique du domaine avec Archive.org</li>
+                                <li>Analyser les backlinks existants</li>
+                                <li>Évaluer le potentiel commercial du nom</li>
+                            </ul>
+
+                            <h4>Stratégies de Monétisation</h4>
+                            <ul>
+                                <li><strong>Vente de liens :</strong> Domaines avec DA > 20</li>
+                                <li><strong>Affiliation :</strong> Niches high-ticket</li>
+                                <li><strong>Revente :</strong> Noms courts et mémorables</li>
+                                <li><strong>Redirection :</strong> Vers sites existants</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="help-section">
+                        <h3>🔧 Optimisation API PPLX</h3>
+                        <div class="help-content">
+                            <h4>Conseils d'Optimisation</h4>
+                            <ul>
+                                <li>Utiliser le cache pour éviter les requêtes répétées</li>
+                                <li>Analyser par lots pour réduire les coûts</li>
+                                <li>Programmer les analyses aux heures creuses</li>
+                                <li>Filtrer en amont avec des critères stricts</li>
+                            </ul>
+
+                            <h4>Gestion du Budget</h4>
+                            <ul>
+                                <li>Fixer un budget quotidien maximum</li>
+                                <li>Prioriser les domaines à fort potentiel</li>
+                                <li>Utiliser l'analyse rapide pour le tri initial</li>
+                                <li>Surveiller le taux de cache hit</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="help-section">
+                        <h3>📊 Comprendre les Scores</h3>
+                        <div class="help-content">
+                            <ul>
+                                <li><strong>Score SEO :</strong> Potentiel de référencement (backlinks, DA, PA)</li>
+                                <li><strong>Score Commercial :</strong> Valeur commerciale du nom</li>
+                                <li><strong>Score Concurrence :</strong> Niveau de compétition</li>
+                                <li><strong>Score Risque :</strong> Risques potentiels (spam, pénalités)</li>
+                                <li><strong>Score Global :</strong> Moyenne pondérée de tous les scores</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Analyse en cours...</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

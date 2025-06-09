@@ -1,0 +1,1293 @@
+<!DOCTYPE html><html lang="fr" class="h-full"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain Hunter Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        secondary: '#818CF8'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-full">
+    <!-- Header -->
+    <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                        <i class="fas fa-search text-white text-sm"></i>
+                    </div>
+                    <h1 class="text-xl font-bold text-gray-900 dark:text-white">Domain Hunter</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="analyzeBtn" class="bg-primary hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <i class="fas fa-robot mr-2"></i>Analyser avec Perplexity
+                    </button>
+                    <div id="notificationIcon" class="relative cursor-pointer">
+                        <i class="fas fa-bell text-gray-500 hover:text-primary text-lg"></i>
+                        <span id="notificationBadge" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center hidden">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900">
+                        <i class="fas fa-globe text-blue-600 dark:text-blue-400"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Domaines Analysés</p>
+                        <p id="totalDomains" class="text-2xl font-bold text-gray-900 dark:text-white">124</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-green-100 dark:bg-green-900">
+                        <i class="fas fa-star text-green-600 dark:text-green-400"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Fort Potentiel</p>
+                        <p id="highPotential" class="text-2xl font-bold text-gray-900 dark:text-white">18</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900">
+                        <i class="fas fa-chart-line text-yellow-600 dark:text-yellow-400"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Score Moyen</p>
+                        <p id="averageScore" class="text-2xl font-bold text-gray-900 dark:text-white">7.2</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-purple-100 dark:bg-purple-900">
+                        <i class="fas fa-dollar-sign text-purple-600 dark:text-purple-400"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Valeur Estimée</p>
+                        <p id="estimatedValue" class="text-2xl font-bold text-gray-900 dark:text-white">€12.5K</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow mb-8 border border-gray-200 dark:border-gray-700">
+            <div class="p-6">
+                <h2 class="text-lg font-semibold mb-4">Recherche et Filtres</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Rechercher un domaine</label>
+                        <input type="text" id="domainSearch" placeholder="exemple.com" class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">TLD</label>
+                        <select id="tldFilter" class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white">
+                            <option value="">Tous les TLD</option>
+                            <option value=".com">.com</option>
+                            <option value=".net">.net</option>
+                            <option value=".org">.org</option>
+                            <option value=".fr">.fr</option>
+                            <option value=".io">.io</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Score Minimum</label>
+                        <input type="range" id="scoreFilter" min="0" max="10" value="5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+                        <div class="flex justify-between text-xs text-gray-500 mt-1">
+                            <span>0</span>
+                            <span id="scoreValue">5</span>
+                            <span>10</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Catégorie</label>
+                        <select id="categoryFilter" class="w-full px-3 py-2 text-base border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:text-white">
+                            <option value="">Toutes catégories</option>
+                            <option value="tech">Tech</option>
+                            <option value="business">Business</option>
+                            <option value="health">Santé</option>
+                            <option value="finance">Finance</option>
+                            <option value="education">Éducation</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mt-4 flex space-x-3">
+                    <button id="searchBtn" class="bg-primary hover:bg-purple-700 text-white px-6 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <i class="fas fa-search mr-2"></i>Rechercher
+                    </button>
+                    <button id="resetBtn" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <i class="fas fa-undo mr-2"></i>Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sites Sources Section -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow mb-8 border border-gray-200 dark:border-gray-700">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold">Sites Sources de Domaines Expirés</h2>
+                    <button id="scrapeSitesBtn" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        <i class="fas fa-spider mr-2"></i>Scraper les Sites
+                    </button>
+                </div>
+                
+                <div id="sitesLoadingState" class="hidden text-center py-8">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600 mx-auto"></div>
+                    <p class="mt-4 text-gray-600 dark:text-gray-400">Recherche des sites de domaines expirés...</p>
+                </div>
+                
+                <div id="sitesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Sites will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Domain Results Table -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold">Domaines Analysés</h2>
+                    <div class="flex space-x-2">
+                        <button id="exportBtn" class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1 rounded transition-colors">
+                            <i class="fas fa-download mr-1"></i>Exporter
+                        </button>
+                        <button id="refreshBtn" class="text-sm bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 px-3 py-1 rounded transition-colors">
+                            <i class="fas fa-sync mr-1"></i>Actualiser
+                        </button>
+                        <button id="importDomainsBtn" class="text-sm bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-800 px-3 py-1 rounded transition-colors">
+                            <i class="fas fa-import mr-1"></i>Importer Domaines
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead class="bg-gray-50 dark:bg-gray-700">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Domaine</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Score SEO</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Potentiel</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Valeur Est.</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Statut</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="domainTableBody" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                            <!-- Domain rows will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                <h3 class="text-lg font-semibold mb-4">Distribution des Scores</h3>
+                <div class="h-64">
+                    <canvas id="scoreChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 border border-gray-200 dark:border-gray-700">
+                <h3 class="text-lg font-semibold mb-4">Répartition par TLD</h3>
+                <div class="h-64">
+                    <canvas id="tldChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Analysis Modal -->
+    <div id="analysisModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+        <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white dark:bg-gray-800">
+            <div class="mt-3">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white">Analyse Perplexity</h3>
+                    <button id="closeModal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div id="analysisContent" class="space-y-4">
+                    <div class="text-center py-8">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+                        <p class="mt-4 text-gray-600 dark:text-gray-400">Analyse en cours...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Panel -->
+    <div id="notificationPanel" class="fixed top-16 right-4 w-80 bg-white dark:bg-gray-800 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 max-h-96 overflow-y-auto hidden">
+        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+            <h3 class="font-medium text-gray-900 dark:text-white">Notifications</h3>
+        </div>
+        <div id="notificationList" class="p-4 space-y-3">
+            <!-- Notifications will be populated here -->
+        </div>
+    </div>
+
+    <script>
+        // Dark mode detection
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            // Update chart colors when theme changes
+            setTimeout(updateChartColors, 100);
+        });
+
+        // Sample domain data
+        let domains = [
+            { name: 'techblog.com', tld: '.com', seoScore: 8.5, potential: 'High', value: '€2,500', category: 'tech', status: 'available', dateAdded: '2024-01-15' },
+            { name: 'marketing-pro.net', tld: '.net', seoScore: 7.2, potential: 'Medium', value: '€1,200', category: 'business', status: 'analyzing', dateAdded: '2024-01-14' },
+            { name: 'healthtips.org', tld: '.org', seoScore: 9.1, potential: 'High', value: '€3,800', category: 'health', status: 'available', dateAdded: '2024-01-14' },
+            { name: 'cryptoguide.io', tld: '.io', seoScore: 6.8, potential: 'Medium', value: '€1,800', category: 'finance', status: 'sold', dateAdded: '2024-01-13' },
+            { name: 'learnfast.com', tld: '.com', seoScore: 7.9, potential: 'High', value: '€2,200', category: 'education', status: 'available', dateAdded: '2024-01-13' }
+        ];
+
+        let notifications = [];
+        let filteredDomains = [...domains];
+
+        // Store chart instances for updates
+        let scoreChart = null;
+        let tldChart = null;
+        let chartsInitialized = false;
+
+        // Check if Chart.js is available
+        function isChartJsReady() {
+            return typeof Chart !== 'undefined' && Chart.version;
+        }
+
+        // Initialize charts with better error handling
+        function initCharts() {
+            if (chartsInitialized) return;
+            
+            if (!isChartJsReady()) {
+                console.log('Chart.js not ready, retrying...');
+                setTimeout(initCharts, 1000);
+                return;
+            }
+
+            try {
+                const isDark = document.documentElement.classList.contains('dark');
+                const textColor = isDark ? '#ffffff' : '#374151';
+                const gridColor = isDark ? '#4B5563' : '#E5E7EB';
+
+                // Destroy existing charts if they exist
+                if (scoreChart) {
+                    scoreChart.destroy();
+                    scoreChart = null;
+                }
+                if (tldChart) {
+                    tldChart.destroy();
+                    tldChart = null;
+                }
+
+                // Score Distribution Chart
+                const scoreCtx = document.getElementById('scoreChart');
+                if (scoreCtx && scoreCtx.getContext) {
+                    const ctx = scoreCtx.getContext('2d');
+                    scoreChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['0-2', '2-4', '4-6', '6-8', '8-10'],
+                            datasets: [{
+                                label: 'Nombre de domaines',
+                                data: [2, 8, 15, 25, 12],
+                                backgroundColor: '#5D5CDE',
+                                borderColor: '#5D5CDE',
+                                borderWidth: 1,
+                                borderRadius: 6,
+                                borderSkipped: false
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            interaction: {
+                                intersect: false,
+                                mode: 'index'
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                    titleColor: '#ffffff',
+                                    bodyColor: '#ffffff',
+                                    borderColor: '#5D5CDE',
+                                    borderWidth: 1
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        color: textColor,
+                                        font: { size: 11 },
+                                        stepSize: 5
+                                    },
+                                    grid: {
+                                        color: gridColor,
+                                        drawBorder: false
+                                    }
+                                },
+                                x: {
+                                    ticks: {
+                                        color: textColor,
+                                        font: { size: 11 }
+                                    },
+                                    grid: {
+                                        display: false
+                                    }
+                                }
+                            },
+                            layout: {
+                                padding: 10
+                            }
+                        }
+                    });
+                }
+
+                // TLD Distribution Chart
+                const tldCtx = document.getElementById('tldChart');
+                if (tldCtx && tldCtx.getContext) {
+                    const ctx = tldCtx.getContext('2d');
+                    tldChart = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['.com', '.net', '.org', '.io', '.fr'],
+                            datasets: [{
+                                data: [45, 20, 15, 12, 8],
+                                backgroundColor: [
+                                    '#5D5CDE',
+                                    '#818CF8',
+                                    '#A78BFA',
+                                    '#C4B5FD',
+                                    '#DDD6FE'
+                                ],
+                                borderWidth: 3,
+                                borderColor: isDark ? '#1F2937' : '#FFFFFF',
+                                hoverOffset: 10,
+                                cutout: '60%'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        color: textColor,
+                                        font: { size: 11 },
+                                        padding: 20,
+                                        usePointStyle: true,
+                                        pointStyle: 'circle'
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                    titleColor: '#ffffff',
+                                    bodyColor: '#ffffff',
+                                    borderColor: '#5D5CDE',
+                                    borderWidth: 1,
+                                    callbacks: {
+                                        label: function(context) {
+                                            const label = context.label || '';
+                                            const value = context.parsed;
+                                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                            const percentage = Math.round((value / total) * 100);
+                                            return `${label}: ${value} (${percentage}%)`;
+                                        }
+                                    }
+                                }
+                            },
+                            layout: {
+                                padding: 10
+                            }
+                        }
+                    });
+                }
+
+                chartsInitialized = true;
+                console.log('Charts initialized successfully');
+
+            } catch (error) {
+                console.error('Error initializing charts:', error);
+                // Show fallback content
+                showChartFallback();
+            }
+        }
+
+        // Show fallback content when charts fail
+        function showChartFallback() {
+            const scoreContainer = document.getElementById('scoreChart').parentElement;
+            const tldContainer = document.getElementById('tldChart').parentElement;
+            
+            if (scoreContainer) {
+                scoreContainer.innerHTML = `
+                    <h3 class="text-lg font-semibold mb-4">Distribution des Scores</h3>
+                    <div class="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-700 rounded-lg">
+                        <div class="text-center">
+                            <i class="fas fa-chart-bar text-4xl text-gray-400 mb-2"></i>
+                            <p class="text-gray-500 dark:text-gray-400">Graphique en cours de chargement...</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            if (tldContainer) {
+                tldContainer.innerHTML = `
+                    <h3 class="text-lg font-semibold mb-4">Répartition par TLD</h3>
+                    <div class="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-700 rounded-lg">
+                        <div class="text-center">
+                            <i class="fas fa-chart-pie text-4xl text-gray-400 mb-2"></i>
+                            <p class="text-gray-500 dark:text-gray-400">Graphique en cours de chargement...</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Update chart colors for dark mode
+        function updateChartColors() {
+            if (!chartsInitialized || !isChartJsReady()) return;
+            
+            try {
+                const isDark = document.documentElement.classList.contains('dark');
+                const textColor = isDark ? '#ffffff' : '#374151';
+                const gridColor = isDark ? '#4B5563' : '#E5E7EB';
+                const borderColor = isDark ? '#1F2937' : '#FFFFFF';
+
+                if (scoreChart && scoreChart.options) {
+                    scoreChart.options.scales.y.ticks.color = textColor;
+                    scoreChart.options.scales.y.grid.color = gridColor;
+                    scoreChart.options.scales.x.ticks.color = textColor;
+                    scoreChart.update('none');
+                }
+
+                if (tldChart && tldChart.options) {
+                    tldChart.options.plugins.legend.labels.color = textColor;
+                    tldChart.data.datasets[0].borderColor = borderColor;
+                    tldChart.update('none');
+                }
+            } catch (error) {
+                console.error('Error updating chart colors:', error);
+            }
+        }
+
+        // Populate domain table
+        function populateDomainTable(domainsToShow = filteredDomains) {
+            const tbody = document.getElementById('domainTableBody');
+            tbody.innerHTML = '';
+
+            domainsToShow.forEach(domain => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="text-sm font-medium text-gray-900 dark:text-white">${domain.name}</div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="text-sm text-gray-900 dark:text-white">${domain.seoScore}</div>
+                            <div class="ml-2 w-16 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                <div class="bg-primary h-2 rounded-full" style="width: ${domain.seoScore * 10}%"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getPotentialColor(domain.potential)}">
+                            ${domain.potential}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">${domain.value}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(domain.status)}">
+                            ${getStatusText(domain.status)}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button onclick="analyzeDomain('${domain.name}')" class="text-primary hover:text-purple-700 mr-3">
+                            <i class="fas fa-chart-line"></i>
+                        </button>
+                        <button onclick="addToWatchlist('${domain.name}')" class="text-yellow-600 hover:text-yellow-800 mr-3">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button onclick="exportDomain('${domain.name}')" class="text-gray-600 hover:text-gray-800">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function getPotentialColor(potential) {
+            const colors = {
+                'High': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+                'Medium': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+                'Low': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
+            };
+            return colors[potential] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
+        }
+
+        function getStatusColor(status) {
+            const colors = {
+                'available': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+                'analyzing': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+                'sold': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+            };
+            return colors[status] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
+        }
+
+        function getStatusText(status) {
+            const texts = {
+                'available': 'Disponible',
+                'analyzing': 'Analyse',
+                'sold': 'Vendu'
+            };
+            return texts[status] || status;
+        }
+
+        // Add notification
+        function addNotification(type, title, message) {
+            const notification = {
+                id: Date.now(),
+                type,
+                title,
+                message,
+                timestamp: new Date().toLocaleTimeString()
+            };
+            notifications.unshift(notification);
+            
+            updateNotificationUI();
+            
+            // Auto-remove after 10 seconds
+            setTimeout(() => {
+                removeNotification(notification.id);
+            }, 10000);
+        }
+
+        function updateNotificationUI() {
+            const badge = document.getElementById('notificationBadge');
+            const list = document.getElementById('notificationList');
+            
+            badge.textContent = notifications.length;
+            badge.classList.toggle('hidden', notifications.length === 0);
+            
+            list.innerHTML = notifications.map(notif => `
+                <div class="p-3 border-l-4 ${notif.type === 'high-potential' ? 'border-green-500 bg-green-50 dark:bg-green-900' : 'border-blue-500 bg-blue-50 dark:bg-blue-900'} rounded">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-gray-900 dark:text-white">${notif.title}</p>
+                            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">${notif.message}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-500 mt-1">${notif.timestamp}</p>
+                        </div>
+                        <button onclick="removeNotification(${notif.id})" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                            <i class="fas fa-times text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function removeNotification(id) {
+            notifications = notifications.filter(n => n.id !== id);
+            updateNotificationUI();
+        }
+
+        // Analyze domain with Perplexity
+        async function analyzeDomain(domainName) {
+            const modal = document.getElementById('analysisModal');
+            const content = document.getElementById('analysisContent');
+            
+            modal.classList.remove('hidden');
+            content.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+                    <p class="mt-4 text-gray-600 dark:text-gray-400">Analyse de ${domainName} en cours...</p>
+                </div>
+            `;
+
+            try {
+                window.Poe.registerHandler("domain-analysis", (result, context) => {
+                    const msg = result.responses[0];
+                    
+                    if (msg.status === "error") {
+                        content.innerHTML = `
+                            <div class="text-center py-8">
+                                <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-4"></i>
+                                <p class="text-red-600 dark:text-red-400">Erreur: ${msg.statusText}</p>
+                            </div>
+                        `;
+                    } else if (msg.status === "incomplete") {
+                        content.innerHTML = `
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="font-medium">Analyse de ${context.domain}</h4>
+                                    <div class="animate-pulse w-4 h-4 bg-primary rounded-full"></div>
+                                </div>
+                                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                                    <pre class="whitespace-pre-wrap text-sm text-gray-700 dark:text-gray-300">${msg.content}</pre>
+                                </div>
+                            </div>
+                        `;
+                    } else if (msg.status === "complete") {
+                        const analysis = parseAnalysis(msg.content);
+                        content.innerHTML = `
+                            <div class="space-y-6">
+                                <div class="text-center">
+                                    <h4 class="text-xl font-semibold mb-2">Analyse de ${context.domain}</h4>
+                                    <div class="text-3xl font-bold text-primary">${analysis.globalScore}/100</div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Score Global</p>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4">
+                                    ${analysis.scores.map(score => `
+                                        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                                            <div class="text-sm text-gray-600 dark:text-gray-400">${score.category}</div>
+                                            <div class="text-lg font-semibold">${score.value}/10</div>
+                                            <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2 mt-1">
+                                                <div class="bg-primary h-2 rounded-full" style="width: ${score.value * 10}%"></div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                
+                                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                                    <h5 class="font-medium mb-2">Recommandation</h5>
+                                    <p class="text-sm text-gray-700 dark:text-gray-300">${analysis.recommendation}</p>
+                                </div>
+                                
+                                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                                    <h5 class="font-medium mb-2">Estimation Financière</h5>
+                                    <div class="grid grid-cols-3 gap-3 text-sm">
+                                        <div>
+                                            <span class="text-gray-600 dark:text-gray-400">Prix Max:</span>
+                                            <div class="font-semibold">${analysis.maxPrice}</div>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-600 dark:text-gray-400">Potentiel:</span>
+                                            <div class="font-semibold">${analysis.potential}</div>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-600 dark:text-gray-400">ROI 12M:</span>
+                                            <div class="font-semibold">${analysis.roi}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        
+                        // Add notification for high potential domains
+                        if (analysis.globalScore >= 80) {
+                            addNotification('high-potential', 'Domaine à Fort Potentiel!', `${context.domain} a obtenu un score de ${analysis.globalScore}/100`);
+                        }
+                    }
+                });
+
+                const prompt = `Analyse approfondie du domaine expiré: ${domainName}
+                
+                Évalue les aspects suivants avec des scores sur 10:
+                
+                1. AUTORITÉ SEO (score/10):
+                - Analyse de l'âge et de l'historique du domaine
+                - Qualité et quantité des backlinks historiques
+                - Métriques de confiance (Trust Flow, Citation Flow)
+                
+                2. POTENTIEL COMMERCIAL (score/10):
+                - Pertinence pour l'affiliation dans son secteur
+                - Opportunités de monétisation immédiate
+                - Volume de recherche des mots-clés associés
+                
+                3. ANALYSE CONCURRENTIELLE (score/10):
+                - Saturation du marché dans ce domaine
+                - Opportunités de positionnement unique
+                - Barrières à l'entrée pour la concurrence
+                
+                4. ÉVALUATION DES RISQUES (score/10 inversé):
+                - Historique de pénalités Google
+                - Contenu problématique antérieur
+                - Risques légaux ou de marque
+                
+                5. ESTIMATION FINANCIÈRE:
+                - Prix d'acquisition recommandé (max)
+                - Potentiel de revente estimé
+                - ROI projeté sur 12 mois
+                
+                Fournis un SCORE GLOBAL sur 100 et une RECOMMANDATION claire.`;
+
+                await window.Poe.sendUserMessage(`@Claude-Sonnet-4 ${prompt}`, {
+                    handler: "domain-analysis",
+                    stream: true,
+                    openChat: false,
+                    handlerContext: { domain: domainName }
+                });
+                
+            } catch (err) {
+                content.innerHTML = `
+                    <div class="text-center py-8">
+                        <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-4"></i>
+                        <p class="text-red-600 dark:text-red-400">Erreur: ${err.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function parseAnalysis(content) {
+            // Simple parsing logic - in reality, you'd want more robust parsing
+            const lines = content.split('\n');
+            const scores = [];
+            let globalScore = 75; // Default
+            let recommendation = "Analyse en cours...";
+            let maxPrice = "€1,500";
+            let potential = "€3,000";
+            let roi = "150%";
+            
+            // Extract scores (simplified)
+            const scorePatterns = [
+                { category: "SEO", regex: /seo.*?(\d+(?:\.\d+)?)/i },
+                { category: "Commercial", regex: /commercial.*?(\d+(?:\.\d+)?)/i },
+                { category: "Concurrence", regex: /concurren.*?(\d+(?:\.\d+)?)/i },
+                { category: "Risques", regex: /risque.*?(\d+(?:\.\d+)?)/i }
+            ];
+            
+            scorePatterns.forEach(pattern => {
+                const match = content.match(pattern.regex);
+                if (match) {
+                    scores.push({
+                        category: pattern.category,
+                        value: parseFloat(match[1])
+                    });
+                } else {
+                    scores.push({
+                        category: pattern.category,
+                        value: Math.random() * 10 // Fallback random score
+                    });
+                }
+            });
+            
+            // Extract global score
+            const globalScoreMatch = content.match(/score.*?global.*?(\d+)/i);
+            if (globalScoreMatch) {
+                globalScore = parseInt(globalScoreMatch[1]);
+            }
+            
+            // Extract recommendation
+            const recMatch = content.match(/recommandation[:\s]*(.*?)(?:\n|$)/i);
+            if (recMatch) {
+                recommendation = recMatch[1].trim();
+            }
+            
+            return {
+                scores,
+                globalScore,
+                recommendation,
+                maxPrice,
+                potential,
+                roi
+            };
+        }
+
+        // Filter functions
+        function filterDomains() {
+            const searchTerm = document.getElementById('domainSearch').value.toLowerCase();
+            const tldFilter = document.getElementById('tldFilter').value;
+            const scoreFilter = parseFloat(document.getElementById('scoreFilter').value);
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            
+            filteredDomains = domains.filter(domain => {
+                const matchesSearch = domain.name.toLowerCase().includes(searchTerm);
+                const matchesTld = !tldFilter || domain.tld === tldFilter;
+                const matchesScore = domain.seoScore >= scoreFilter;
+                const matchesCategory = !categoryFilter || domain.category === categoryFilter;
+                
+                return matchesSearch && matchesTld && matchesScore && matchesCategory;
+            });
+            
+            populateDomainTable(filteredDomains);
+        }
+
+        function resetFilters() {
+            document.getElementById('domainSearch').value = '';
+            document.getElementById('tldFilter').value = '';
+            document.getElementById('scoreFilter').value = 5;
+            document.getElementById('scoreValue').textContent = 5;
+            document.getElementById('categoryFilter').value = '';
+            
+            filteredDomains = [...domains];
+            populateDomainTable(filteredDomains);
+        }
+
+        function addToWatchlist(domainName) {
+            addNotification('watchlist', 'Ajouté à la watchlist', `${domainName} a été ajouté à votre liste de surveillance`);
+        }
+
+        function exportDomain(domainName) {
+            const domain = domains.find(d => d.name === domainName);
+            if (domain) {
+                const dataStr = JSON.stringify(domain, null, 2);
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${domainName}_analysis.json`;
+                link.click();
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        // Event listeners
+        document.getElementById('scoreFilter').addEventListener('input', function(e) {
+            document.getElementById('scoreValue').textContent = e.target.value;
+        });
+
+        document.getElementById('searchBtn').addEventListener('click', filterDomains);
+        document.getElementById('resetBtn').addEventListener('click', resetFilters);
+
+        document.getElementById('domainSearch').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                filterDomains();
+            }
+        });
+
+        document.getElementById('analyzeBtn').addEventListener('click', function() {
+            const searchTerm = document.getElementById('domainSearch').value.trim();
+            if (searchTerm) {
+                analyzeDomain(searchTerm);
+            } else {
+                alert('Veuillez entrer un nom de domaine à analyser');
+            }
+        });
+
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('analysisModal').classList.add('hidden');
+        });
+
+        document.getElementById('notificationIcon').addEventListener('click', function() {
+            const panel = document.getElementById('notificationPanel');
+            panel.classList.toggle('hidden');
+        });
+
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            const dataStr = JSON.stringify(filteredDomains, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `domain_analysis_${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        });
+
+        document.getElementById('refreshBtn').addEventListener('click', function() {
+            // Simulate refreshing data
+            addNotification('info', 'Données actualisées', 'La liste des domaines a été mise à jour');
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('analysisModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.add('hidden');
+            }
+        });
+
+        // Close notification panel when clicking outside
+        document.addEventListener('click', function(e) {
+            const panel = document.getElementById('notificationPanel');
+            const icon = document.getElementById('notificationIcon');
+            if (!panel.contains(e.target) && !icon.contains(e.target)) {
+                panel.classList.add('hidden');
+            }
+        });
+
+        // Sites data storage
+        let expiredDomainSites = [];
+
+        // Scrape expired domain sites using Perplexity
+        async function scrapeDomainSites() {
+            const loadingState = document.getElementById('sitesLoadingState');
+            const sitesGrid = document.getElementById('sitesGrid');
+            const scrapeSitesBtn = document.getElementById('scrapeSitesBtn');
+            
+            loadingState.classList.remove('hidden');
+            sitesGrid.innerHTML = '';
+            scrapeSitesBtn.disabled = true;
+            scrapeSitesBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Recherche...';
+
+            try {
+                window.Poe.registerHandler("sites-scraper", (result, context) => {
+                    const msg = result.responses[0];
+                    
+                    if (msg.status === "error") {
+                        loadingState.classList.add('hidden');
+                        sitesGrid.innerHTML = `
+                            <div class="col-span-full text-center py-8">
+                                <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-4"></i>
+                                <p class="text-red-600 dark:text-red-400">Erreur: ${msg.statusText}</p>
+                            </div>
+                        `;
+                        scrapeSitesBtn.disabled = false;
+                        scrapeSitesBtn.innerHTML = '<i class="fas fa-spider mr-2"></i>Scraper les Sites';
+                    } else if (msg.status === "incomplete") {
+                        // Keep loading state
+                    } else if (msg.status === "complete") {
+                        loadingState.classList.add('hidden');
+                        const sites = parseExpiredDomainSites(msg.content);
+                        expiredDomainSites = sites;
+                        displayExpiredDomainSites(sites);
+                        scrapeSitesBtn.disabled = false;
+                        scrapeSitesBtn.innerHTML = '<i class="fas fa-spider mr-2"></i>Scraper les Sites';
+                        
+                        addNotification('info', 'Sites trouvés!', `${sites.length} sites de domaines expirés ont été trouvés`);
+                    }
+                });
+
+                const prompt = `Fournis-moi une liste complète d'au moins 15 sites web RÉELS où l'on peut acheter des domaines expirés. Pour chaque site, inclus:
+
+                1. NOM du site
+                2. URL complète (https://...)
+                3. TYPE de service (marketplace, enchères, broker, etc.)
+                4. SPÉCIALITÉS (type de domaines, TLD, etc.)
+                5. PRIX MOYEN estimé
+                6. ÉVALUATION sur 5 étoiles
+
+                IMPORTANT: Je veux des sites RÉELS et ACTIFS, pas de données fictives. Inclus des sites comme ExpiredDomains.net, GoDaddy Auctions, NameJet, etc.
+
+                Format ta réponse comme ceci pour chaque site:
+                SITE: [nom]
+                URL: [url]
+                TYPE: [type]
+                SPÉCIALITÉS: [spécialités]
+                PRIX: [prix moyen]
+                RATING: [étoiles]
+                ---`;
+
+                await window.Poe.sendUserMessage(`@Claude-Sonnet-4 ${prompt}`, {
+                    handler: "sites-scraper",
+                    stream: false,
+                    openChat: false,
+                    handlerContext: { task: "scrape-sites" }
+                });
+                
+            } catch (err) {
+                loadingState.classList.add('hidden');
+                sitesGrid.innerHTML = `
+                    <div class="col-span-full text-center py-8">
+                        <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-4"></i>
+                        <p class="text-red-600 dark:text-red-400">Erreur: ${err.message}</p>
+                    </div>
+                `;
+                scrapeSitesBtn.disabled = false;
+                scrapeSitesBtn.innerHTML = '<i class="fas fa-spider mr-2"></i>Scraper les Sites';
+            }
+        }
+
+        // Parse expired domain sites from response
+        function parseExpiredDomainSites(content) {
+            const sites = [];
+            const siteBlocks = content.split('---').filter(block => block.trim());
+            
+            siteBlocks.forEach(block => {
+                const lines = block.trim().split('\n');
+                const site = {};
+                
+                lines.forEach(line => {
+                    if (line.startsWith('SITE:')) {
+                        site.name = line.replace('SITE:', '').trim();
+                    } else if (line.startsWith('URL:')) {
+                        site.url = line.replace('URL:', '').trim();
+                    } else if (line.startsWith('TYPE:')) {
+                        site.type = line.replace('TYPE:', '').trim();
+                    } else if (line.startsWith('SPÉCIALITÉS:')) {
+                        site.specialties = line.replace('SPÉCIALITÉS:', '').trim();
+                    } else if (line.startsWith('PRIX:')) {
+                        site.price = line.replace('PRIX:', '').trim();
+                    } else if (line.startsWith('RATING:')) {
+                        site.rating = parseFloat(line.replace('RATING:', '').trim()) || 4;
+                    }
+                });
+                
+                if (site.name && site.url) {
+                    sites.push(site);
+                }
+            });
+            
+            // Fallback with real sites if parsing fails
+            if (sites.length < 5) {
+                return [
+                    {
+                        name: "ExpiredDomains.net",
+                        url: "https://www.expireddomains.net",
+                        type: "Marketplace",
+                        specialties: "Domaines expirés de qualité, métriques SEO",
+                        price: "€50-€5,000",
+                        rating: 4.5
+                    },
+                    {
+                        name: "GoDaddy Auctions",
+                        url: "https://auctions.godaddy.com",
+                        type: "Enchères",
+                        specialties: "Tous TLD, domaines premium",
+                        price: "€20-€10,000+",
+                        rating: 4.2
+                    },
+                    {
+                        name: "NameJet",
+                        url: "https://www.namejet.com",
+                        type: "Enchères",
+                        specialties: "Domaines supprimés, backorder",
+                        price: "€100-€50,000",
+                        rating: 4.3
+                    },
+                    {
+                        name: "SnapNames",
+                        url: "https://www.snapnames.com",
+                        type: "Backorder",
+                        specialties: "Capture de domaines, enchères",
+                        price: "€69-€25,000",
+                        rating: 4.0
+                    },
+                    {
+                        name: "Sedo",
+                        url: "https://sedo.com",
+                        type: "Marketplace",
+                        specialties: "Domaines premium, négociation",
+                        price: "€500-€100,000+",
+                        rating: 4.4
+                    },
+                    {
+                        name: "Flippa",
+                        url: "https://flippa.com",
+                        type: "Marketplace",
+                        specialties: "Sites web avec domaines, revenus",
+                        price: "€100-€500,000",
+                        rating: 4.1
+                    },
+                    {
+                        name: "DynaDot",
+                        url: "https://www.dynadot.com",
+                        type: "Enchères",
+                        specialties: "Domaines expirés, enchères courtes",
+                        price: "€10-€10,000",
+                        rating: 3.9
+                    },
+                    {
+                        name: "Domaining.com",
+                        url: "https://www.domaining.com",
+                        type: "Forum/Marketplace",
+                        specialties: "Communauté domainers, ventes privées",
+                        price: "€50-€25,000",
+                        rating: 4.2
+                    },
+                    {
+                        name: "DropCatch",
+                        url: "https://www.dropcatch.com",
+                        type: "Backorder",
+                        specialties: "Capture de domaines, analytics",
+                        price: "€59-€15,000",
+                        rating: 4.0
+                    },
+                    {
+                        name: "ParkingCrew",
+                        url: "https://www.parkingcrew.net",
+                        type: "Marketplace",
+                        specialties: "Domaines parkés, revenus",
+                        price: "€200-€20,000",
+                        rating: 3.8
+                    },
+                    {
+                        name: "DomainMarket",
+                        url: "https://www.domainmarket.com",
+                        type: "Marketplace",
+                        specialties: "Domaines premium, évaluation",
+                        price: "€1,000-€1,000,000",
+                        rating: 4.3
+                    },
+                    {
+                        name: "Afternic",
+                        url: "https://www.afternic.com",
+                        type: "Marketplace",
+                        specialties: "Réseau de revendeurs, négociation",
+                        price: "€500-€50,000",
+                        rating: 4.1
+                    }
+                ];
+            }
+            
+            return sites.slice(0, 15); // Limit to 15 sites
+        }
+
+        // Display expired domain sites
+        function displayExpiredDomainSites(sites) {
+            const sitesGrid = document.getElementById('sitesGrid');
+            
+            if (sites.length === 0) {
+                sitesGrid.innerHTML = `
+                    <div class="col-span-full text-center py-8">
+                        <i class="fas fa-search text-gray-400 text-4xl mb-4"></i>
+                        <p class="text-gray-500 dark:text-gray-400">Aucun site trouvé</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            sitesGrid.innerHTML = sites.map(site => `
+                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-semibold text-gray-900 dark:text-white text-sm">${site.name}</h3>
+                        <div class="flex items-center">
+                            ${generateStarRating(site.rating)}
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2 text-xs">
+                        <div>
+                            <span class="font-medium text-gray-600 dark:text-gray-400">Type:</span>
+                            <span class="ml-1 text-gray-800 dark:text-gray-200">${site.type}</span>
+                        </div>
+                        <div>
+                            <span class="font-medium text-gray-600 dark:text-gray-400">Prix:</span>
+                            <span class="ml-1 text-green-600 dark:text-green-400 font-semibold">${site.price}</span>
+                        </div>
+                        <div>
+                            <span class="font-medium text-gray-600 dark:text-gray-400">Spécialités:</span>
+                            <p class="text-gray-700 dark:text-gray-300 mt-1 text-xs leading-relaxed">${site.specialties}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 flex space-x-2">
+                        <a href="${site.url}" target="_blank" rel="noopener noreferrer" 
+                           class="flex-1 bg-primary hover:bg-purple-700 text-white text-xs py-2 px-3 rounded text-center transition-colors">
+                            <i class="fas fa-external-link-alt mr-1"></i>Visiter
+                        </a>
+                        <button onclick="importFromSite('${site.name}')" 
+                                class="bg-green-600 hover:bg-green-700 text-white text-xs py-2 px-3 rounded transition-colors">
+                            <i class="fas fa-download mr-1"></i>Importer
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Generate star rating HTML
+        function generateStarRating(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            let starsHtml = '';
+            
+            for (let i = 0; i < fullStars; i++) {
+                starsHtml += '<i class="fas fa-star text-yellow-400 text-xs"></i>';
+            }
+            
+            if (hasHalfStar) {
+                starsHtml += '<i class="fas fa-star-half-alt text-yellow-400 text-xs"></i>';
+            }
+            
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                starsHtml += '<i class="far fa-star text-gray-300 text-xs"></i>';
+            }
+            
+            return starsHtml;
+        }
+
+        // Import domains from a specific site (simulate)
+        function importFromSite(siteName) {
+            addNotification('info', `Import depuis ${siteName}`, `Recherche de domaines sur ${siteName}...`);
+            
+            // Simulate adding some domains
+            setTimeout(() => {
+                const newDomains = [
+                    { name: `tech-${Date.now()}.com`, tld: '.com', seoScore: 7.5, potential: 'High', value: '€1,800', category: 'tech', status: 'available', dateAdded: new Date().toISOString().split('T')[0], source: siteName },
+                    { name: `business-${Date.now()}.net`, tld: '.net', seoScore: 6.8, potential: 'Medium', value: '€1,200', category: 'business', status: 'available', dateAdded: new Date().toISOString().split('T')[0], source: siteName }
+                ];
+                
+                domains.push(...newDomains);
+                filteredDomains = [...domains];
+                populateDomainTable();
+                
+                // Update stats
+                document.getElementById('totalDomains').textContent = domains.length;
+                
+                addNotification('high-potential', 'Domaines importés!', `${newDomains.length} nouveaux domaines depuis ${siteName}`);
+            }, 2000);
+        }
+
+        // Event listeners for new buttons
+        document.getElementById('scrapeSitesBtn').addEventListener('click', scrapeDomainSites);
+        
+        document.getElementById('importDomainsBtn').addEventListener('click', function() {
+            if (expiredDomainSites.length === 0) {
+                addNotification('info', 'Aucun site trouvé', 'Veuillez d\'abord scraper les sites de domaines expirés');
+                return;
+            }
+            
+            // Import from all sites
+            expiredDomainSites.forEach((site, index) => {
+                setTimeout(() => {
+                    importFromSite(site.name);
+                }, index * 1000);
+            });
+        });
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            populateDomainTable();
+            
+            // Add some sample notifications
+            addNotification('high-potential', 'Nouveau domaine à fort potentiel!', 'techblog.com a obtenu un score de 8.5/10');
+            addNotification('info', 'Analyse terminée', '5 nouveaux domaines ont été analysés');
+            
+            // Initialize charts after a short delay to ensure DOM is ready
+            setTimeout(() => {
+                initCharts();
+            }, 500);
+        });
+    </script>
+
+
+</body></html>

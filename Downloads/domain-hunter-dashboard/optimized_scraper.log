@@ -5,3 +5,51 @@
 2025-06-09 04:06:58,096 - INFO - 🔍 Analyse quick de affiliate-income-pro.org
 2025-06-09 04:07:03,741 - INFO - ✅ Analyse terminée: 3 domaines
 2025-06-09 04:07:03,743 - INFO - 📊 Résultats sauvegardés: optimized_scraping_20250609_040703.csv
+2025-06-09 04:08:05,882 - INFO - 🚀 Début analyse par lots: 5 domaines
+2025-06-09 04:08:05,882 - INFO - 📦 Lot 1: 5 domaines
+2025-06-09 04:08:05,882 - INFO - 🔍 Analyse detailed de tech-marketing-blog.com
+2025-06-09 04:08:14,533 - INFO - 🔍 Analyse detailed de digital-seo-tools.net
+2025-06-09 04:08:22,054 - WARNING - Aucun JSON trouvé pour digital-seo-tools.net
+2025-06-09 04:08:23,061 - INFO - 🔍 Analyse detailed de affiliate-income-pro.org
+2025-06-09 04:08:32,336 - INFO - 🔍 Analyse detailed de web-development-hub.com
+2025-06-09 04:08:41,524 - WARNING - Aucun JSON trouvé pour web-development-hub.com
+2025-06-09 04:08:42,527 - INFO - 🔍 Analyse detailed de online-business-tips.net
+2025-06-09 04:08:50,548 - INFO - ✅ Analyse terminée: 3 domaines
+2025-06-09 04:08:50,552 - INFO - 📊 Résultats sauvegardés: detailed_analysis.csv
+2025-06-09 04:13:32,475 - INFO - 🚀 Début analyse par lots: 8 domaines
+2025-06-09 04:13:32,476 - INFO - 📦 Lot 1: 5 domaines
+2025-06-09 04:13:32,476 - INFO - 🔍 Analyse quick de tech-marketing-blog.com
+2025-06-09 04:13:38,875 - INFO - 🔍 Analyse quick de digital-seo-tools.net
+2025-06-09 04:13:45,035 - INFO - 🔍 Analyse quick de affiliate-income-pro.org
+2025-06-09 04:13:50,114 - INFO - 🔍 Analyse quick de web-development-hub.com
+2025-06-09 04:13:55,446 - INFO - 🔍 Analyse quick de online-business-tips.net
+2025-06-09 04:14:02,744 - INFO - ⏱️ Pause entre lots...
+2025-06-09 04:14:04,746 - INFO - 📦 Lot 2: 3 domaines
+2025-06-09 04:14:04,746 - INFO - 🔍 Analyse quick de crypto-trading-guide.com
+2025-06-09 04:14:10,035 - INFO - 🔍 Analyse quick de ai-automation-tools.org
+2025-06-09 04:14:14,600 - INFO - 🔍 Analyse quick de social-media-growth.net
+2025-06-09 04:14:22,346 - INFO - ✅ Analyse terminée: 8 domaines
+2025-06-09 04:14:22,348 - INFO - 📊 Résultats sauvegardés: optimized_scraping_20250609_041422.csv
+2025-06-09 04:18:13,295 - INFO - 🚀 Début analyse par lots: 10 domaines
+2025-06-09 04:18:13,297 - INFO - 📦 Lot 1: 5 domaines
+2025-06-09 04:18:13,297 - INFO - 🔍 Analyse quick de tech-marketing-blog.com
+2025-06-09 04:18:18,978 - INFO - 🔍 Analyse quick de digital-seo-tools.net
+2025-06-09 04:18:24,955 - INFO - 🔍 Analyse quick de affiliate-income-pro.org
+2025-06-09 04:18:30,452 - INFO - 🔍 Analyse quick de web-development-hub.com
+2025-06-09 04:18:36,583 - INFO - 🔍 Analyse quick de online-business-tips.net
+2025-06-09 04:18:43,166 - INFO - ⏱️ Pause entre lots...
+2025-06-09 04:18:45,170 - INFO - 📦 Lot 2: 5 domaines
+2025-06-09 04:18:45,173 - INFO - 🔍 Analyse quick de crypto-trading-guide.com
+2025-06-09 04:18:50,573 - INFO - 🔍 Analyse quick de ai-automation-tools.org
+2025-06-09 04:18:55,292 - INFO - 🔍 Analyse quick de social-media-growth.net
+2025-06-09 04:19:00,991 - INFO - 🔍 Analyse quick de e-commerce-solutions.com
+2025-06-09 04:19:06,932 - INFO - 🔍 Analyse quick de content-marketing-pro.org
+2025-06-09 04:19:11,894 - INFO - ✅ Analyse terminée: 10 domaines
+2025-06-09 04:19:11,895 - INFO - 📊 Résultats sauvegardés: optimized_scraping_20250609_041911.csv
+2025-06-09 04:20:30,901 - INFO - 🚀 Début analyse par lots: 10 domaines
+2025-06-09 04:20:30,901 - INFO - 📦 Lot 1: 5 domaines
+2025-06-09 04:20:30,901 - INFO - 🔍 Analyse quick de tech-marketing-blog.com
+2025-06-09 04:20:35,688 - INFO - 🔍 Analyse quick de digital-seo-tools.net
+2025-06-09 05:39:23,076 - INFO - 🚀 Début analyse par lots: 5 domaines
+2025-06-09 05:39:23,076 - INFO - 📦 Lot 1: 5 domaines
+2025-06-09 05:39:23,077 - INFO - 🔍 Analyse detailed de tech-marketing-blog.com

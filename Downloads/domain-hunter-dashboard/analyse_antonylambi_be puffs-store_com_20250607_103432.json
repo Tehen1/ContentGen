@@ -1,0 +1,24 @@
+{
+  "antonylambi.be": {
+    "seo_score": 1.33,
+    "commercial_score": 2.33,
+    "competition_score": 3.33,
+    "risk_score": 2,
+    "global_score": 2.25,
+    "recommended_price": "50-100",
+    "resale_potential": "20-50",
+    "projected_roi": "10-20",
+    "recommendation": "ÉVITER"
+  },
+  "puffs-store.com": {
+    "seo_score": 4,
+    "commercial_score": 5,
+    "competition_score": 5,
+    "risk_score": 2,
+    "global_score": 4,
+    "recommended_price": "200-500",
+    "resale_potential": "100-300",
+    "projected_roi": "20-40",
+    "recommendation": "SURVEILLER"
+  }
+}
