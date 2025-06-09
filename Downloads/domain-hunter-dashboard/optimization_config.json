@@ -1,0 +1,65 @@
+{
+  "api_optimization": {
+    "max_requests_per_minute": 60,
+    "cache_duration_days": 7,
+    "retry_attempts": 3,
+    "timeout_seconds": 30,
+    "batch_size": 5
+  },
+  "analysis_strategies": {
+    "quick_analysis": {
+      "use_cache": true,
+      "template": "domain_analysis_quick",
+      "max_cost_per_domain": 0.002
+    },
+    "detailed_analysis": {
+      "use_cache": true,
+      "template": "domain_analysis_detailed",
+      "max_cost_per_domain": 0.01
+    },
+    "market_focus": {
+      "use_cache": true,
+      "template": "market_analysis",
+      "max_cost_per_domain": 0.005
+    }
+  },
+  "filtering_criteria": {
+    "minimum_scores": {
+      "seo_score": 6,
+      "commercial_score": 7,
+      "global_score": 70
+    },
+    "financial_thresholds": {
+      "max_acquisition_price": 1000,
+      "min_projected_roi": 150,
+      "max_payback_months": 18
+    },
+    "domain_criteria": {
+      "max_length": 25,
+      "allowed_tlds": [
+        ".com",
+        ".net",
+        ".org"
+      ],
+      "blocked_keywords": [
+        "adult",
+        "gambling",
+        "porn",
+        "casino"
+      ],
+      "preferred_keywords": [
+        "tech",
+        "seo",
+        "marketing",
+        "business",
+        "digital"
+      ]
+    }
+  },
+  "scheduling": {
+    "primary_analysis": "08:00",
+    "quick_check": "12:00",
+    "evening_review": "20:00",
+    "weekend_deep_dive": "SAT 10:00"
+  }
+}
