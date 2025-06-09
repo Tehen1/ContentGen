@@ -1,34 +1,132 @@
 {
-  "name": "fixierun-ecosystem",
-  "version": "1.0.0",
+  "name": "fixierun-fitapp-ecosystem",
+  "version": "2.0.0",
+  "description": "Unified FixieRun/FitApp monorepo for web3 fitness applications",
   "private": true,
   "workspaces": [
     "apps/*",
     "packages/*",
-    "services/*"
+    "services/*",
+    "legacy/*"
   ],
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "build:web": "turbo run build --filter=\"./apps/web\"",
+    "build:mobile": "turbo run build --filter=\"./apps/mobile\"",
+    "build:contracts": "turbo run build --filter=\"./apps/contracts\"",
+    "dev": "turbo run dev --parallel",
+    "dev:web": "turbo run dev --filter=\"./apps/web\"",
+    "dev:mobile": "turbo run dev --filter=\"./apps/mobile\"",
+    "dev:api": "turbo run dev --filter=\"./services/api\"",
     "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
     "test": "turbo run test",
-    "clean": "turbo run clean",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "prepare": "husky install"
+    "test:coverage": "turbo run test:coverage",
+    "test:e2e": "turbo run test:e2e",
+    "clean": "turbo run clean && rm -rf node_modules .turbo",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml}\"",
+    "typecheck": "turbo run typecheck",
+    "prepare": "husky install",
+    "postinstall": "turbo run build --filter=\"./packages/*\"",
+    "migrate:legacy": "node scripts/migrate-legacy.js",
+    "setup": "pnpm install && pnpm run prepare && pnpm run build",
+    "db:generate": "turbo run db:generate",
+    "db:push": "turbo run db:push",
+    "db:migrate": "turbo run db:migrate",
+    "contracts:compile": "turbo run compile --filter=\"./apps/contracts\"",
+    "contracts:deploy": "turbo run deploy --filter=\"./apps/contracts\"",
+    "analyze": "turbo run analyze",
+    "security:audit": "pnpm audit --audit-level moderate",
+    "deps:update": "pnpm update --recursive --latest",
+    "workspace:add": "node scripts/add-workspace.js"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.1.1",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.460.0",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.0.0",
-    "@commitlint/config-conventional": "^17.0.0",
-    "eslint": "^8.40.0",
-    "husky": "^8.0.0",
-    "lint-staged": "^13.2.2",
-    "prettier": "^2.8.8",
-    "turbo": "^1.9.3",
-    "typescript": "^5.0.4"
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@types/node": "^22.9.0",
+    "@typescript-eslint/eslint-plugin": "^8.15.0",
+    "@typescript-eslint/parser": "^8.15.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.15.0",
+    "eslint-config-next": "^15.1.2",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-turbo": "^2.3.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.3.0",
+    "postcss": "^8.5.1",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.9",
+    "tailwindcss": "^3.4.16",
+    "turbo": "^2.3.3",
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.8"
   },
-  "packageManager": "pnpm@8.6.0",
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "resolutions": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.1",
+    "typescript": "^5.8.3",
+    "eslint": "^9.15.0",
+    "prettier": "^3.3.3",
+    "next": "^15.1.2",
+    "ethers": "^6.13.5",
+    "viem": "^2.21.53",
+    "wagmi": "^2.12.25"
+  },
+  "packageManager": "pnpm@9.15.0",
   "engines": {
-    "node": ">=18.0.0"
-  }
+    "node": ">=18.17.0",
+    "pnpm": ">=9.0.0"
+  },
+  "volta": {
+    "node": "20.18.0",
+    "pnpm": "9.15.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/fixierun-fitapp-ecosystem"
+  },
+  "keywords": [
+    "web3",
+    "fitness",
+    "blockchain",
+    "react",
+    "nextjs",
+    "react-native",
+    "ethereum",
+    "monorepo",
+    "turbo"
+  ],
+  "license": "MIT"
 }
 
