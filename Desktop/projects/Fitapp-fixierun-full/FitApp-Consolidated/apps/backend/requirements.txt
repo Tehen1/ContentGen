@@ -1,11 +1,11 @@
 # Web Framework
-Flask==2.3.3
-Flask-Cors==4.0.0
+Flask==3.1.1
+Flask-Cors==6.0.0
 Flask-SocketIO==5.3.6
-gunicorn==21.2.0
+gunicorn==23.0.0
 
 # Database
-pymongo==4.6.1
+pymongo==4.6.3
 motor==3.3.2
 Flask-MongoEngine==1.0.0
 
@@ -25,7 +25,7 @@ seaborn==0.13.1
 # Utilities
 python-dotenv==1.0.1
 geopy==2.4.1
-requests==2.31.0
+requests==2.32.4
 tinydb==4.8.0
 
 # Testing
@@ -34,7 +34,7 @@ pytest-dotenv==0.5.2
 unittest2==1.1.0
 
 # Development Tools
-black==24.1.1
+black==24.3.0
 mypy==1.8.0
 flake8==7.0.0
 pre-commit==3.6.0
